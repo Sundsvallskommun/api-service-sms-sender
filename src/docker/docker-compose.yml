@@ -1,0 +1,26 @@
+version: "3"
+services:
+  sms-sender:
+    container_name: ms-sms-sender
+    image: 'ms-sms-sender:latest'
+    network_mode: bridge
+    restart: always
+    ports:
+      - "9010:8080"
+    environment:
+      - JAVA_OPTS=-server -Dfile.encoding=UTF-8 -Xms128m -Xmx256m
+      - SPRING_PROFILES_ACTIVE=<profile>
+      # SMS integration
+      - SMS_PROVIDER=
+      # Telia SMS integration
+      - INTEGRATION_TELIA_API_URL=
+      - INTEGRATION_TELIA_TOKEN_URL=
+      - INTEGRATION_TELIA_CLIENT_ID=
+      - INTEGRATION_TELIA_CLIENT_SECRET=
+      # LinkMobility SMS integration
+      - INTEGRATION_LINKMOBILITY_API_URL=
+      - INTEGRATION_LINKMOBILITY_USERNAME=
+      - INTEGRATION_LINKMOBILITY_PASSWORD=
+      - INTEGRATION_LINKMOBILITY_PLATFORM_ID=
+      - INTEGRATION_LINKMOBILITY_PLATFORM_PARTNER_ID=
+

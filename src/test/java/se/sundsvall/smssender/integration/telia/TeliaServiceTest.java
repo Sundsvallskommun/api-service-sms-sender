@@ -1,0 +1,56 @@
+package se.sundsvall.smssender.integration.telia;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpEntity;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.client.RestTemplate;
+
+import se.sundsvall.smssender.api.domain.SmsRequest;
+import se.sundsvall.smssender.integration.telia.domain.TeliaResponse;
+
+@ActiveProfiles("junit")
+@ExtendWith(MockitoExtension.class)
+class TeliaServiceTest {
+
+    @Mock
+    private RestTemplate mockRestTemplate;
+
+    private TeliaService service;
+
+    @BeforeEach
+    void initMapper() {
+        service = new TeliaService(mockRestTemplate);
+    }
+
+    @Test
+    void sendSmsWithTelia_givenValidSmsRequest_return_200_OK_and_true() {
+        var response = new TeliaResponse("0", "ok");
+
+        when(mockRestTemplate.postForObject(any(String.class), any(HttpEntity.class), eq(TeliaResponse.class)))
+            .thenReturn(response);
+
+        var isSent = service.sendSms(validRequest());
+        assertThat(isSent).isTrue();
+
+        verify(mockRestTemplate, times(1)).postForObject(any(String.class), any(HttpEntity.class), eq(TeliaResponse.class));
+    }
+
+    private SmsRequest validRequest() {
+        return SmsRequest.builder().withSender("sender")
+                .withSender("sender")
+                .withMessage("message")
+                .withMobileNumber("+46701234567")
+                .build();
+    }
+}
