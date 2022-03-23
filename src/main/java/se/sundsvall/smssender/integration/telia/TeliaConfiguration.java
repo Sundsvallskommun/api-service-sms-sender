@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.web.client.RestTemplate;
+import org.zalando.logbook.Logbook;
 
 import se.sundsvall.dept44.configuration.resttemplate.RestTemplateBuilder;
 
@@ -31,9 +32,10 @@ class TeliaConfiguration {
     }
 
     @Bean("integration.telia.resttemplate")
-    RestTemplate teliaClient(@Qualifier("integration.telia.clientregistration") ClientRegistration clientRegistration) {
+    RestTemplate teliaClient(Logbook lokbook, @Qualifier("integration.telia.clientregistration") ClientRegistration clientRegistration) {
         return new RestTemplateBuilder()
             .withBaseUrl(properties.getApiUrl())
+            .withLogbook(lokbook)
             .withOAuth2Client(clientRegistration)
             .build();
     }

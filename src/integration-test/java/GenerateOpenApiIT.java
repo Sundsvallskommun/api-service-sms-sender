@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import se.sundsvall.dept44.util.ResourceUtils;
@@ -17,6 +18,7 @@ import se.sundsvall.smssender.SmsSenderApplication;
 import net.javacrumbs.jsonunit.core.Option;
 import net.javacrumbs.jsonunit.core.internal.Options;
 
+@ActiveProfiles("junit")
 @SpringBootTest(
     webEnvironment = WebEnvironment.RANDOM_PORT,
     classes = SmsSenderApplication.class,
