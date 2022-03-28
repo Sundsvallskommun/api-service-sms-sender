@@ -10,10 +10,10 @@ import se.sundsvall.dept44.ServiceApplication;
 import se.sundsvall.smssender.integration.SmsProperties;
 
 @ServiceApplication
-public class SmsSenderApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(SmsSenderApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Profile("!junit")
