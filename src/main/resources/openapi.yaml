@@ -5,24 +5,24 @@ info:
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  version: "1.0"
+  version: '@project.version@'
 servers:
 - url: http://localhost:8080
   description: Generated server url
 tags:
-- name: Sms Service Resources
+- name: SMS Resources
 paths:
   /send/sms:
     post:
       tags:
-      - Sms Service Resources
+      - SMS Resources
       summary: Send an SMS
       operationId: sendSms
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SmsRequest'
+              $ref: '#/components/schemas/SendSmsRequest'
         required: true
       responses:
         "400":
@@ -61,7 +61,7 @@ paths:
       x-wso2-mutual-ssl: Optional
 components:
   schemas:
-    SmsRequest:
+    SendSmsRequest:
       required:
       - message
       - mobileNumber
@@ -95,16 +95,16 @@ components:
             type: object
         status:
           $ref: '#/components/schemas/StatusType'
-        title:
-          type: string
         detail:
+          type: string
+        title:
           type: string
     StatusType:
       type: object
       properties:
+        reasonPhrase:
+          type: string
         statusCode:
           type: integer
           format: int32
-        reasonPhrase:
-          type: string
   securitySchemes: {}

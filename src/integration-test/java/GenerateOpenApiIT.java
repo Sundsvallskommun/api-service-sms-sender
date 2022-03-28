@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import se.sundsvall.dept44.util.ResourceUtils;
-import se.sundsvall.smssender.SmsSenderApplication;
+import se.sundsvall.smssender.Application;
 
 import net.javacrumbs.jsonunit.core.Option;
 import net.javacrumbs.jsonunit.core.internal.Options;
@@ -21,7 +21,7 @@ import net.javacrumbs.jsonunit.core.internal.Options;
 @ActiveProfiles("junit")
 @SpringBootTest(
     webEnvironment = WebEnvironment.RANDOM_PORT,
-    classes = SmsSenderApplication.class,
+    classes = Application.class,
     properties = {
         "spring.main.banner-mode=off",
         "logging.level.se.sundsvall.dept44.payload=OFF"

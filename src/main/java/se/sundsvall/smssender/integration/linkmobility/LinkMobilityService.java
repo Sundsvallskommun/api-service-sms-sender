@@ -7,7 +7,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import se.sundsvall.smssender.api.domain.SmsRequest;
+import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.integration.SmsService;
 import se.sundsvall.smssender.integration.linkmobility.domain.LinkMobilityResponse;
 import se.sundsvall.smssender.integration.linkmobility.domain.LinkMobilitySendSmsRequest;
@@ -27,7 +27,7 @@ public class LinkMobilityService implements SmsService<LinkMobilitySendSmsReques
     }
 
     @Override
-    public boolean sendSms(SmsRequest smsRequest) {
+    public boolean sendSms(SendSmsRequest smsRequest) {
         var request = mapFromSmsRequest(smsRequest);
 
         return Optional.ofNullable(restTemplate.postForObject("/sms/send", new HttpEntity<>(request, createHeaders()), LinkMobilityResponse.class))
@@ -37,7 +37,7 @@ public class LinkMobilityService implements SmsService<LinkMobilitySendSmsReques
     }
 
     @Override
-    public LinkMobilitySendSmsRequest mapFromSmsRequest(SmsRequest smsRequest) {
+    public LinkMobilitySendSmsRequest mapFromSmsRequest(SendSmsRequest smsRequest) {
         return LinkMobilitySendSmsRequest.builder()
                 .withPlatformId(properties.getPlatformId())
                 .withPlatformPartnerId(properties.getPlatformPartnerId())

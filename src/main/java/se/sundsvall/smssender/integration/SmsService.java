@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import se.sundsvall.smssender.api.domain.SmsRequest;
+import se.sundsvall.smssender.api.model.SendSmsRequest;
 
 public interface SmsService<REQUEST> {
 
-    boolean sendSms(SmsRequest request);
+    boolean sendSms(SendSmsRequest request);
 
-    REQUEST mapFromSmsRequest(SmsRequest smsRequest);
+    REQUEST mapFromSmsRequest(SendSmsRequest smsRequest);
 
     default HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();

@@ -55,8 +55,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>**/se/sundsvall/smssender/SmsSenderApplication*</exclude>
-                        <exclude>**/se/sundsvall/smssender/api/exceptions/*</exclude>
+                        <exclude>**/se/sundsvall/smssender/Application*</exclude>
                         <exclude>**/se/sundsvall/smssender/integration/**/**Properties*</exclude>
                         <exclude>**/se/sundsvall/smssender/integration/**Configuration*</exclude>
                     </excludes>

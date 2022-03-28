@@ -1,4 +1,4 @@
-package se.sundsvall.smssender.api.domain;
+package se.sundsvall.smssender.api.model;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -17,7 +17,7 @@ import lombok.Setter;
 @Builder(setterPrefix = "with")
 @Getter
 @Setter
-public class SmsRequest {
+public class SendSmsRequest {
 
     @NotBlank
     @Size(max = 11)

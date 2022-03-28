@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
 
-import se.sundsvall.smssender.api.domain.SmsRequest;
+import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.integration.SmsService;
 import se.sundsvall.smssender.integration.telia.domain.TeliaResponse;
 import se.sundsvall.smssender.integration.telia.domain.TeliaSendSmsRequest;
@@ -26,7 +26,7 @@ public class TeliaService implements SmsService<TeliaSendSmsRequest> {
     }
 
     @Override
-    public boolean sendSms(SmsRequest sms) {
+    public boolean sendSms(SendSmsRequest sms) {
         var request = mapFromSmsRequest(sms);
         LOG.debug(request.toString());
 
@@ -40,7 +40,7 @@ public class TeliaService implements SmsService<TeliaSendSmsRequest> {
     }
 
     @Override
-    public TeliaSendSmsRequest mapFromSmsRequest(SmsRequest smsRequest) {
+    public TeliaSendSmsRequest mapFromSmsRequest(SendSmsRequest smsRequest) {
         return TeliaSendSmsRequest.builder()
                 .withMessage(smsRequest.getMessage())
                 .withDestinationNumber(smsRequest.getMobileNumber())

@@ -18,7 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import se.sundsvall.smssender.api.domain.SmsRequest;
+import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.integration.Provider;
 import se.sundsvall.smssender.integration.SmsProperties;
 import se.sundsvall.smssender.integration.linkmobility.LinkMobilityService;
@@ -26,7 +26,7 @@ import se.sundsvall.smssender.integration.telia.TeliaService;
 
 @ActiveProfiles("junit")
 @WebMvcTest(excludeAutoConfiguration = SecurityAutoConfiguration.class)
-class SmsControllerTest {
+class SmsResourceTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -74,11 +74,11 @@ class SmsControllerTest {
         verify(mockLinkMobilityService, times(1)).sendSms(any());
     }
 
-    private SmsRequest validRequest() {
-        return SmsRequest.builder()
-                .withSender("sender")
-                .withMessage("message")
-                .withMobileNumber("+46701234567")
-                .build();
+    private SendSmsRequest validRequest() {
+        return SendSmsRequest.builder()
+            .withSender("sender")
+            .withMessage("message")
+            .withMobileNumber("+46701234567")
+            .build();
     }
 }

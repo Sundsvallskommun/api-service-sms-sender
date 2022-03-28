@@ -16,7 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-import se.sundsvall.smssender.api.domain.SmsRequest;
+import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.integration.telia.domain.TeliaResponse;
 
 @ActiveProfiles("junit")
@@ -46,8 +46,8 @@ class TeliaServiceTest {
         verify(mockRestTemplate, times(1)).postForObject(any(String.class), any(HttpEntity.class), eq(TeliaResponse.class));
     }
 
-    private SmsRequest validRequest() {
-        return SmsRequest.builder().withSender("sender")
+    private SendSmsRequest validRequest() {
+        return SendSmsRequest.builder().withSender("sender")
                 .withSender("sender")
                 .withMessage("message")
                 .withMobileNumber("+46701234567")
