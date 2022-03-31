@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
+import se.sundsvall.smssender.api.model.Sender;
 import se.sundsvall.smssender.integration.telia.domain.TeliaResponse;
 
 @ActiveProfiles("junit")
@@ -47,10 +48,12 @@ class TeliaServiceTest {
     }
 
     private SendSmsRequest validRequest() {
-        return SendSmsRequest.builder().withSender("sender")
-                .withSender("sender")
-                .withMessage("message")
-                .withMobileNumber("+46701234567")
-                .build();
+        return SendSmsRequest.builder()
+            .withSender(Sender.builder()
+                .withName("sender")
+                .build())
+            .withMessage("message")
+            .withMobileNumber("+46701234567")
+            .build();
     }
 }

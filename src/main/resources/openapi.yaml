@@ -5,7 +5,7 @@ info:
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  version: '@project.version@'
+  version: "1.0"
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -25,6 +25,12 @@ paths:
               $ref: '#/components/schemas/SendSmsRequest'
         required: true
       responses:
+        "200":
+          description: Successful Operation
+          content:
+            '*/*':
+              schema:
+                type: boolean
         "400":
           description: Bad Request
           content:
@@ -37,12 +43,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Problem'
-        "200":
-          description: Successful Operation
-          content:
-            '*/*':
-              schema:
-                type: boolean
   /api-docs:
     get:
       tags:
@@ -69,17 +69,24 @@ components:
       type: object
       properties:
         sender:
-          maxLength: 11
-          minLength: 0
-          type: string
-          description: The Sender of the SMS
-          example: sender
+          $ref: '#/components/schemas/Sender'
         mobileNumber:
           pattern: "^\\+467[02369]\\d{7}$"
           type: string
           description: Mobile number should start with +467x
         message:
           type: string
+    Sender:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 11
+          minLength: 0
+          type: string
+          description: The sender of the SMS
+          example: sender
     Problem:
       type: object
       properties:
@@ -95,16 +102,16 @@ components:
             type: object
         status:
           $ref: '#/components/schemas/StatusType'
-        detail:
-          type: string
         title:
+          type: string
+        detail:
           type: string
     StatusType:
       type: object
       properties:
-        reasonPhrase:
-          type: string
         statusCode:
           type: integer
           format: int32
+        reasonPhrase:
+          type: string
   securitySchemes: {}

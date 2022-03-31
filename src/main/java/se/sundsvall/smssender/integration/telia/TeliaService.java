@@ -42,9 +42,10 @@ public class TeliaService implements SmsService<TeliaSendSmsRequest> {
     @Override
     public TeliaSendSmsRequest mapFromSmsRequest(SendSmsRequest smsRequest) {
         return TeliaSendSmsRequest.builder()
-                .withMessage(smsRequest.getMessage())
-                .withDestinationNumber(smsRequest.getMobileNumber())
-                .build();
+            //.withOriginator(smsRequest.getSender().getName())
+            .withMessage(smsRequest.getMessage())
+            .withDestinationNumber(smsRequest.getMobileNumber())
+            .build();
     }
 }
 

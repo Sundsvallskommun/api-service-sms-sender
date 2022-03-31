@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
+import se.sundsvall.smssender.api.model.Sender;
 import se.sundsvall.smssender.integration.linkmobility.domain.LinkMobilityResponse;
 import se.sundsvall.smssender.integration.linkmobility.domain.ResponseStatus;
 
@@ -62,15 +63,17 @@ class LinkMobilityServiceTest {
         assertThat(sendSmsRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
         assertThat(sendSmsRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
         assertThat(sendSmsRequest.getDestination()).isEqualTo(request.getMobileNumber());
-        assertThat(sendSmsRequest.getSource()).isEqualTo(request.getSender());
+        assertThat(sendSmsRequest.getSource()).isEqualTo(request.getSender().getName());
         assertThat(sendSmsRequest.getUserData()).isEqualTo(request.getMessage());
     }
 
     private SendSmsRequest validRequest() {
-        return SendSmsRequest.builder().withSender("sender")
-                .withSender("sender")
-                .withMessage("message")
-                .withMobileNumber("+46701234567")
-                .build();
+        return SendSmsRequest.builder()
+            .withSender(Sender.builder()
+                .withName("sender")
+                .build())
+            .withMessage("message")
+            .withMobileNumber("+46701234567")
+            .build();
     }
 }
