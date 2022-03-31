@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
+import se.sundsvall.smssender.api.model.Sender;
 import se.sundsvall.smssender.integration.Provider;
 import se.sundsvall.smssender.integration.SmsProperties;
 import se.sundsvall.smssender.integration.linkmobility.LinkMobilityService;
@@ -76,7 +77,9 @@ class SmsResourceTests {
 
     private SendSmsRequest validRequest() {
         return SendSmsRequest.builder()
-            .withSender("sender")
+            .withSender(Sender.builder()
+                .withName("sender")
+                .build())
             .withMessage("message")
             .withMobileNumber("+46701234567")
             .build();

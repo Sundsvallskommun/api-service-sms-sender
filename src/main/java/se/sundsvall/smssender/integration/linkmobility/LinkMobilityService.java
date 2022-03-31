@@ -42,7 +42,7 @@ public class LinkMobilityService implements SmsService<LinkMobilitySendSmsReques
                 .withPlatformId(properties.getPlatformId())
                 .withPlatformPartnerId(properties.getPlatformPartnerId())
                 .withDestination(smsRequest.getMobileNumber())
-                .withSource(smsRequest.getSender())
+                .withSource(smsRequest.getSender().getName())
                 .withUserData(smsRequest.getMessage())
                 .build();
     }
