@@ -5,7 +5,7 @@
     <parent>
         <groupId>se.sundsvall.dept44</groupId>
         <artifactId>dept44-service-parent</artifactId>
-        <version>0.10-SNAPSHOT</version>
+        <version>0.20-SNAPSHOT</version>
     </parent>
     <groupId>se.sundsvall</groupId>
     <artifactId>api-service-sms-sender</artifactId>
@@ -14,6 +14,11 @@
 
     <properties>
         <docker.image.name>ms-sms-sender</docker.image.name>
+
+        <exposed.app.port>8080</exposed.app.port>
+        <published.container.port.sandbox>9031</published.container.port.sandbox>
+        <published.container.port.test>9030</published.container.port.test>
+        <published.container.port.production>9030</published.container.port.production>
     </properties>
 
     <dependencies>
