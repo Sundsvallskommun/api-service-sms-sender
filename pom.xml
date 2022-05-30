@@ -5,7 +5,8 @@
     <parent>
         <groupId>se.sundsvall.dept44</groupId>
         <artifactId>dept44-service-parent</artifactId>
-        <version>0.20-SNAPSHOT</version>
+        <version>1.4</version>
+        <relativePath />
     </parent>
     <groupId>se.sundsvall</groupId>
     <artifactId>api-service-sms-sender</artifactId>
@@ -33,6 +34,10 @@
         <dependency>
             <groupId>se.sundsvall.dept44</groupId>
             <artifactId>dept44-starter-resttemplate</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>se.sundsvall.dept44</groupId>
+            <artifactId>dept44-common-validators</artifactId>
         </dependency>
 
         <!-- Other -->
