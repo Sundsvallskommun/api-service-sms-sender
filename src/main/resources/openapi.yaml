@@ -5,12 +5,10 @@ info:
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  version: "1.0"
+  version: '@project.version@'
 servers:
 - url: http://localhost:8080
   description: Generated server url
-tags:
-- name: SMS Resources
 paths:
   /send/sms:
     post:
@@ -25,6 +23,12 @@ paths:
               $ref: '#/components/schemas/SendSmsRequest'
         required: true
       responses:
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
         "500":
           description: Internal Server Error
           content:
@@ -37,12 +41,6 @@ paths:
             '*/*':
               schema:
                 type: boolean
-        "400":
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Problem'
   /api-docs:
     get:
       tags:
@@ -100,18 +98,18 @@ components:
           type: object
           additionalProperties:
             type: object
-        status:
-          $ref: '#/components/schemas/StatusType'
         title:
           type: string
+        status:
+          $ref: '#/components/schemas/StatusType'
         detail:
           type: string
     StatusType:
       type: object
       properties:
+        reasonPhrase:
+          type: string
         statusCode:
           type: integer
           format: int32
-        reasonPhrase:
-          type: string
   securitySchemes: {}
