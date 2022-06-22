@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static se.sundsvall.smssender.integration.linkmobility.LinkMobilityService.PREFIX;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +63,7 @@ class LinkMobilityServiceTest {
 
         assertThat(sendSmsRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
         assertThat(sendSmsRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
-        assertThat(sendSmsRequest.getDestination()).isEqualTo(request.getMobileNumber());
+        assertThat(sendSmsRequest.getDestination()).isEqualTo(PREFIX + request.getMobileNumber().substring(1));
         assertThat(sendSmsRequest.getSource()).isEqualTo(request.getSender().getName());
         assertThat(sendSmsRequest.getUserData()).isEqualTo(request.getMessage());
     }
@@ -73,7 +74,7 @@ class LinkMobilityServiceTest {
                 .withName("sender")
                 .build())
             .withMessage("message")
-            .withMobileNumber("+46701234567")
+            .withMobileNumber("0701234567")
             .build();
     }
 }

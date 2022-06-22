@@ -3,7 +3,8 @@ package se.sundsvall.smssender.api.model;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+
+import se.sundsvall.dept44.common.validators.annotation.ValidMobileNumber;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
@@ -25,8 +26,8 @@ public class SendSmsRequest {
     private Sender sender;
 
 	@NotBlank
-    @Schema(required = true, description = "Mobile number should start with +467x")
-    @Pattern(regexp = "^\\+467[02369]\\d{7}$")
+    @Schema(required = true, description = "Mobile number", example = "0701234567")
+    @ValidMobileNumber
     private String mobileNumber;
     
 	@NotBlank

@@ -5,12 +5,10 @@ info:
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  version: "1.0"
+  version: '@project.version@'
 servers:
 - url: http://localhost:8080
   description: Generated server url
-tags:
-- name: SMS Resources
 paths:
   /send/sms:
     post:
@@ -25,12 +23,6 @@ paths:
               $ref: '#/components/schemas/SendSmsRequest'
         required: true
       responses:
-        "200":
-          description: Successful Operation
-          content:
-            '*/*':
-              schema:
-                type: boolean
         "400":
           description: Bad Request
           content:
@@ -43,6 +35,12 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Problem'
+        "200":
+          description: Successful Operation
+          content:
+            '*/*':
+              schema:
+                type: boolean
   /api-docs:
     get:
       tags:
@@ -71,9 +69,9 @@ components:
         sender:
           $ref: '#/components/schemas/Sender'
         mobileNumber:
-          pattern: "^\\+467[02369]\\d{7}$"
           type: string
-          description: Mobile number should start with +467x
+          description: Mobile number
+          example: "0701234567"
         message:
           type: string
     Sender:
@@ -100,18 +98,18 @@ components:
           type: object
           additionalProperties:
             type: object
-        status:
-          $ref: '#/components/schemas/StatusType'
         title:
           type: string
+        status:
+          $ref: '#/components/schemas/StatusType'
         detail:
           type: string
     StatusType:
       type: object
       properties:
+        reasonPhrase:
+          type: string
         statusCode:
           type: integer
           format: int32
-        reasonPhrase:
-          type: string
   securitySchemes: {}

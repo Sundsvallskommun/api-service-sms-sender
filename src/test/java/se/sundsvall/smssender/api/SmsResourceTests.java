@@ -81,7 +81,7 @@ class SmsResourceTests {
                 .withName("sender")
                 .build())
             .withMessage("message")
-            .withMobileNumber("+46701234567")
+            .withMobileNumber("0701234567")
             .build();
     }
 }

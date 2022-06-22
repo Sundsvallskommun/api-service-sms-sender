@@ -16,6 +16,8 @@ import se.sundsvall.smssender.integration.linkmobility.domain.ResponseStatus;
 @Service
 public class LinkMobilityService implements SmsService<LinkMobilitySendSmsRequest> {
 
+    static final String PREFIX = "+46";
+
     private final LinkMobilityProperties properties;
     private final RestTemplate restTemplate;
 
@@ -41,7 +43,7 @@ public class LinkMobilityService implements SmsService<LinkMobilitySendSmsReques
         return LinkMobilitySendSmsRequest.builder()
                 .withPlatformId(properties.getPlatformId())
                 .withPlatformPartnerId(properties.getPlatformPartnerId())
-                .withDestination(smsRequest.getMobileNumber())
+                .withDestination("+46" + smsRequest.getMobileNumber().substring(1))
                 .withSource(smsRequest.getSender().getName())
                 .withUserData(smsRequest.getMessage())
                 .build();
