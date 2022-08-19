@@ -98,8 +98,8 @@ public enum ResponseStatus {
     @JsonCreator
     public static ResponseStatus forValue(final int value) {
         return Arrays.stream(ResponseStatus.values())
-                .filter(status -> value == status.value)
-                .findFirst()
-                .orElse(null);
+            .filter(status -> value == status.value)
+            .findFirst()
+            .orElse(null);
     }
 }

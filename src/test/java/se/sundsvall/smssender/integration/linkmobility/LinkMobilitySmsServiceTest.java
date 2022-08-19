@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.sundsvall.smssender.integration.linkmobility.LinkMobilityService.PREFIX;
+import static se.sundsvall.smssender.integration.linkmobility.LinkMobilitySmsService.PREFIX;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,21 +24,21 @@ import se.sundsvall.smssender.integration.linkmobility.domain.ResponseStatus;
 
 @ActiveProfiles("junit")
 @ExtendWith(MockitoExtension.class)
-class LinkMobilityServiceTest {
+class LinkMobilitySmsServiceTest {
 
     @Mock
     private LinkMobilityProperties mockProperties;
     @Mock
     private RestTemplate mockRestTemplate;
 
-    private LinkMobilityService service;
+    private LinkMobilitySmsService service;
 
     @BeforeEach
     void initMapper() {
         when(mockProperties.getPlatformId()).thenReturn("platformId");
         when(mockProperties.getPlatformPartnerId()).thenReturn("platformPartnerId");
 
-        service = new LinkMobilityService(mockProperties, mockRestTemplate);
+        service = new LinkMobilitySmsService(mockProperties, mockRestTemplate);
     }
 
     @Test

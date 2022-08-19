@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zalando.problem.Problem;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
-import se.sundsvall.smssender.integration.SmsProperties;
-import se.sundsvall.smssender.integration.linkmobility.LinkMobilityService;
-import se.sundsvall.smssender.integration.telia.TeliaService;
+import se.sundsvall.smssender.api.model.SendSmsResponse;
+import se.sundsvall.smssender.integration.SmsService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,16 +23,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "SMS Resources")
 class SmsResource {
 
-    private final TeliaService teliaService;
-    private final LinkMobilityService linkMobilityService;
+    private final SmsService<?> smsService;
 
-    private final SmsProperties smsProperties;
-
-    SmsResource(final SmsProperties smsProperties, final TeliaService teliaService,
-            final LinkMobilityService linkMobilityService) {
-        this.teliaService = teliaService;
-        this.linkMobilityService = linkMobilityService;
-        this.smsProperties = smsProperties;
+    SmsResource(final SmsService<?> smsService) {
+        this.smsService = smsService;
     }
 
     @Operation(summary = "Send an SMS")
@@ -55,12 +48,11 @@ class SmsResource {
         )
     })
     @PostMapping("/send/sms")
-    ResponseEntity<Boolean> sendSms(@Valid @RequestBody SendSmsRequest sms) {
-        var response = switch (smsProperties.getProvider()) {
-            case TELIA -> teliaService.sendSms(sms);
-            case LINKMOBILITY -> linkMobilityService.sendSms(sms);
-        };
+    ResponseEntity<SendSmsResponse> sendSms(@Valid @RequestBody SendSmsRequest sms) {
+        var sent = smsService.sendSms(sms);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(SendSmsResponse.builder()
+            .withSent(sent)
+            .build());
     }
 }
