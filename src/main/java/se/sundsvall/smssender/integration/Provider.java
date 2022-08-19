@@ -20,7 +20,7 @@ public enum Provider {
         return value;
     }
 
-    static Provider fromValue(final String value) {
+    public static Provider fromValue(final String value) {
         return Arrays.stream(values())
                 .filter(provider -> provider.value.equalsIgnoreCase(value))
                 .findFirst()

@@ -4,7 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,10 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.Sender;
-import se.sundsvall.smssender.integration.Provider;
-import se.sundsvall.smssender.integration.SmsProperties;
-import se.sundsvall.smssender.integration.linkmobility.LinkMobilityService;
-import se.sundsvall.smssender.integration.telia.TeliaService;
+import se.sundsvall.smssender.integration.SmsService;
 
 @ActiveProfiles("junit")
 @WebMvcTest(excludeAutoConfiguration = SecurityAutoConfiguration.class)
@@ -35,16 +32,11 @@ class SmsResourceTests {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private TeliaService mockTeliaService;
-    @MockBean
-    private LinkMobilityService mockLinkMobilityService;
-    @MockBean
-    private SmsProperties mockSmsProperties;
+    private SmsService<?> mockSmsService;
 
     @Test
     void sendSms_givenValidRequest_withTeliaProvider_shouldReturn200_OK_and_true() throws Exception {
-        when(mockSmsProperties.getProvider()).thenReturn(Provider.TELIA);
-        when(mockTeliaService.sendSms(any())).thenReturn(true);
+        when(mockSmsService.sendSms(any())).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
             .post("/send/sms")
@@ -52,16 +44,14 @@ class SmsResourceTests {
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(validRequest())))
             .andExpect(status().isOk())
-            .andExpect(content().string("true"));
+            .andExpect(jsonPath("$.sent").value(true));
 
-        verify(mockSmsProperties, times(1)).getProvider();
-        verify(mockTeliaService, times(1)).sendSms(any());
+        verify(mockSmsService, times(1)).sendSms(any());
     }
 
     @Test
     void sendSms_givenValidRequest_withLinkMobilityProvider_shouldReturn200_OK_and_true() throws Exception {
-        when(mockSmsProperties.getProvider()).thenReturn(Provider.LINKMOBILITY);
-        when(mockLinkMobilityService.sendSms(any())).thenReturn(true);
+        when(mockSmsService.sendSms(any())).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
             .post("/send/sms")
@@ -69,10 +59,9 @@ class SmsResourceTests {
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(validRequest())))
             .andExpect(status().isOk())
-            .andExpect(content().string("true"));
+            .andExpect(jsonPath("$.sent").value(true));
 
-        verify(mockSmsProperties, times(1)).getProvider();
-        verify(mockLinkMobilityService, times(1)).sendSms(any());
+        verify(mockSmsService, times(1)).sendSms(any());
     }
 
     private SendSmsRequest validRequest() {

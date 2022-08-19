@@ -22,16 +22,16 @@ import se.sundsvall.smssender.integration.telia.domain.TeliaResponse;
 
 @ActiveProfiles("junit")
 @ExtendWith(MockitoExtension.class)
-class TeliaServiceTest {
+class TeliaSmsServiceTest {
 
     @Mock
     private RestTemplate mockRestTemplate;
 
-    private TeliaService service;
+    private TeliaSmsService service;
 
     @BeforeEach
     void initMapper() {
-        service = new TeliaService(mockRestTemplate);
+        service = new TeliaSmsService(mockRestTemplate);
     }
 
     @Test
