@@ -5,7 +5,7 @@ info:
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  version: "1.0"
+  version: '@project.version@'
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -23,6 +23,12 @@ paths:
               $ref: '#/components/schemas/SendSmsRequest'
         required: true
       responses:
+        "200":
+          description: Successful Operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SendSmsResponse'
         "500":
           description: Internal Server Error
           content:
@@ -35,12 +41,6 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Problem'
-        "200":
-          description: Successful Operation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/SendSmsResponse'
   /api-docs:
     get:
       tags:
@@ -85,6 +85,11 @@ components:
           type: string
           description: The sender of the SMS
           example: sender
+    SendSmsResponse:
+      type: object
+      properties:
+        sent:
+          type: boolean
     Problem:
       type: object
       properties:
@@ -112,9 +117,4 @@ components:
           format: int32
         reasonPhrase:
           type: string
-    SendSmsResponse:
-      type: object
-      properties:
-        sent:
-          type: boolean
   securitySchemes: {}
