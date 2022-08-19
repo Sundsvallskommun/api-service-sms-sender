@@ -23,24 +23,24 @@ paths:
               $ref: '#/components/schemas/SendSmsRequest'
         required: true
       responses:
-        "200":
-          description: Successful Operation
-          content:
-            '*/*':
-              schema:
-                type: boolean
-        "400":
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Problem'
         "500":
           description: Internal Server Error
           content:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Problem'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "200":
+          description: Successful Operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SendSmsResponse'
   /api-docs:
     get:
       tags:
@@ -112,4 +112,9 @@ components:
           format: int32
         reasonPhrase:
           type: string
+    SendSmsResponse:
+      type: object
+      properties:
+        sent:
+          type: boolean
   securitySchemes: {}
