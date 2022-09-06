@@ -2,10 +2,8 @@ package se.sundsvall.smssender.integration.linkmobility;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpEntity;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.integration.SmsProvider;
@@ -14,36 +12,38 @@ import se.sundsvall.smssender.integration.linkmobility.domain.LinkMobilitySendSm
 import se.sundsvall.smssender.integration.linkmobility.domain.ResponseStatus;
 
 @Service
+@EnableConfigurationProperties(LinkMobilityProperties.class)
 public class LinkMobilitySmsProvider implements SmsProvider<LinkMobilitySendSmsRequest> {
+
+    static final String PROVIDER_NAME = "LinkMobility";
 
     static final String PREFIX = "+46";
 
     private final LinkMobilityProperties properties;
-    private final RestTemplate restTemplate;
+    private final LinkMobilityClient client;
 
-    public LinkMobilitySmsProvider(
-            final LinkMobilityProperties properties,
-            @Qualifier("integration.linkmobility.resttemplate") final RestTemplate restTemplate) {
+    LinkMobilitySmsProvider(final LinkMobilityProperties properties,
+            final LinkMobilityClient client) {
         this.properties = properties;
-        this.restTemplate = restTemplate;
+        this.client = client;
     }
 
     @Override
     public boolean sendSms(final SendSmsRequest smsRequest) {
         var request = mapFromSmsRequest(smsRequest);
 
-        return Optional.ofNullable(restTemplate.postForObject("/sms/send", new HttpEntity<>(request, createHeaders()), LinkMobilityResponse.class))
+        return Optional.ofNullable(client.send(request))
             .map(LinkMobilityResponse::getStatus)
             .map(ResponseStatus::isSent)
             .orElse(false);
     }
 
     @Override
-    public LinkMobilitySendSmsRequest mapFromSmsRequest(SendSmsRequest smsRequest) {
+    public LinkMobilitySendSmsRequest mapFromSmsRequest(final SendSmsRequest smsRequest) {
         return LinkMobilitySendSmsRequest.builder()
             .withPlatformId(properties.getPlatformId())
             .withPlatformPartnerId(properties.getPlatformPartnerId())
-            .withDestination("+46" + smsRequest.getMobileNumber().substring(1))
+            .withDestination(PREFIX + smsRequest.getMobileNumber().substring(1))
             .withSource(smsRequest.getSender().getName())
             .withUserData(smsRequest.getMessage())
             .build();

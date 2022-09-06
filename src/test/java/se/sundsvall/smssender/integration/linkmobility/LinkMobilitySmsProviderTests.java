@@ -2,7 +2,6 @@ package se.sundsvall.smssender.integration.linkmobility;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,13 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.client.RestTemplate;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.Sender;
 import se.sundsvall.smssender.integration.linkmobility.domain.LinkMobilityResponse;
+import se.sundsvall.smssender.integration.linkmobility.domain.LinkMobilitySendSmsRequest;
 import se.sundsvall.smssender.integration.linkmobility.domain.ResponseStatus;
 
 @ActiveProfiles("junit")
@@ -29,7 +27,7 @@ class LinkMobilitySmsProviderTests {
     @Mock
     private LinkMobilityProperties mockProperties;
     @Mock
-    private RestTemplate mockRestTemplate;
+    private LinkMobilityClient mockClient;
 
     private LinkMobilitySmsProvider provider;
 
@@ -38,7 +36,7 @@ class LinkMobilitySmsProviderTests {
         when(mockProperties.getPlatformId()).thenReturn("platformId");
         when(mockProperties.getPlatformPartnerId()).thenReturn("platformPartnerId");
 
-        provider = new LinkMobilitySmsProvider(mockProperties, mockRestTemplate);
+        provider = new LinkMobilitySmsProvider(mockProperties, mockClient);
     }
 
     @Test
@@ -46,13 +44,13 @@ class LinkMobilitySmsProviderTests {
         var response = new LinkMobilityResponse();
         response.setStatus(ResponseStatus.SENT);
 
-        when(mockRestTemplate.postForObject(any(String.class), any(HttpEntity.class), eq(LinkMobilityResponse.class)))
+        when(mockClient.send(any(LinkMobilitySendSmsRequest.class)))
             .thenReturn(response);
 
         var isSent = provider.sendSms(validRequest());
         assertThat(isSent).isTrue();
 
-        verify(mockRestTemplate, times(1)).postForObject(any(String.class), any(HttpEntity.class), eq(LinkMobilityResponse.class));
+        verify(mockClient, times(1)).send(any(LinkMobilitySendSmsRequest.class));
     }
 
     @Test

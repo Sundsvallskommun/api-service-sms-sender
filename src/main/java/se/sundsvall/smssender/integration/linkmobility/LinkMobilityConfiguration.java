@@ -1,30 +1,42 @@
 package se.sundsvall.smssender.integration.linkmobility;
 
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.openfeign.FeignBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
-import org.zalando.logbook.Logbook;
+import org.springframework.context.annotation.Import;
 
-import se.sundsvall.dept44.configuration.resttemplate.RestTemplateBuilder;
+import se.sundsvall.dept44.configuration.feign.FeignConfiguration;
+import se.sundsvall.dept44.configuration.feign.FeignHelper;
+import se.sundsvall.dept44.configuration.feign.decoder.ProblemErrorDecoder;
 
-@EnableConfigurationProperties(LinkMobilityProperties.class)
-@Configuration
-public class LinkMobilityConfiguration {
+import feign.RequestInterceptor;
+import feign.codec.ErrorDecoder;
+
+@Import(FeignConfiguration.class)
+class LinkMobilityConfiguration {
 
     private final LinkMobilityProperties properties;
 
-    public LinkMobilityConfiguration(LinkMobilityProperties properties) {
+    LinkMobilityConfiguration(final LinkMobilityProperties properties) {
         this.properties = properties;
     }
 
-    @Bean("integration.linkmobility.resttemplate")
-    public RestTemplate linkMobilityClient(Logbook logbook) {
-        return new RestTemplateBuilder()
-            .withBaseUrl(properties.getApiUrl())
-            .withLogbook(logbook)
-            .withBasicAuthentication(properties.getUsername(), properties.getPassword())
+    @Bean
+    RequestInterceptor oAuth2RequestInterceptor() {
+        return FeignHelper.basicAuthInterceptor(
+            properties.getBasicAuth().getUsername(), properties.getBasicAuth().getPassword());
+    }
+
+    @Bean
+    FeignBuilderCustomizer customizer() {
+        return FeignHelper.customizeRequestOptions()
+            .withConnectTimeout(properties.getConnectTimeout())
+            .withReadTimeout(properties.getReadTimeout())
             .build();
+    }
+
+    @Bean
+    ErrorDecoder errorDecoder() {
+        return new ProblemErrorDecoder(LinkMobilitySmsProvider.PROVIDER_NAME);
     }
 }

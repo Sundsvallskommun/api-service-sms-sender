@@ -2,21 +2,18 @@ package se.sundsvall.smssender.integration.linkmobility;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import se.sundsvall.smssender.integration.SmsProviderProperties;
+
 import lombok.Getter;
+import lombok.Setter;
 
-@ConfigurationProperties(prefix = "integration.linkmobility")
-@ConstructorBinding
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@ConfigurationProperties(prefix = "provider.linkmobility")
 @Getter
-public class LinkMobilityProperties {
+@Setter
+public class LinkMobilityProperties extends SmsProviderProperties {
 
-    private String apiUrl;
-    private String username;
-    private String password;
     private String platformId;
     private String platformPartnerId;
+    private BasicAuth basicAuth = new BasicAuth();
 }
