@@ -33,7 +33,7 @@
         <!-- Framework -->
         <dependency>
             <groupId>se.sundsvall.dept44</groupId>
-            <artifactId>dept44-starter-resttemplate</artifactId>
+            <artifactId>dept44-starter-feign</artifactId>
         </dependency>
         <dependency>
             <groupId>se.sundsvall.dept44</groupId>

@@ -14,7 +14,7 @@ import org.zalando.logbook.Logbook;
 
 @ActiveProfiles("junit")
 @SpringBootTest(classes = TeliaConfiguration.class)
-class TeliaConfigurationTest {
+class TeliaConfigurationTests {
 
     @MockBean
     private Logbook logbook;

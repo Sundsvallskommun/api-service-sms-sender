@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.sundsvall.smssender.integration.linkmobility.LinkMobilitySmsService.PREFIX;
+import static se.sundsvall.smssender.integration.linkmobility.LinkMobilitySmsProvider.PREFIX;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,21 +24,21 @@ import se.sundsvall.smssender.integration.linkmobility.domain.ResponseStatus;
 
 @ActiveProfiles("junit")
 @ExtendWith(MockitoExtension.class)
-class LinkMobilitySmsServiceTest {
+class LinkMobilitySmsProviderTests {
 
     @Mock
     private LinkMobilityProperties mockProperties;
     @Mock
     private RestTemplate mockRestTemplate;
 
-    private LinkMobilitySmsService service;
+    private LinkMobilitySmsProvider provider;
 
     @BeforeEach
     void initMapper() {
         when(mockProperties.getPlatformId()).thenReturn("platformId");
         when(mockProperties.getPlatformPartnerId()).thenReturn("platformPartnerId");
 
-        service = new LinkMobilitySmsService(mockProperties, mockRestTemplate);
+        provider = new LinkMobilitySmsProvider(mockProperties, mockRestTemplate);
     }
 
     @Test
@@ -49,7 +49,7 @@ class LinkMobilitySmsServiceTest {
         when(mockRestTemplate.postForObject(any(String.class), any(HttpEntity.class), eq(LinkMobilityResponse.class)))
             .thenReturn(response);
 
-        var isSent = service.sendSms(validRequest());
+        var isSent = provider.sendSms(validRequest());
         assertThat(isSent).isTrue();
 
         verify(mockRestTemplate, times(1)).postForObject(any(String.class), any(HttpEntity.class), eq(LinkMobilityResponse.class));
@@ -59,7 +59,7 @@ class LinkMobilitySmsServiceTest {
     void buildLinkMobilitySendSmsRequest_withPlatformIdAndPlatformPartnerId_FromSmsRequest() {
         var request = validRequest();
 
-        var sendSmsRequest = service.mapFromSmsRequest(request);
+        var sendSmsRequest = provider.mapFromSmsRequest(request);
 
         assertThat(sendSmsRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
         assertThat(sendSmsRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());

@@ -8,18 +8,18 @@ import org.springframework.test.context.ActiveProfiles;
 import se.sundsvall.smssender.integration.linkmobility.domain.ResponseStatus;
 
 @ActiveProfiles("junit")
-class ResponseStatusTest {
+class ResponseStatusTests {
 
     @Test
     void givenValidResponseStatusValueReturnsResponseStatus() {
-        int statusSentValue = ResponseStatus.SENT.getValue();
+        var statusSentValue = ResponseStatus.SENT.getValue();
 
         assertThat(ResponseStatus.forValue(statusSentValue)).isEqualTo(ResponseStatus.SENT);
     }
 
     @Test
     void givenInvalidResponseStatusIsNull() {
-        int statusSentValue = -1;
+        var statusSentValue = -1;
 
         assertThat(ResponseStatus.forValue(statusSentValue)).isNull();
     }

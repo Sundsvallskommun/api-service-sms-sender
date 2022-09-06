@@ -8,24 +8,21 @@ import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
-import se.sundsvall.smssender.integration.Provider;
-import se.sundsvall.smssender.integration.SmsService;
-import se.sundsvall.smssender.integration.support.annotation.ConditionalOnConfiguredProvider;
+import se.sundsvall.smssender.integration.SmsProvider;
 import se.sundsvall.smssender.integration.telia.domain.TeliaResponse;
 import se.sundsvall.smssender.integration.telia.domain.TeliaSendSmsRequest;
 
 @Service
-@ConditionalOnConfiguredProvider(Provider.TELIA)
-public class TeliaSmsService implements SmsService<TeliaSendSmsRequest> {
+public class TeliaSmsProvider implements SmsProvider<TeliaSendSmsRequest> {
 
     private final RestTemplate restTemplate;
 
-    public TeliaSmsService(@Qualifier("integration.telia.resttemplate") RestTemplate restTemplate) {
+    public TeliaSmsProvider(@Qualifier("integration.telia.resttemplate") final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     @Override
-    public boolean sendSms(SendSmsRequest sms) {
+    public boolean sendSms(final SendSmsRequest sms) {
         var request = mapFromSmsRequest(sms);
 
         var response = restTemplate.postForObject("/sendSms", new HttpEntity<>(request, createHeaders()), TeliaResponse.class);
@@ -38,7 +35,7 @@ public class TeliaSmsService implements SmsService<TeliaSendSmsRequest> {
     }
 
     @Override
-    public TeliaSendSmsRequest mapFromSmsRequest(SendSmsRequest smsRequest) {
+    public TeliaSendSmsRequest mapFromSmsRequest(final SendSmsRequest smsRequest) {
         return TeliaSendSmsRequest.builder()
             //.withOriginator(smsRequest.getSender().getName())
             .withMessage(smsRequest.getMessage())

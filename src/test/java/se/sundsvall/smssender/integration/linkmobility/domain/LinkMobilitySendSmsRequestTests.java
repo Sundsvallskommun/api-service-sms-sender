@@ -6,19 +6,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("junit")
-class LinkMobilitySendSmsRequestTest {
+class LinkMobilitySendSmsRequestTests {
 
     @Test
     void testBuilderAndGetters() {
-        LinkMobilitySendSmsRequest request = LinkMobilitySendSmsRequest.builder()
-                .withPlatformId("platform id")
-                .withPlatformPartnerId("platform partner")
-                .withUseDeliveryReport(true)
-                .withSourceTON("NUMERIC")
-                .withSource("source")
-                .withDestinationTON("MSID")
-                .withDestination("+46701234567")
-                .withUserData("message")
+        var request = LinkMobilitySendSmsRequest.builder()
+            .withPlatformId("platform id")
+            .withPlatformPartnerId("platform partner")
+            .withUseDeliveryReport(true)
+            .withSourceTON("NUMERIC")
+            .withSource("source")
+            .withDestinationTON("MSID")
+            .withDestination("+46701234567")
+            .withUserData("message")
                 .build();
 
         assertThat(request.getPlatformId()).isEqualTo("platform id");
@@ -29,6 +29,7 @@ class LinkMobilitySendSmsRequestTest {
         assertThat(request.getDestinationTON()).isEqualTo("MSID");
         assertThat(request.getDestination()).isEqualTo("+46701234567");
         assertThat(request.getUserData()).isEqualTo("message");
+
         // just for coverage
         assertThat(request.toString()).isNotNull();
     }

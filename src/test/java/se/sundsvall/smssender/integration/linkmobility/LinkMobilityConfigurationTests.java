@@ -13,7 +13,7 @@ import org.zalando.logbook.Logbook;
 
 @ActiveProfiles("junit")
 @SpringBootTest(classes = LinkMobilityConfiguration.class)
-class LinkMobilityConfigurationTest {
+class LinkMobilityConfigurationTests {
 
     @MockBean
     private Logbook logbook;

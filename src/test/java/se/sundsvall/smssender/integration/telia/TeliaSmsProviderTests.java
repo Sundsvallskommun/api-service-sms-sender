@@ -22,16 +22,16 @@ import se.sundsvall.smssender.integration.telia.domain.TeliaResponse;
 
 @ActiveProfiles("junit")
 @ExtendWith(MockitoExtension.class)
-class TeliaSmsServiceTest {
+class TeliaSmsProviderTests {
 
     @Mock
     private RestTemplate mockRestTemplate;
 
-    private TeliaSmsService service;
+    private TeliaSmsProvider provider;
 
     @BeforeEach
     void initMapper() {
-        service = new TeliaSmsService(mockRestTemplate);
+        provider = new TeliaSmsProvider(mockRestTemplate);
     }
 
     @Test
@@ -41,7 +41,7 @@ class TeliaSmsServiceTest {
         when(mockRestTemplate.postForObject(any(String.class), any(HttpEntity.class), eq(TeliaResponse.class)))
             .thenReturn(response);
 
-        var isSent = service.sendSms(validRequest());
+        var isSent = provider.sendSms(validRequest());
         assertThat(isSent).isTrue();
 
         verify(mockRestTemplate, times(1)).postForObject(any(String.class), any(HttpEntity.class), eq(TeliaResponse.class));

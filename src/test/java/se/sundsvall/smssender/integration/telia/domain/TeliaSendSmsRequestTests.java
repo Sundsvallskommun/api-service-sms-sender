@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("junit")
-class TeliaSendSmsRequestTest {
+class TeliaSendSmsRequestTests {
 
     @Test
     void testBuildersAndGetters() {

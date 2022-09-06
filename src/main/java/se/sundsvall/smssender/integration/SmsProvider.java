@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 
-public interface SmsService<REQUEST> {
+public interface SmsProvider<REQUEST> {
 
     boolean sendSms(SendSmsRequest request);
 

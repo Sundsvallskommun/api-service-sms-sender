@@ -8,31 +8,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
-import se.sundsvall.smssender.integration.Provider;
-import se.sundsvall.smssender.integration.SmsService;
+import se.sundsvall.smssender.integration.SmsProvider;
 import se.sundsvall.smssender.integration.linkmobility.domain.LinkMobilityResponse;
 import se.sundsvall.smssender.integration.linkmobility.domain.LinkMobilitySendSmsRequest;
 import se.sundsvall.smssender.integration.linkmobility.domain.ResponseStatus;
-import se.sundsvall.smssender.integration.support.annotation.ConditionalOnConfiguredProvider;
 
 @Service
-@ConditionalOnConfiguredProvider(Provider.LINKMOBILITY)
-public class LinkMobilitySmsService implements SmsService<LinkMobilitySendSmsRequest> {
+public class LinkMobilitySmsProvider implements SmsProvider<LinkMobilitySendSmsRequest> {
 
     static final String PREFIX = "+46";
 
     private final LinkMobilityProperties properties;
     private final RestTemplate restTemplate;
 
-    public LinkMobilitySmsService(
-            LinkMobilityProperties properties,
-            @Qualifier("integration.linkmobility.resttemplate") RestTemplate restTemplate) {
+    public LinkMobilitySmsProvider(
+            final LinkMobilityProperties properties,
+            @Qualifier("integration.linkmobility.resttemplate") final RestTemplate restTemplate) {
         this.properties = properties;
         this.restTemplate = restTemplate;
     }
 
     @Override
-    public boolean sendSms(SendSmsRequest smsRequest) {
+    public boolean sendSms(final SendSmsRequest smsRequest) {
         var request = mapFromSmsRequest(smsRequest);
 
         return Optional.ofNullable(restTemplate.postForObject("/sms/send", new HttpEntity<>(request, createHeaders()), LinkMobilityResponse.class))
