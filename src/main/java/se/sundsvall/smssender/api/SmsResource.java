@@ -10,7 +10,7 @@ import org.zalando.problem.Problem;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsResponse;
-import se.sundsvall.smssender.integration.SmsRouter;
+import se.sundsvall.smssender.provider.SmsProviderRouter;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,10 +23,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "SMS Resources")
 class SmsResource {
 
-    private final SmsRouter smsRouter;
+    private final SmsProviderRouter smsProviderRouter;
 
-    SmsResource(final SmsRouter smsRouter) {
-        this.smsRouter = smsRouter;
+    SmsResource(final SmsProviderRouter smsProviderRouter) {
+        this.smsProviderRouter = smsProviderRouter;
     }
 
     @Operation(summary = "Send an SMS")
@@ -49,7 +49,7 @@ class SmsResource {
     })
     @PostMapping("/send/sms")
     ResponseEntity<SendSmsResponse> sendSms(@Valid @RequestBody SendSmsRequest sms) {
-        var sent = smsRouter.sendSms(sms);
+        var sent = smsProviderRouter.sendSms(sms);
 
         return ResponseEntity.ok(SendSmsResponse.builder()
             .withSent(sent)

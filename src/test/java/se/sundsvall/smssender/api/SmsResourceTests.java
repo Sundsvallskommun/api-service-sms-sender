@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.Sender;
-import se.sundsvall.smssender.integration.SmsRouter;
+import se.sundsvall.smssender.provider.SmsProviderRouter;
 
 @ActiveProfiles("junit")
 @WebMvcTest(excludeAutoConfiguration = SecurityAutoConfiguration.class)
@@ -32,11 +32,11 @@ class SmsResourceTests {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private SmsRouter mockSmsRouter;
+    private SmsProviderRouter mockSmsProviderRouter;
 
     @Test
     void sendSms_givenValidRequest_withTeliaProvider_shouldReturn200_OK_and_true() throws Exception {
-        when(mockSmsRouter.sendSms(any())).thenReturn(true);
+        when(mockSmsProviderRouter.sendSms(any())).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
             .post("/send/sms")
@@ -46,12 +46,12 @@ class SmsResourceTests {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sent").value(true));
 
-        verify(mockSmsRouter, times(1)).sendSms(any());
+        verify(mockSmsProviderRouter, times(1)).sendSms(any());
     }
 
     @Test
     void sendSms_givenValidRequest_withLinkMobilityProvider_shouldReturn200_OK_and_true() throws Exception {
-        when(mockSmsRouter.sendSms(any())).thenReturn(true);
+        when(mockSmsProviderRouter.sendSms(any())).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
             .post("/send/sms")
@@ -61,7 +61,7 @@ class SmsResourceTests {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sent").value(true));
 
-        verify(mockSmsRouter, times(1)).sendSms(any());
+        verify(mockSmsProviderRouter, times(1)).sendSms(any());
     }
 
     private SendSmsRequest validRequest() {
