@@ -16,9 +16,11 @@ public class TeliaSmsProvider implements SmsProvider<TeliaSmsRequest> {
 
     static final String PROVIDER_NAME = "Telia";
 
+    private final TeliaSmsProviderProperties properties;
     private final TeliaClient client;
 
-    TeliaSmsProvider(final TeliaClient client) {
+    TeliaSmsProvider(final TeliaSmsProviderProperties properties, final TeliaClient client) {
+        this.properties = properties;
         this.client = client;
     }
 
@@ -38,6 +40,21 @@ public class TeliaSmsProvider implements SmsProvider<TeliaSmsRequest> {
             .withMessage(smsRequest.getMessage())
             .withDestinationNumber(smsRequest.getMobileNumber())
             .build();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return properties.isEnabled();
+    }
+
+    @Override
+    public String getName() {
+        return PROVIDER_NAME;
+    }
+
+    @Override
+    public int getPriority() {
+        return properties.getPriority();
     }
 }
 

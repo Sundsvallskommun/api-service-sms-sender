@@ -48,4 +48,19 @@ public class LinkMobilitySmsProvider implements SmsProvider<LinkMobilitySmsReque
             .withUserData(smsRequest.getMessage())
             .build();
     }
+
+    @Override
+    public boolean isEnabled() {
+        return properties.isEnabled();
+    }
+
+    @Override
+    public String getName() {
+        return PROVIDER_NAME;
+    }
+
+    @Override
+    public int getPriority() {
+        return properties.getPriority();
+    }
 }
