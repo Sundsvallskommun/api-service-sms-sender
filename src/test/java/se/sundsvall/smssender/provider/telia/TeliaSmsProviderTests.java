@@ -11,12 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.Sender;
-import se.sundsvall.smssender.provider.telia.domain.TeliaSmsRequest;
-import se.sundsvall.smssender.provider.telia.domain.TeliaSmsResponse;
+
+import generated.com.teliacompany.c2b.smssender.SmsServiceRequest;
 
 @ActiveProfiles("junit")
 @ExtendWith(MockitoExtension.class)
@@ -30,15 +31,13 @@ class TeliaSmsProviderTests {
 
     @Test
     void sendSmsWithTelia_givenValidSmsRequest_return_200_OK_and_true() {
-        var response = new TeliaSmsResponse("0", "ok");
-
-        when(mockClient.send(any(TeliaSmsRequest.class)))
-            .thenReturn(response);
+        when(mockClient.send(any(SmsServiceRequest.class)))
+            .thenReturn(ResponseEntity.noContent().build());
 
         var isSent = provider.sendSms(validRequest());
         assertThat(isSent).isTrue();
 
-        verify(mockClient, times(1)).send(any(TeliaSmsRequest.class));
+        verify(mockClient, times(1)).send(any(SmsServiceRequest.class));
     }
 
     private SendSmsRequest validRequest() {

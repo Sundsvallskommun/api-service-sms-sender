@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.provider.SmsProvider;
-import se.sundsvall.smssender.provider.telia.domain.TeliaSmsRequest;
-import se.sundsvall.smssender.provider.telia.domain.TeliaSmsResponse;
+
+import generated.com.teliacompany.c2b.smssender.SmsServiceRequest;
 
 @Service
 @EnableConfigurationProperties(TeliaSmsProviderProperties.class)
-public class TeliaSmsProvider implements SmsProvider<TeliaSmsRequest> {
+public class TeliaSmsProvider implements SmsProvider<SmsServiceRequest> {
 
     static final String PROVIDER_NAME = "Telia";
 
@@ -29,17 +29,16 @@ public class TeliaSmsProvider implements SmsProvider<TeliaSmsRequest> {
         var request = mapFromSmsRequest(sms);
 
         return Optional.ofNullable(client.send(request))
-            .map(TeliaSmsResponse::isSent)
+            .map(responseEntity -> responseEntity.getStatusCode().is2xxSuccessful())
             .orElse(false);
     }
 
     @Override
-    public TeliaSmsRequest mapFromSmsRequest(final SendSmsRequest smsRequest) {
-        return TeliaSmsRequest.builder()
-            //.withOriginator(smsRequest.getSender().getName())
-            .withMessage(smsRequest.getMessage())
-            .withDestinationNumber(smsRequest.getMobileNumber())
-            .build();
+    public SmsServiceRequest mapFromSmsRequest(final SendSmsRequest smsRequest) {
+        return new SmsServiceRequest()
+            .originator(smsRequest.getSender().getName())
+            .destinationNumber(smsRequest.getMobileNumber())
+            .message(smsRequest.getMessage());
     }
 
     @Override
