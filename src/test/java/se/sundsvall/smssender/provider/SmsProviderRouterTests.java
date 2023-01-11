@@ -32,12 +32,10 @@ class SmsProviderRouterTests {
         when(mockSmsProvider1.getName()).thenReturn("P1.default");
         when(mockSmsProvider1.isEnabled()).thenReturn(true);
         when(mockSmsProvider1.isFlashSmsCapable()).thenReturn(true);
-        //when(mockSmsProvider1.getPriority()).thenReturn(1);
 
         when(mockSmsProvider2.getName()).thenReturn("P2.default");
         when(mockSmsProvider2.isEnabled()).thenReturn(true);
         when(mockSmsProvider2.isFlashSmsCapable()).thenReturn(true);
-        //when(mockSmsProvider2.getPriority()).thenReturn(2);
 
         router = new SmsProviderRouter(mockRetryTemplate, List.of(mockSmsProvider1, mockSmsProvider2));
     }
