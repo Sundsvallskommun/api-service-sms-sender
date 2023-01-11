@@ -1,5 +1,7 @@
 package se.sundsvall.smssender.api.model;
 
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -20,6 +22,6 @@ public class Sender {
 
     @NotBlank
     @Size(max = 11)
-    @Schema(required = true, description = "The sender of the SMS", maxLength = 11, example = "sender")
+    @Schema(description = "The sender of the SMS", requiredMode = REQUIRED, maxLength = 11, example = "sender")
     private String name;
 }

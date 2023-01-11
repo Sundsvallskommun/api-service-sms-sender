@@ -8,25 +8,27 @@ import org.springframework.stereotype.Service;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.provider.SmsProvider;
 
-import generated.com.teliacompany.c2b.smssender.SmsServiceRequest;
-
 @Service
 @EnableConfigurationProperties(TeliaSmsProviderProperties.class)
-public class TeliaSmsProvider implements SmsProvider<SmsServiceRequest> {
+public class TeliaSmsProvider implements SmsProvider {
 
     static final String PROVIDER_NAME = "Telia";
 
     private final TeliaSmsProviderProperties properties;
     private final TeliaClient client;
+    private final TeliaMapper mapper;
 
-    TeliaSmsProvider(final TeliaSmsProviderProperties properties, final TeliaClient client) {
+    TeliaSmsProvider(final TeliaSmsProviderProperties properties, final TeliaClient client, final TeliaMapper mapper) {
         this.properties = properties;
         this.client = client;
+        this.mapper = mapper;
     }
 
     @Override
-    public boolean sendSms(final SendSmsRequest sms) {
-        var request = mapFromSmsRequest(sms);
+    public boolean sendSms(final SendSmsRequest sms, final boolean flash) {
+        verifyFlashCapability(flash);
+
+        var request = mapper.mapFromSendSmsRequest(sms);
 
         return Optional.ofNullable(client.send(request))
             .map(responseEntity -> responseEntity.getStatusCode().is2xxSuccessful())
@@ -34,11 +36,8 @@ public class TeliaSmsProvider implements SmsProvider<SmsServiceRequest> {
     }
 
     @Override
-    public SmsServiceRequest mapFromSmsRequest(final SendSmsRequest smsRequest) {
-        return new SmsServiceRequest()
-            .originator(smsRequest.getSender().getName())
-            .destinationNumber(smsRequest.getMobileNumber())
-            .message(smsRequest.getMessage());
+    public String getName() {
+        return PROVIDER_NAME;
     }
 
     @Override
@@ -47,8 +46,8 @@ public class TeliaSmsProvider implements SmsProvider<SmsServiceRequest> {
     }
 
     @Override
-    public String getName() {
-        return PROVIDER_NAME;
+    public boolean isFlashSmsCapable() {
+        return properties.isFlashCapable();
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.zalando.problem.Problem;
 
+import se.sundsvall.smssender.api.model.SendFlashSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsResponse;
 import se.sundsvall.smssender.provider.SmsProviderRouter;
@@ -48,8 +49,27 @@ class SmsResource {
         )
     })
     @PostMapping("/send/sms")
-    ResponseEntity<SendSmsResponse> sendSms(@Valid @RequestBody SendSmsRequest sms) {
-        var sent = smsProviderRouter.sendSms(sms);
+    ResponseEntity<SendSmsResponse> sendSms(@Valid @RequestBody final SendSmsRequest request) {
+        var sent = smsProviderRouter.sendSms(request);
+
+        return ResponseEntity.ok(SendSmsResponse.builder()
+            .withSent(sent)
+            .build());
+    }
+
+    @Operation(hidden = true)
+    @PostMapping(value = "/send/sms", params = "flash=true")
+    ResponseEntity<SendSmsResponse> sendFlashSms(@Valid @RequestBody final SendFlashSmsRequest request) {
+        // TODO: manually validate (?) and "process" the mobile number (coming in UF-4136...)
+
+        // Remap the flash SMS request to a regular SMS request
+        var mappedRequest = SendSmsRequest.builder()
+            .withSender(request.getSender())
+            .withMobileNumber(request.getMobileNumber())
+            .withMessage(request.getMessage())
+            .build();
+
+        var sent = smsProviderRouter.sendFlashSms(mappedRequest);
 
         return ResponseEntity.ok(SendSmsResponse.builder()
             .withSent(sent)

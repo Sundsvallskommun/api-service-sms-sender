@@ -22,7 +22,7 @@ public class LinkMobilitySmsResponse {
     @JsonProperty("resultCode")
     private ResponseStatus status;
 
-    public static enum ResponseStatus {
+    public enum ResponseStatus {
 
         UNKNOWN_ERROR(0),
         TEMPORARY_ROUTING_ERROR(1),
