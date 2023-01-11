@@ -7,30 +7,32 @@ import org.springframework.stereotype.Service;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.provider.SmsProvider;
-import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRequest;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus;
 
 @Service
 @EnableConfigurationProperties(LinkMobilitySmsProviderProperties.class)
-public class LinkMobilitySmsProvider implements SmsProvider<LinkMobilitySmsRequest> {
+public class LinkMobilitySmsProvider implements SmsProvider {
 
     static final String PROVIDER_NAME = "LinkMobility";
 
-    static final String PREFIX = "+46";
-
     private final LinkMobilitySmsProviderProperties properties;
     private final LinkMobilityClient client;
+    private final LinkMobilityMapper mapper;
 
     LinkMobilitySmsProvider(final LinkMobilitySmsProviderProperties properties,
             final LinkMobilityClient client) {
         this.properties = properties;
         this.client = client;
+
+        mapper = new LinkMobilityMapper(properties);
     }
 
     @Override
-    public boolean sendSms(final SendSmsRequest smsRequest) {
-        var request = mapFromSmsRequest(smsRequest);
+    public boolean sendSms(final SendSmsRequest smsRequest, final boolean flash) {
+        verifyFlashCapability(flash);
+
+        var request = mapper.mapFromSendSmsRequest(smsRequest);
 
         return Optional.ofNullable(client.send(request))
             .map(LinkMobilitySmsResponse::getStatus)
@@ -39,19 +41,13 @@ public class LinkMobilitySmsProvider implements SmsProvider<LinkMobilitySmsReque
     }
 
     @Override
-    public LinkMobilitySmsRequest mapFromSmsRequest(final SendSmsRequest smsRequest) {
-        return LinkMobilitySmsRequest.builder()
-            .withPlatformId(properties.getPlatformId())
-            .withPlatformPartnerId(properties.getPlatformPartnerId())
-            .withDestination(PREFIX + smsRequest.getMobileNumber().substring(1))
-            .withSource(smsRequest.getSender().getName())
-            .withUserData(smsRequest.getMessage())
-            .build();
+    public boolean isEnabled() {
+        return properties.isEnabled();
     }
 
     @Override
-    public boolean isEnabled() {
-        return properties.isEnabled();
+    public boolean isFlashSmsCapable() {
+        return properties.isFlashCapable();
     }
 
     @Override

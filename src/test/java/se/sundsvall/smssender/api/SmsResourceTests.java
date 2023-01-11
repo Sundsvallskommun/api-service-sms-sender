@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
-import se.sundsvall.smssender.api.model.Sender;
 import se.sundsvall.smssender.provider.SmsProviderRouter;
 
 @ActiveProfiles("junit")
@@ -35,42 +35,34 @@ class SmsResourceTests {
     private SmsProviderRouter mockSmsProviderRouter;
 
     @Test
-    void sendSms_givenValidRequest_withTeliaProvider_shouldReturn200_OK_and_true() throws Exception {
-        when(mockSmsProviderRouter.sendSms(any())).thenReturn(true);
+    void sendSms_OK() throws Exception {
+        when(mockSmsProviderRouter.sendSms(any(SendSmsRequest.class))).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
             .post("/send/sms")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(validRequest())))
+            .content(objectMapper.writeValueAsString(createValidSendSmsRequest())))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sent").value(true));
 
-        verify(mockSmsProviderRouter, times(1)).sendSms(any());
+        verify(mockSmsProviderRouter, times(1)).sendSms(any(SendSmsRequest.class));
     }
 
     @Test
-    void sendSms_givenValidRequest_withLinkMobilityProvider_shouldReturn200_OK_and_true() throws Exception {
-        when(mockSmsProviderRouter.sendSms(any())).thenReturn(true);
+    void sendFlashSms_OK() throws Exception {
+        when(mockSmsProviderRouter.sendFlashSms(any(SendSmsRequest.class))).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders
             .post("/send/sms")
+            .param("flash", "true")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(validRequest())))
+            .content(objectMapper.writeValueAsString(createValidSendSmsRequest())))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sent").value(true));
 
-        verify(mockSmsProviderRouter, times(1)).sendSms(any());
-    }
+        verify(mockSmsProviderRouter, times(1)).sendFlashSms(any(SendSmsRequest.class));
 
-    private SendSmsRequest validRequest() {
-        return SendSmsRequest.builder()
-            .withSender(Sender.builder()
-                .withName("sender")
-                .build())
-            .withMessage("message")
-            .withMobileNumber("0701234567")
-            .build();
     }
 }
