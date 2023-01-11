@@ -1,11 +1,14 @@
 package se.sundsvall.smssender.provider.linkmobility.domain;
 
+import java.util.Map;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.With;
 
 @Getter
 @Builder(setterPrefix = "with")
@@ -25,4 +28,7 @@ public class LinkMobilitySmsRequest {
     private String destinationTON = "MSISDN";
     private String destination;
     private String userData;
+
+    @With
+    private Map<String, String> customParameters;
 }

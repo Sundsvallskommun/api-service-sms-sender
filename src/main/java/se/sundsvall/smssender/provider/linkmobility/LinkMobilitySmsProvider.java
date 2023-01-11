@@ -32,7 +32,7 @@ public class LinkMobilitySmsProvider implements SmsProvider {
     public boolean sendSms(final SendSmsRequest smsRequest, final boolean flash) {
         verifyFlashCapability(flash);
 
-        var request = mapper.mapFromSendSmsRequest(smsRequest);
+        var request = mapper.mapFromSendSmsRequest(smsRequest, flash);
 
         return Optional.ofNullable(client.send(request))
             .map(LinkMobilitySmsResponse::getStatus)
