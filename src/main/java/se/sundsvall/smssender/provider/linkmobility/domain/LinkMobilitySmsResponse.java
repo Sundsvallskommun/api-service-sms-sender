@@ -10,11 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class LinkMobilitySmsResponse {
@@ -112,7 +110,7 @@ public class LinkMobilitySmsResponse {
             return SUCCESS_STATUSES.contains(this);
         }
 
-        @JsonCreator
+        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
         public static ResponseStatus forValue(final int value) {
             return Arrays.stream(ResponseStatus.values())
                 .filter(status -> value == status.value)

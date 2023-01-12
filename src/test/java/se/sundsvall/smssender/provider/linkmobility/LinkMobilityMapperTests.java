@@ -2,7 +2,6 @@ package se.sundsvall.smssender.provider.linkmobility;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
-import static se.sundsvall.smssender.model.TypeOfNumber.SHORTNUMBER;
 
 import java.util.Map;
 
@@ -22,7 +21,7 @@ class LinkMobilityMapperTests {
 
     @Test
     void testMapFromSendSmsRequest() {
-        var request = createValidSendSmsRequest().withTypeOfNumber(SHORTNUMBER);
+        var request = createValidSendSmsRequest();
 
         var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
 
@@ -36,7 +35,7 @@ class LinkMobilityMapperTests {
 
     @Test
     void testMapFromSendSmsRequestAsFlashSms() {
-        var request = createValidSendSmsRequest().withTypeOfNumber(SHORTNUMBER);
+        var request = createValidSendSmsRequest();
 
         var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
 

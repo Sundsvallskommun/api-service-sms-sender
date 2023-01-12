@@ -1,7 +1,5 @@
 package se.sundsvall.smssender.api;
 
-import static se.sundsvall.smssender.model.TypeOfNumber.MSISDN;
-
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -62,10 +60,15 @@ class SmsResource {
     @Operation(hidden = true)
     @PostMapping(value = "/send/sms", params = "flash=true")
     ResponseEntity<SendSmsResponse> sendFlashSms(@Valid @RequestBody final SendFlashSmsRequest request) {
-        // Replace hyphens and spaces, if any
+        // "Fix" the mobile number, if needed
         var mobileNumber = request.getMobileNumber()
             .replace("-", "")
             .replace(" ", "");
+
+        if (!mobileNumber.startsWith("+")) {
+            mobileNumber = "+46" + mobileNumber.substring(1);
+        }
+        mobileNumber = mobileNumber.replaceAll("^\\+460", "+46");
 
         // Remap the flash SMS request to a regular SMS request
         var mappedRequest = SendSmsRequest.builder()
@@ -73,12 +76,6 @@ class SmsResource {
             .withMobileNumber(mobileNumber)
             .withMessage(request.getMessage())
             .build();
-
-        // We assume that the submitted number is a "short number", but if it starts with a "+" char,
-        // we re-map the number type to MSISDN
-        if (mobileNumber.startsWith("+")) {
-            mappedRequest = mappedRequest.withTypeOfNumber(MSISDN);
-        }
 
         var sent = smsProviderRouter.sendFlashSms(mappedRequest);
 

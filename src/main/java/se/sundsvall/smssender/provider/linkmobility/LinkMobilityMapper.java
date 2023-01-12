@@ -17,7 +17,7 @@ class LinkMobilityMapper {
         var request =  LinkMobilitySmsRequest.builder()
             .withPlatformId(properties.getPlatformId())
             .withPlatformPartnerId(properties.getPlatformPartnerId())
-            .withDestinationTON(smsRequest.getTypeOfNumber().toString())
+            .withDestinationTON("MSISDN")
             .withDestination(smsRequest.getMobileNumber())
             .withSource(smsRequest.getSender().getName())
             .withUserData(smsRequest.getMessage())
