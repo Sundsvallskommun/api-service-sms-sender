@@ -2,7 +2,7 @@ package se.sundsvall.smssender.provider.linkmobility;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
-import static se.sundsvall.smssender.provider.linkmobility.LinkMobilityMapper.PREFIX;
+import static se.sundsvall.smssender.model.TypeOfNumber.SHORTNUMBER;
 
 import java.util.Map;
 
@@ -22,13 +22,13 @@ class LinkMobilityMapperTests {
 
     @Test
     void testMapFromSendSmsRequest() {
-        var request = createValidSendSmsRequest();
+        var request = createValidSendSmsRequest().withTypeOfNumber(SHORTNUMBER);
 
         var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
 
         assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
         assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
-        assertThat(mappedRequest.getDestination()).isEqualTo(PREFIX + request.getMobileNumber().substring(1));
+        assertThat(mappedRequest.getDestination()).isEqualTo(request.getMobileNumber());
         assertThat(mappedRequest.getSource()).isEqualTo(request.getSender().getName());
         assertThat(mappedRequest.getUserData()).isEqualTo(request.getMessage());
         assertThat(mappedRequest.getCustomParameters()).isNull();
@@ -36,13 +36,13 @@ class LinkMobilityMapperTests {
 
     @Test
     void testMapFromSendSmsRequestAsFlashSms() {
-        var request = createValidSendSmsRequest();
+        var request = createValidSendSmsRequest().withTypeOfNumber(SHORTNUMBER);
 
         var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
 
         assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
         assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
-        assertThat(mappedRequest.getDestination()).isEqualTo(PREFIX + request.getMobileNumber().substring(1));
+        assertThat(mappedRequest.getDestination()).isEqualTo(request.getMobileNumber());
         assertThat(mappedRequest.getSource()).isEqualTo(request.getSender().getName());
         assertThat(mappedRequest.getUserData()).isEqualTo(request.getMessage());
         assertThat(mappedRequest.getCustomParameters()).containsExactly(Map.entry("flash.sms", "true"));
