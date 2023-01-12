@@ -7,8 +7,6 @@ import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsReques
 
 class LinkMobilityMapper {
 
-    static final String PREFIX = "+46";
-
     private final LinkMobilitySmsProviderProperties properties;
 
     LinkMobilityMapper(final LinkMobilitySmsProviderProperties properties) {
@@ -19,7 +17,8 @@ class LinkMobilityMapper {
         var request =  LinkMobilitySmsRequest.builder()
             .withPlatformId(properties.getPlatformId())
             .withPlatformPartnerId(properties.getPlatformPartnerId())
-            .withDestination(PREFIX + smsRequest.getMobileNumber().substring(1))
+            .withDestinationTON(smsRequest.getTypeOfNumber().toString())
+            .withDestination(smsRequest.getMobileNumber())
             .withSource(smsRequest.getSender().getName())
             .withUserData(smsRequest.getMessage())
             .build();
