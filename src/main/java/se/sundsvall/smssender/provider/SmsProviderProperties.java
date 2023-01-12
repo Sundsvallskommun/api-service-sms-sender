@@ -21,6 +21,7 @@ public abstract class SmsProviderProperties {
     private int priority;
 
     private boolean enabled = true;
+    private boolean flashCapable = false;
 
     private Duration readTimeout = Duration.ofSeconds(15);
     private Duration connectTimeout = Duration.ofSeconds(5);

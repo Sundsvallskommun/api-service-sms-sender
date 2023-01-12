@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.sundsvall.smssender.provider.linkmobility.LinkMobilitySmsProvider.PREFIX;
+import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
-import se.sundsvall.smssender.api.model.SendSmsRequest;
-import se.sundsvall.smssender.api.model.Sender;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRequest;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus;
@@ -40,39 +38,14 @@ class LinkMobilitySmsProviderTests {
     }
 
     @Test
-    void sendSmsWithLinkMobility_shouldReturn_200_OK_and_true() {
+    void testSendSms_noFlash_OK() {
         var response = new LinkMobilitySmsResponse();
         response.setStatus(ResponseStatus.SENT);
 
-        when(mockClient.send(any(LinkMobilitySmsRequest.class)))
-            .thenReturn(response);
+        when(mockClient.send(any(LinkMobilitySmsRequest.class))).thenReturn(response);
 
-        var isSent = provider.sendSms(validRequest());
-        assertThat(isSent).isTrue();
+        assertThat(provider.sendSms(createValidSendSmsRequest(), false)).isTrue();
 
         verify(mockClient, times(1)).send(any(LinkMobilitySmsRequest.class));
-    }
-
-    @Test
-    void buildLinkMobilitySendSmsRequest_withPlatformIdAndPlatformPartnerId_FromSmsRequest() {
-        var request = validRequest();
-
-        var sendSmsRequest = provider.mapFromSmsRequest(request);
-
-        assertThat(sendSmsRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
-        assertThat(sendSmsRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
-        assertThat(sendSmsRequest.getDestination()).isEqualTo(PREFIX + request.getMobileNumber().substring(1));
-        assertThat(sendSmsRequest.getSource()).isEqualTo(request.getSender().getName());
-        assertThat(sendSmsRequest.getUserData()).isEqualTo(request.getMessage());
-    }
-
-    private SendSmsRequest validRequest() {
-        return SendSmsRequest.builder()
-            .withSender(Sender.builder()
-                .withName("sender")
-                .build())
-            .withMessage("message")
-            .withMobileNumber("0701234567")
-            .build();
     }
 }

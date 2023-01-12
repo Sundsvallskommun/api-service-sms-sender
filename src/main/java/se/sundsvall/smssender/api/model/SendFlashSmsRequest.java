@@ -6,8 +6,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import se.sundsvall.dept44.common.validators.annotation.ValidMobileNumber;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,13 +13,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/**
+ * Custom send-SMS-request that doesn't validate that the mobile number is on the regular Swedish
+ * format ^07[02369]\d{7}$ .
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder(setterPrefix = "with")
-public class SendSmsRequest {
+@Schema(hidden = true)
+public class SendFlashSmsRequest {
 
     @Valid
     @NotNull
@@ -29,7 +31,6 @@ public class SendSmsRequest {
 
 	@NotBlank
     @Schema(description = "Mobile number", requiredMode = REQUIRED, example = "0701234567")
-    @ValidMobileNumber
     private String mobileNumber;
     
 	@NotBlank
