@@ -1,0 +1,126 @@
+openapi: 3.0.1
+info:
+  title: SmsSender
+  contact: {}
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  version: "1.1"
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /send/sms:
+    post:
+      tags:
+      - SMS Resources
+      summary: Send an SMS
+      operationId: sendSms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendSmsRequest'
+        required: true
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SendSmsResponse'
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /api-docs:
+    get:
+      tags:
+      - API
+      summary: OpenAPI
+      operationId: getApiDocs
+      responses:
+        "200":
+          description: OK
+          content:
+            application/yaml:
+              schema:
+                type: string
+      x-auth-type: None
+      x-throttling-tier: Unlimited
+      x-wso2-mutual-ssl: Optional
+components:
+  schemas:
+    SendSmsRequest:
+      required:
+      - message
+      - mobileNumber
+      - sender
+      type: object
+      properties:
+        sender:
+          $ref: '#/components/schemas/Sender'
+        mobileNumber:
+          type: string
+          description: Mobile number
+          example: "0701234567"
+        priority:
+          type: string
+          description: Priority
+          enum:
+          - HIGH
+          - NORMAL
+        message:
+          type: string
+    Sender:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 11
+          minLength: 0
+          type: string
+          description: The sender of the SMS
+          example: sender
+    SendSmsResponse:
+      type: object
+      properties:
+        sent:
+          type: boolean
+    Problem:
+      type: object
+      properties:
+        instance:
+          type: string
+          format: uri
+        type:
+          type: string
+          format: uri
+        parameters:
+          type: object
+          additionalProperties:
+            type: object
+        status:
+          $ref: '#/components/schemas/StatusType'
+        detail:
+          type: string
+        title:
+          type: string
+    StatusType:
+      type: object
+      properties:
+        reasonPhrase:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+  securitySchemes: {}

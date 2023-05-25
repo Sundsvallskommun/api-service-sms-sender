@@ -1,0 +1,102 @@
+openapi: 3.0.1
+info:
+  title: SmsSenderPremium
+  description: Service for sending sms through sms-c. Approval needed to be used.
+  contact:
+    name: C2B services
+    url: https://diva.teliacompany.net/confluence/display/APIMT/SmsSenderPremium
+    email: apimarket@teliacompany.com
+  version: v1.0.0
+paths:
+  /sendSms:
+    post:
+      tags:
+        - service-api
+      operationId: sendSmsMethod
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SmsServiceRequest'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceErrorResponse'
+      x-auth-type: Application & Application User
+      x-throttling-tier: Unlimited
+components:
+  schemas:
+    ServiceErrorResponse:
+      type: object
+      properties:
+        httpCode:
+          type: integer
+          format: int32
+        message:
+          type: string
+        technicalDetails:
+          $ref: '#/components/schemas/TechnicalDetails'
+    TechnicalDetails:
+      type: object
+      properties:
+        rootCode:
+          type: integer
+          format: int32
+        rootCause:
+          type: string
+        serviceId:
+          type: string
+        requestId:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
+    SmsServiceRequest:
+      required:
+        - destinationNumber
+        - message
+        - originator
+      type: object
+      properties:
+        originator:
+          type: string
+          maxLength: 11
+          minLength: 3
+          description: The originator who sent the sms
+          example: SvallKommun
+        destinationNumber:
+          type: string
+          pattern: ^\s*(\+?[4][6][7]|[0][7]\d(\s*)[\-]?)((\d|\s)+)$
+          description: The destinationNumber which receive the sms
+          example: 46701111111
+        message:
+          type: string
+          description: Message sent to customer
+        deliveryPriority:
+          type: string
+          description: The priority of the sms which indicates whether it may be sent between 20:00 and 08:00 or not
+          example: normal
+      description: Sms request model
+  securitySchemes:
+    default:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://apimarket.telia.se:8243/authorize
+          scopes: {}
+servers:
+  - url: https://apimarket.telia.se:8243/smssenderpremium/v1.0.0
+  - url: http://apimarket.telia.se:8243/smssenderpremium/v1.0.0

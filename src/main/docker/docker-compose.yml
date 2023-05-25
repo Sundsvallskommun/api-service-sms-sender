@@ -1,0 +1,36 @@
+version: "3"
+services:
+  sms-sender:
+    container_name: ms-sms-sender
+    image: 'evil.sundsvall.se/ms-sms-sender:latest'
+    network_mode: bridge
+    restart: always
+    ports:
+      - "9030:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=test
+
+      # Spring Cloud config
+      - SPRING_CLOUD_CONFIG_URI=<changeme>
+      - SPRING_CLOUD_CONFIG_USERNAME=<changeme>
+      - SPRING_CLOUD_CONFIG_PASSWORD=<changeme>
+
+      # Telia SMS integration
+      - PROVIDER_TELIA_BASE_URL=<changeme>
+      - PROVIDER_TELIA_PRIORITY=1
+      - PROVIDER_TELIA_ENABLED=true
+      - PROVIDER_TELIA_FLASH_CAPABLE=false
+      - PROVIDER_TELIA_OAUTH2_TOKEN_URL=<changeme>
+      - PROVIDER_TELIA_OAUTH2_CLIENT_ID=<changeme>
+      - PROVIDER_TELIA_OAUTH2_CLIENT_SECRET=<changeme>
+
+      # LinkMobility SMS integration
+      - PROVIDER_LINKMOBILITY_BASE_URL=<changeme>
+      - PROVIDER_LINKMOBILITY_PRIORITY=2
+      - PROVIDER_LINKMOBILITY_ENABLED=true
+      - PROVIDER_LINKMOBILITY_FLASH_CAPABLE=true
+      - PROVIDER_LINKMOBILITY_BASICAUTH_USERNAME=<changeme>
+      - PROVIDER_LINKMOBILITY_BASICAUTH_PASSWORD=<changeme>
+      - PROVIDER_LINKMOBILITY_PLATFORM_ID=<changeme>
+      - PROVIDER_LINKMOBILITY_PLATFORM_PARTNER_ID=<changeme>
+
