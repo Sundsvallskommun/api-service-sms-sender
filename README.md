@@ -63,5 +63,13 @@ Starta en Docker-container:
 docker run -i --rm -p 8080:8080 evil.sundsvall.se/ms-sms-sender:latest
 ```
 
+## Status
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-sms-sender&metric=alert_status)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-sms-sender)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-sms-sender&metric=reliability_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-sms-sender)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-sms-sender&metric=security_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-sms-sender)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-sms-sender&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-sms-sender)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-sms-sender&metric=vulnerabilities)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-sms-sender)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-sms-sender&metric=bugs)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-sms-sender)
 
-Copyright &copy; 2022 Sundsvalls Kommun
+## 
+Copyright (c) 2021 Sundsvalls kommun
