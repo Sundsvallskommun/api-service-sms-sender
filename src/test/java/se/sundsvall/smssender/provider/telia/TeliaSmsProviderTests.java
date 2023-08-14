@@ -34,7 +34,7 @@ class TeliaSmsProviderTests {
         when(mockClient.send(any(SmsServiceRequest.class)))
             .thenReturn(ResponseEntity.noContent().build());
 
-        var isSent = provider.sendSms(createValidSendSmsRequest(), false);
+        final var isSent = provider.sendSms(createValidSendSmsRequest(), false);
         assertThat(isSent).isTrue();
 
         verify(mockClient, times(1)).send(any(SmsServiceRequest.class));

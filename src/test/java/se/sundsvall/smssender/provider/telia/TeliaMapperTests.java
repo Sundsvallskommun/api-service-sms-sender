@@ -2,10 +2,9 @@ package se.sundsvall.smssender.provider.telia;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
+import static se.sundsvall.smssender.model.Priority.HIGH;
 
 import org.junit.jupiter.api.Test;
-
-import se.sundsvall.smssender.model.Priority;
 
 class TeliaMapperTests {
 
@@ -13,9 +12,9 @@ class TeliaMapperTests {
 
     @Test
     void testMapFromSendSmsRequest() {
-        var request = createValidSendSmsRequest();
+        final var request = createValidSendSmsRequest();
 
-        var mappedRequest = mapper.mapFromSendSmsRequest(request);
+        final var mappedRequest = mapper.mapFromSendSmsRequest(request);
 
         assertThat(mappedRequest.getOriginator()).isEqualTo(request.getSender().getName());
         assertThat(mappedRequest.getDestinationNumber()).isEqualTo(request.getMobileNumber());
@@ -25,10 +24,10 @@ class TeliaMapperTests {
 
     @Test
     void testMapFromSendSmsRequestWithPriority() {
-        var request = createValidSendSmsRequest();
-        request.setPriority(Priority.HIGH);
+        final var request = createValidSendSmsRequest();
+        request.setPriority(HIGH);
 
-        var mappedRequest = mapper.mapFromSendSmsRequest(request);
+        final var mappedRequest = mapper.mapFromSendSmsRequest(request);
 
         assertThat(mappedRequest.getDeliveryPriority()).isEqualTo("high");
     }

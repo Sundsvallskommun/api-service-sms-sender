@@ -10,7 +10,7 @@ class LinkMobilitySmsRequestTests {
 
     @Test
     void testBuilderAndGetters() {
-        var request = LinkMobilitySmsRequest.builder()
+        final var request = LinkMobilitySmsRequest.builder()
             .withPlatformId("platform id")
             .withPlatformPartnerId("platform partner")
             .withUseDeliveryReport(true)

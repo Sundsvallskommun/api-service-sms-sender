@@ -1,6 +1,6 @@
 package se.sundsvall.smssender.provider.telia;
 
-import java.util.Optional;
+import static java.util.Optional.ofNullable;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
@@ -28,9 +28,9 @@ public class TeliaSmsProvider implements SmsProvider {
     public boolean sendSms(final SendSmsRequest sms, final boolean flash) {
         verifyFlashCapability(flash);
 
-        var request = mapper.mapFromSendSmsRequest(sms);
+        final var request = mapper.mapFromSendSmsRequest(sms);
 
-        return Optional.ofNullable(client.send(request))
+        return ofNullable(client.send(request))
             .map(responseEntity -> responseEntity.getStatusCode().is2xxSuccessful())
             .orElse(false);
     }

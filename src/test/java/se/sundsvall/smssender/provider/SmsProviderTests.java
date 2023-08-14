@@ -31,7 +31,7 @@ class SmsProviderTests {
         }
 
         @Override
-        public boolean sendSms(SendSmsRequest request, boolean flash) {
+        public boolean sendSms(final SendSmsRequest request, final boolean flash) {
             // Do nothing
             return false;
         }

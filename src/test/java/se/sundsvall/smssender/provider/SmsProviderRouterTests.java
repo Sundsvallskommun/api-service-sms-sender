@@ -9,6 +9,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.retry.support.RetryTemplate;
@@ -45,7 +47,7 @@ class SmsProviderRouterTests {
         when(mockSmsProvider1.getName()).thenReturn("P1");
         when(mockSmsProvider2.getName()).thenReturn("P2");
 
-        var smsProviderQueue = router.initializeProviderQueue(
+        final var smsProviderQueue = router.initializeProviderQueue(
             List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
 
         assertThat(smsProviderQueue).hasSize(2);
@@ -63,7 +65,7 @@ class SmsProviderRouterTests {
     void testInitializeProviderQueueWithOneDisabledProvider() {
         when(mockSmsProvider1.isEnabled()).thenReturn(false);
 
-        var smsProviderQueue = router.initializeProviderQueue(
+        final var smsProviderQueue = router.initializeProviderQueue(
             List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
 
         assertThat(smsProviderQueue).hasSize(1);
@@ -78,9 +80,19 @@ class SmsProviderRouterTests {
         when(mockSmsProvider1.isEnabled()).thenReturn(false);
         when(mockSmsProvider2.isEnabled()).thenReturn(false);
 
-        var smsProviderQueue = router.initializeProviderQueue(
+        final var smsProviderQueue = router.initializeProviderQueue(
             List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
 
         assertThat(smsProviderQueue).isEmpty();
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void testGetSmsType(final boolean flash) {
+        if (flash) {
+            assertThat(router.getSmsType(flash)).isEqualTo("FLASH SMS");
+        } else {
+            assertThat(router.getSmsType(flash)).isEqualTo("SMS");
+        }
     }
 }

@@ -1,7 +1,8 @@
 package se.sundsvall.smssender.provider.linkmobility;
 
+import static java.util.Optional.ofNullable;
+
 import java.util.Map;
-import java.util.Optional;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.model.Priority;
@@ -16,13 +17,13 @@ class LinkMobilityMapper {
     }
 
     LinkMobilitySmsRequest mapFromSendSmsRequest(final SendSmsRequest smsRequest, final boolean flash) {
-        var request =  LinkMobilitySmsRequest.builder()
+        final var request =  LinkMobilitySmsRequest.builder()
             .withPlatformId(properties.getPlatformId())
             .withPlatformPartnerId(properties.getPlatformPartnerId())
             .withSource(smsRequest.getSender().getName())
             .withDestinationTON("MSISDN")
             .withDestination(smsRequest.getMobileNumber())
-            .withPriority(Optional.ofNullable(smsRequest.getPriority())
+            .withPriority(ofNullable(smsRequest.getPriority())
                 .map(Priority::toString)
                 .orElse(null))
             .withUserData(smsRequest.getMessage())

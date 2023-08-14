@@ -1,5 +1,7 @@
 package se.sundsvall.smssender.api;
 
+import static org.springframework.http.ResponseEntity.ok;
+
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -50,9 +52,9 @@ class SmsResource {
     })
     @PostMapping("/send/sms")
     ResponseEntity<SendSmsResponse> sendSms(@Valid @RequestBody final SendSmsRequest request) {
-        var sent = smsProviderRouter.sendSms(request);
+        final var sent = smsProviderRouter.sendSms(request);
 
-        return ResponseEntity.ok(SendSmsResponse.builder()
+        return ok(SendSmsResponse.builder()
             .withSent(sent)
             .build());
     }
@@ -71,15 +73,15 @@ class SmsResource {
         mobileNumber = mobileNumber.replaceAll("^\\+460", "+46");
 
         // Remap the flash SMS request to a regular SMS request
-        var mappedRequest = SendSmsRequest.builder()
+        final var mappedRequest = SendSmsRequest.builder()
             .withSender(request.getSender())
             .withMobileNumber(mobileNumber)
             .withMessage(request.getMessage())
             .build();
 
-        var sent = smsProviderRouter.sendFlashSms(mappedRequest);
+        final var sent = smsProviderRouter.sendFlashSms(mappedRequest);
 
-        return ResponseEntity.ok(SendSmsResponse.builder()
+        return ok(SendSmsResponse.builder()
             .withSent(sent)
             .build());
     }

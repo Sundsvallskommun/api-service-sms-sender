@@ -2,6 +2,7 @@ package se.sundsvall.smssender.provider.linkmobility;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
+import static se.sundsvall.smssender.model.Priority.NORMAL;
 
 import java.util.Map;
 
@@ -10,8 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import se.sundsvall.smssender.model.Priority;
 
 @ExtendWith(MockitoExtension.class)
 class LinkMobilityMapperTests {
@@ -23,9 +22,9 @@ class LinkMobilityMapperTests {
 
     @Test
     void testMapFromSendSmsRequest() {
-        var request = createValidSendSmsRequest();
+        final var request = createValidSendSmsRequest();
 
-        var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
+        final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
 
         assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
         assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
@@ -38,19 +37,19 @@ class LinkMobilityMapperTests {
 
     @Test
     void testMapFromSendSmsRequestWithPriority() {
-        var request = createValidSendSmsRequest();
-        request.setPriority(Priority.NORMAL);
+        final var request = createValidSendSmsRequest();
+        request.setPriority(NORMAL);
 
-        var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
+        final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
 
         assertThat(mappedRequest.getPriority()).isEqualTo("NORMAL");
     }
 
     @Test
     void testMapFromSendSmsRequestAsFlashSms() {
-        var request = createValidSendSmsRequest();
+        final var request = createValidSendSmsRequest();
 
-        var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
+        final var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
 
         assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
         assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());

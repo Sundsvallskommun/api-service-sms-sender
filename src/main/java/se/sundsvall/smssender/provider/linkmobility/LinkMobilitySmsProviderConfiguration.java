@@ -1,7 +1,7 @@
 package se.sundsvall.smssender.provider.linkmobility;
 
 
-import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import org.springframework.cloud.openfeign.FeignBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +29,8 @@ class LinkMobilitySmsProviderConfiguration {
                 properties.getBasicauth().getUsername(),
                 properties.getBasicauth().getPassword()))
             .withRequestOptions(new Request.Options(
-                properties.getConnectTimeout().toMillis(), TimeUnit.MILLISECONDS,
-                properties.getReadTimeout().toMillis(), TimeUnit.MILLISECONDS,
+                properties.getConnectTimeout().toMillis(), MILLISECONDS,
+                properties.getReadTimeout().toMillis(), MILLISECONDS,
                 true))
             .composeCustomizersToOne();
     }
