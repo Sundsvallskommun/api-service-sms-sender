@@ -1,8 +1,9 @@
 package se.sundsvall.smssender.provider.linkmobility.domain;
 
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static org.assertj.core.api.Assertions.assertThat;
+import static se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus.SENT;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
@@ -14,24 +15,24 @@ class LinkMobilitySmsResponseTests {
 
     @Test
     void testGetters() {
-        var response = new LinkMobilitySmsResponse(ResponseStatus.SENT);
+        final var response = new LinkMobilitySmsResponse(SENT);
 
-        assertThat(response.getStatus()).isEqualTo(ResponseStatus.SENT);
+        assertThat(response.getStatus()).isEqualTo(SENT);
     }
 
     @Test
     void testSetters() {
-        var response = new LinkMobilitySmsResponse();
-        response.setStatus(ResponseStatus.SENT);
+        final var response = new LinkMobilitySmsResponse();
+        response.setStatus(SENT);
 
-        assertThat(response.getStatus()).isEqualTo(ResponseStatus.SENT);
+        assertThat(response.getStatus()).isEqualTo(SENT);
     }
 
     @Test
     void testResponseStatus_forValue_OK() {
-        var statusSentValue = ResponseStatus.SENT.getValue();
+        final var statusSentValue = SENT.getValue();
 
-        assertThat(ResponseStatus.forValue(statusSentValue)).isEqualTo(ResponseStatus.SENT);
+        assertThat(ResponseStatus.forValue(statusSentValue)).isEqualTo(SENT);
     }
 
     @Test
@@ -45,11 +46,11 @@ class LinkMobilitySmsResponseTests {
      */
     @Test
     void testDeserializationWorksAsExpected() throws Exception {
-        var json = "{\"messageId\":\"Tw7CnpuE6jHAZQQ7ghCYa9\",\"resultCode\":1005,\"description\":\"Queued\"}";
+        final var json = "{\"messageId\":\"Tw7CnpuE6jHAZQQ7ghCYa9\",\"resultCode\":1005,\"description\":\"Queued\"}";
 
-        var objectMapper = new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        var response = objectMapper.readValue(json, LinkMobilitySmsResponse.class);
+        final var objectMapper = new ObjectMapper()
+            .configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+        final var response = objectMapper.readValue(json, LinkMobilitySmsResponse.class);
 
         assertThat(response).isNotNull();
         assertThat(response.getStatus()).isEqualTo(ResponseStatus.QUEUED);

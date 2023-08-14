@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
+import static se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus.SENT;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRequest;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse;
-import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus;
 
 @ActiveProfiles("junit")
 @ExtendWith(MockitoExtension.class)
@@ -39,8 +39,8 @@ class LinkMobilitySmsProviderTests {
 
     @Test
     void testSendSms_noFlash_OK() {
-        var response = new LinkMobilitySmsResponse();
-        response.setStatus(ResponseStatus.SENT);
+        final var response = new LinkMobilitySmsResponse();
+        response.setStatus(SENT);
 
         when(mockClient.send(any(LinkMobilitySmsRequest.class))).thenReturn(response);
 

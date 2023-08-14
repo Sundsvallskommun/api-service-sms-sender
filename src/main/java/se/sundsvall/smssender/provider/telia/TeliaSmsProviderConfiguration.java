@@ -1,6 +1,6 @@
 package se.sundsvall.smssender.provider.telia;
 
-import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import org.springframework.cloud.openfeign.FeignBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -33,8 +33,8 @@ class TeliaSmsProviderConfiguration {
                 .authorizationGrantType(new AuthorizationGrantType(properties.getOauth2().getGrantType()))
                 .build())
             .withRequestOptions(new Request.Options(
-                properties.getConnectTimeout().toMillis(), TimeUnit.MILLISECONDS,
-                properties.getReadTimeout().toMillis(), TimeUnit.MILLISECONDS,
+                properties.getConnectTimeout().toMillis(), MILLISECONDS,
+                properties.getReadTimeout().toMillis(), MILLISECONDS,
                 true))
             .composeCustomizersToOne();
     }

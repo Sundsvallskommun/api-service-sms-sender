@@ -1,5 +1,8 @@
 package se.sundsvall.smssender.provider;
 
+import static java.lang.String.format;
+import static org.zalando.problem.Status.BAD_GATEWAY;
+
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -10,9 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 import org.zalando.problem.Problem;
-import org.zalando.problem.Status;
 
 import se.sundsvall.smssender.api.model.SendSmsRequest;
+import se.sundsvall.smssender.exception.SmsException;
 
 import lombok.Generated;
 
@@ -51,12 +54,12 @@ public class SmsProviderRouter {
 
     PriorityQueue<SmsProvider> initializeProviderQueue(final List<SmsProvider> smsProviders,
             final Predicate<SmsProvider> filter) {
-        var smsProviderQueue = new PriorityQueue<SmsProvider>();
-        smsProviderQueue.addAll(smsProviders.stream()
+        final var filteredSmsProviderQueue = new PriorityQueue<SmsProvider>();
+        filteredSmsProviderQueue.addAll(smsProviders.stream()
             .filter(filter)
             .toList());
 
-        return smsProviderQueue;
+        return filteredSmsProviderQueue;
     }
 
     public boolean sendSms(final SendSmsRequest request) {
@@ -69,40 +72,45 @@ public class SmsProviderRouter {
 
     boolean sendSmsUsingProviderQueue(final Queue<SmsProvider> providerQueue,
             final SendSmsRequest request, final boolean flash) {
-        var currentProvider = providerQueue.poll();
-        var nextProvider = providerQueue.peek();
+        final var currentProvider = providerQueue.poll();
+        final var nextProvider = providerQueue.peek();
+        final var smsType = getSmsType(flash);
 
         // This should never happen - only to avoid IDE possible-null-warnings...
         if (currentProvider == null) {
-            throw Problem.valueOf(Status.BAD_GATEWAY, String.format("No remaining %sSMS providers available", (flash ? "FLASH " : "")));
+            throw Problem.valueOf(BAD_GATEWAY, format("No remaining %s providers available", smsType));
         }
 
         // Try the current provider
         return retryTemplate.execute(context -> {
-            LOG.info("Attempting to send {}SMS using {}", (flash ? "FLASH " : ""), currentProvider.getName());
+            LOG.info("Attempting to send {} using {}", smsType, currentProvider.getName());
 
             // Wrap the send-call in a try-catch and rethrow any exception, since the response and
             // exception is otherwise suppressed by the retry mechanism
             try {
                 return currentProvider.sendSms(request, flash);
-            } catch (Exception e) {
-                LOG.warn(String.format("Unable to send %sSMS using %s", (flash ? "FLASH " : ""), currentProvider.getName()), e);
+            } catch (final Exception e) {
+                final var message = format("Unable to send %s using %s", smsType, currentProvider.getName());
 
-                throw e;
+                throw new SmsException(message, e);
             }
         }, recoveryContext -> {
-            LOG.info("Unable to send SMS using {}", currentProvider.getName());
+            LOG.info("Unable to send {} using {}", smsType, currentProvider.getName());
 
             // We don't have a "next" provider - we're out of sending options
             if (nextProvider == null) {
-                var message = String.format("Unable to send %sSMS using any provider", (flash ? "FLASH " : ""));
+                final var message = format("Unable to send %s using any provider", smsType);
                 LOG.warn(message);
 
-                throw Problem.valueOf(Status.BAD_GATEWAY, message);
+                throw Problem.valueOf(BAD_GATEWAY, message);
             }
 
             // Try the next provider
             return sendSmsUsingProviderQueue(providerQueue, request, flash);
         });
+    }
+
+    String getSmsType(final boolean flash) {
+        return flash ? "FLASH SMS" : "SMS";
     }
 }

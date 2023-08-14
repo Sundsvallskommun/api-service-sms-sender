@@ -5,7 +5,7 @@ info:
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  version: "1.1"
+  version: '1.1'
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -23,6 +23,12 @@ paths:
               $ref: '#/components/schemas/SendSmsRequest'
         required: true
       responses:
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Problem'
         "200":
           description: Successful Operation
           content:
@@ -31,12 +37,6 @@ paths:
                 $ref: '#/components/schemas/SendSmsResponse'
         "400":
           description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Problem'
-        "500":
-          description: Internal Server Error
           content:
             '*/*':
               schema:
@@ -72,12 +72,6 @@ components:
           type: string
           description: Mobile number
           example: "0701234567"
-        priority:
-          type: string
-          description: Priority
-          enum:
-          - HIGH
-          - NORMAL
         message:
           type: string
     Sender:
@@ -91,11 +85,6 @@ components:
           type: string
           description: The sender of the SMS
           example: sender
-    SendSmsResponse:
-      type: object
-      properties:
-        sent:
-          type: boolean
     Problem:
       type: object
       properties:
@@ -111,16 +100,21 @@ components:
             type: object
         status:
           $ref: '#/components/schemas/StatusType'
-        detail:
-          type: string
         title:
+          type: string
+        detail:
           type: string
     StatusType:
       type: object
       properties:
-        reasonPhrase:
-          type: string
         statusCode:
           type: integer
           format: int32
+        reasonPhrase:
+          type: string
+    SendSmsResponse:
+      type: object
+      properties:
+        sent:
+          type: boolean
   securitySchemes: {}

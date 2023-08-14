@@ -1,6 +1,6 @@
 package se.sundsvall.smssender.provider.linkmobility;
 
-import java.util.Optional;
+import static java.util.Optional.ofNullable;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
@@ -32,9 +32,9 @@ public class LinkMobilitySmsProvider implements SmsProvider {
     public boolean sendSms(final SendSmsRequest smsRequest, final boolean flash) {
         verifyFlashCapability(flash);
 
-        var request = mapper.mapFromSendSmsRequest(smsRequest, flash);
+        final var request = mapper.mapFromSendSmsRequest(smsRequest, flash);
 
-        return Optional.ofNullable(client.send(request))
+        return ofNullable(client.send(request))
             .map(LinkMobilitySmsResponse::getStatus)
             .map(ResponseStatus::isSent)
             .orElse(false);
