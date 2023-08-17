@@ -89,14 +89,10 @@ components:
           type: string
           description: The priority of the sms which indicates whether it may be sent between 20:00 and 08:00 or not
           example: normal
+        flashSms:
+          type: boolean
+          default: 'false'
+          description: Send the message as flash sms
+          example: false
       description: Sms request model
-  securitySchemes:
-    default:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://apimarket.telia.se:8243/authorize
-          scopes: {}
-servers:
-  - url: https://apimarket.telia.se:8243/smssenderpremium/v1.0.0
-  - url: http://apimarket.telia.se:8243/smssenderpremium/v1.0.0
+  securitySchemes: {}
