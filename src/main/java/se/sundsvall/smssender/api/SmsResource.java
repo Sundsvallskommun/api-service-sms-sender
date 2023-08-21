@@ -1,6 +1,7 @@
 package se.sundsvall.smssender.api;
 
 import static org.springframework.http.ResponseEntity.ok;
+import static se.sundsvall.smssender.model.Priority.HIGH;
 
 import jakarta.validation.Valid;
 
@@ -19,7 +20,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -33,23 +33,21 @@ class SmsResource {
     }
 
     @Operation(summary = "Send an SMS")
-    @ApiResponses({
-        @ApiResponse(
-            responseCode = "200",
-            description = "Successful Operation",
-            content = @Content(schema = @Schema(implementation = SendSmsResponse.class))
-        ),
-        @ApiResponse(
-            responseCode = "400",
-            description = "Bad Request",
-            content = @Content(schema = @Schema(implementation = Problem.class))
-        ),
-        @ApiResponse(
-            responseCode = "500",
-            description = "Internal Server Error",
-            content = @Content(schema = @Schema(implementation = Problem.class))
-        )
-    })
+    @ApiResponse(
+        responseCode = "200",
+        description = "Successful Operation",
+        content = @Content(schema = @Schema(implementation = SendSmsResponse.class))
+    )
+    @ApiResponse(
+        responseCode = "400",
+        description = "Bad Request",
+        content = @Content(schema = @Schema(implementation = Problem.class))
+    )
+    @ApiResponse(
+        responseCode = "500",
+        description = "Internal Server Error",
+        content = @Content(schema = @Schema(implementation = Problem.class))
+    )
     @PostMapping("/send/sms")
     ResponseEntity<SendSmsResponse> sendSms(@Valid @RequestBody final SendSmsRequest request) {
         final var sent = smsProviderRouter.sendSms(request);
@@ -72,8 +70,10 @@ class SmsResource {
         }
         mobileNumber = mobileNumber.replaceAll("^\\+460", "+46");
 
-        // Remap the flash SMS request to a regular SMS request
+        // Remap the flash SMS request to a regular SMS request and always use HIGH priority for
+        // flash SMS:es
         final var mappedRequest = SendSmsRequest.builder()
+            .withPriority(HIGH)
             .withSender(request.getSender())
             .withMobileNumber(mobileNumber)
             .withMessage(request.getMessage())
