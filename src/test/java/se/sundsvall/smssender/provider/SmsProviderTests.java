@@ -32,8 +32,8 @@ class SmsProviderTests {
         final var provider3 = new DummySmsProvider(75);
         final var provider4 = new DummySmsProvider(75);
 
-        assertThat(provider1.compareTo(provider2)).isGreaterThan(0);
-        assertThat(provider2.compareTo(provider3)).isLessThan(0);
+        assertThat(provider1.compareTo(provider2)).isPositive();
+        assertThat(provider2.compareTo(provider3)).isNegative();
         assertThat(provider3.compareTo(provider4)).isEqualByComparingTo(0);
     }
 
