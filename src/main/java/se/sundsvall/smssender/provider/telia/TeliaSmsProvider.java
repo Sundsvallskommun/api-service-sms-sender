@@ -28,7 +28,7 @@ public class TeliaSmsProvider implements SmsProvider {
     public boolean sendSms(final SendSmsRequest sms, final boolean flash) {
         verifyFlashCapability(flash);
 
-        final var request = mapper.mapFromSendSmsRequest(sms);
+        final var request = mapper.mapFromSendSmsRequest(sms, flash);
 
         return ofNullable(client.send(request))
             .map(responseEntity -> responseEntity.getStatusCode().is2xxSuccessful())

@@ -24,7 +24,7 @@ class LinkMobilityMapper {
             .withDestinationTON("MSISDN")
             .withDestination(smsRequest.getMobileNumber())
             .withPriority(ofNullable(smsRequest.getPriority())
-                .map(Priority::toString)
+                .map(Priority::name)
                 .orElse(null))
             .withUserData(smsRequest.getMessage())
             .build();
