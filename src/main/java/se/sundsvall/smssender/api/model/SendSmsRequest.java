@@ -28,7 +28,6 @@ public class SendSmsRequest {
     @NotNull
     private Sender sender;
 
-	@NotBlank
     @Schema(description = "Mobile number incl. country code", requiredMode = REQUIRED, example = "+46701234567")
     @ValidMSISDN
     private String mobileNumber;

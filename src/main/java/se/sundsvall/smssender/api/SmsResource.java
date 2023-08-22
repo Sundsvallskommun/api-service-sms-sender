@@ -36,7 +36,7 @@ class SmsResource {
     @ApiResponse(
         responseCode = "200",
         description = "Successful Operation",
-        content = @Content(schema = @Schema(implementation = SendSmsResponse.class))
+        useReturnTypeSchema = true
     )
     @ApiResponse(
         responseCode = "400",
