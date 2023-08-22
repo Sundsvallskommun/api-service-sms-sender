@@ -1,0 +1,10 @@
+# General
+spring:
+  application:
+    name: api-sms-sender
+
+# OpenAPI 
+openapi:
+  name: api-service-sms-sender
+  title: SmsSender
+  version: '@project.version@'

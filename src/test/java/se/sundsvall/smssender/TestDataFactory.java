@@ -14,12 +14,12 @@ public final class TestDataFactory {
     }
 
     public static SendSmsRequest createValidSendSmsRequest(final Consumer<SendSmsRequest> modifier) {
-        var request = SendSmsRequest.builder()
+        final var request = SendSmsRequest.builder()
             .withSender(Sender.builder()
                 .withName("sender")
                 .build())
             .withMessage("message")
-            .withMobileNumber("0701234567")
+            .withMobileNumber("+46701234567")
             .build();
 
         if (modifier != null) {

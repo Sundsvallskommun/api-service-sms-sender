@@ -10,7 +10,7 @@
     </parent>
     <groupId>se.sundsvall</groupId>
     <artifactId>api-service-sms-sender</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>api-service-sms-sender</name>
 
     <properties>

@@ -1,0 +1,26 @@
+# No banner for unit tests
+spring:
+  main:
+    banner-mode: off
+
+provider:
+  # Telia SMS integration
+  telia:
+    base-url: http://somehost.com/api
+    priority: 1
+    flash-capable: true
+    oauth2:
+      token-url: http://somehost.com/token
+      client-id: someClientId
+      client-secret: someClientSecret
+
+  # LinkMobility SMS integration
+  linkmobility:
+    base-url: http://someotherhost.com/api
+    priority: 2
+    flash-capable: true
+    platformId: somePlatformId
+    platform-partner-id: somePlatformPartnerId
+    basicauth:
+      username: someUsername
+      password: somePassword
