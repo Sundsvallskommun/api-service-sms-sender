@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import se.sundsvall.dept44.common.validators.annotation.ValidMobileNumber;
+import se.sundsvall.dept44.common.validators.annotation.ValidMSISDN;
 import se.sundsvall.smssender.model.Priority;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,12 +28,14 @@ public class SendSmsRequest {
     @NotNull
     private Sender sender;
 
-	@NotBlank
-    @Schema(description = "Mobile number", requiredMode = REQUIRED, example = "0701234567")
-    @ValidMobileNumber
+    @Schema(description = "Mobile number incl. country code", requiredMode = REQUIRED, example = "+46701234567")
+    @ValidMSISDN
     private String mobileNumber;
 
-    @Schema(description = "Priority", hidden = true)
+    @Schema(
+        description = "Priority - indicates whether the SMS may be sent between 20:00 and 08:00 or not",
+        defaultValue = "NORMAL"
+    )
     private Priority priority;
     
 	@NotBlank

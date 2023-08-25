@@ -13,10 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-/**
- * Custom send-SMS-request that doesn't validate that the mobile number is on the regular Swedish
- * format ^07[02369]\d{7}$ .
- */
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,7 +27,7 @@ public class SendFlashSmsRequest {
     private Sender sender;
 
 	@NotBlank
-    @Schema(description = "Mobile number", requiredMode = REQUIRED, example = "0701234567")
+    @Schema(description = "Mobile number", requiredMode = REQUIRED, example = "+46701234567")
     private String mobileNumber;
     
 	@NotBlank

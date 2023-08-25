@@ -1,0 +1,28 @@
+# No banner
+spring:
+  main:
+    banner-mode: off
+
+# SMS providers
+provider:
+  # Telia
+  telia:
+    base-url: http://localhost:${wiremock.server.port}/telia
+    enabled: true
+    priority: 1
+    flash-capable: true
+    oauth2:
+      token-url: http://localhost:${wiremock.server.port}/telia/token
+      client-id: someClientId
+      client-secret: someClientSecret
+  # LinkMobility
+  linkmobility:
+    base-url: http://localhost:${wiremock.server.port}/linkmobility
+    enabled: true
+    priority: 2
+    flash-capable: true
+    platform-id: somePlatformId
+    platform-partner-id: 1234
+    basicauth:
+      username: someUser
+      password: somePassword
