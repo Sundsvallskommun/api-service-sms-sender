@@ -16,7 +16,6 @@
     <properties>
         <docker.image.name>ms-sms-sender</docker.image.name>
 
-        <published.container.port.sandbox>9031</published.container.port.sandbox>
         <published.container.port.test>9030</published.container.port.test>
         <published.container.port.production>9030</published.container.port.production>
 
