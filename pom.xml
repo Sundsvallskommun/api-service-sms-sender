@@ -5,14 +5,13 @@
     <parent>
         <groupId>se.sundsvall.dept44</groupId>
         <artifactId>dept44-service-parent</artifactId>
-        <version>3.4</version>
+        <version>4.0</version>
         <relativePath />
     </parent>
     <groupId>se.sundsvall</groupId>
     <artifactId>api-service-sms-sender</artifactId>
     <version>1.2</version>
     <name>api-service-sms-sender</name>
-
     <properties>
         <docker.image.name>ms-sms-sender</docker.image.name>
 
@@ -21,9 +20,7 @@
 
         <openapi-generator-maven-plugin>7.1.0</openapi-generator-maven-plugin>
         <generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
-        <generated-sources-java-path>src/main/java</generated-sources-java-path>
     </properties>
-
     <dependencies>
 		<!-- Test -->
         <dependency>
@@ -59,7 +56,6 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
     <build>
         <resources>
             <resource>
@@ -70,7 +66,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.openapitools</groupId>
@@ -87,10 +82,10 @@
                             <inputSpec>${project.basedir}/src/main/resources/integrations/telia-smssender-premium-1.0.0.yml</inputSpec>
                             <generatorName>spring</generatorName>
                             <generateApis>false</generateApis>
+                            <generateSupportingFiles>false</generateSupportingFiles>
                             <configOptions>
-                                <sourceFolder>${generated-sources-java-path}</sourceFolder>
+                                <sourceFolder>models</sourceFolder>
                                 <modelPackage>generated.com.teliacompany.c2b.smssender</modelPackage>
-                                <generateSupportingFiles>false</generateSupportingFiles>
                                 <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
                                 <generatePom>false</generatePom>
                                 <library>spring-boot</library>
@@ -102,14 +97,12 @@
                                 <useSwaggerAnnotations>true</useSwaggerAnnotations>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <interfaceOnly>true</interfaceOnly>
-                                <useJakartaEe>true</useJakartaEe>
                                 <useSpringBoot3>true</useSpringBoot3>
                             </configOptions>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -122,14 +115,12 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>${generated-sources-path}/${generated-sources-java-path}
-                                </source>
+                                <source>${generated-sources-path}/models</source>
                             </sources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -144,5 +135,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
