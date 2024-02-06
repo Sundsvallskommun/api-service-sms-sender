@@ -13,6 +13,9 @@
     <version>1.2</version>
     <name>api-service-sms-sender</name>
     <properties>
+        <!-- Skip truststore validity check for now, since there is no cert with a longer validity at the moment -->
+        <dept44.check.truststore.skip>true</dept44.check.truststore.skip>
+
         <docker.image.name>ms-sms-sender</docker.image.name>
         <published.container.port.test>9030</published.container.port.test>
         <published.container.port.production>9030</published.container.port.production>
