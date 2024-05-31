@@ -5,7 +5,7 @@
     <parent>
         <groupId>se.sundsvall.dept44</groupId>
         <artifactId>dept44-service-parent</artifactId>
-        <version>5.0.0</version>
+        <version>5.0.1</version>
         <relativePath />
     </parent>
     <groupId>se.sundsvall</groupId>
@@ -16,9 +16,6 @@
         <!-- Skip truststore validity check for now, since there is no cert with a longer validity at the moment -->
         <dept44.check.truststore.skip>true</dept44.check.truststore.skip>
 
-        <docker.image.name>ms-sms-sender</docker.image.name>
-        <published.container.port.test>9030</published.container.port.test>
-        <published.container.port.production>9030</published.container.port.production>
         <generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
     </properties>
     <dependencies>
