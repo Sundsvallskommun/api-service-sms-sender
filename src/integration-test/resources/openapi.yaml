@@ -5,9 +5,9 @@ info:
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
-  version: "1.3"
+  version: "2.0"
 servers:
-  - url: http://localhost:55697
+  - url: http://localhost:57446
     description: Generated server url
 paths:
   /send/sms:
@@ -23,14 +23,14 @@ paths:
               $ref: "#/components/schemas/SendSmsRequest"
         required: true
       responses:
-        "500":
-          description: Internal Server Error
+        "400":
+          description: Bad Request
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad Request
+        "500":
+          description: Internal Server Error
           content:
             '*/*':
               schema:
