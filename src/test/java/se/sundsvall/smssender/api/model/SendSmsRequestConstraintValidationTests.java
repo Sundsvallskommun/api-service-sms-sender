@@ -1,0 +1,74 @@
+package se.sundsvall.smssender.api.model;
+
+import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
+import static se.sundsvall.smssender.api.model.RequestValidationAssertions.SendSmsRequestAssertions.assertThat;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
+class SendSmsRequestConstraintValidationTests {
+
+	private final SendSmsRequest validRequest = createValidSendSmsRequest();
+
+	@Test
+	void shouldPassForValidRequest() {
+		assertThat(validRequest).hasNoConstraintViolations();
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"070-123 45 67", "0701234567", "46701234567", "123", "+46"})
+	void shouldFailForInvalidMobileNumber(String mobileNumber) {
+		validRequest.setMobileNumber(mobileNumber);
+		assertThat(validRequest)
+			.hasSingleConstraintViolation("mobileNumber", "must be a valid MSISDN (example: +46701234567). Regular expression: ^\\+[1-9][\\d]{3,14}$");
+	}
+
+	@Test
+	void shouldFailForBlankMessage() {
+		validRequest.setMessage("");
+		assertThat(validRequest)
+			.hasSingleConstraintViolation("message", "must not be blank");
+	}
+
+	@Test
+	void shouldFailForNullMessage() {
+		validRequest.setMessage(null);
+		assertThat(validRequest)
+			.hasSingleConstraintViolation("message", "must not be blank");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"ab", "1abc", "A_123456", "Abcdefghijkl", "   abc"})
+	void shouldFailForInvalidSender(final String name) {
+		var sender = new Sender(name);
+		validRequest.setSender(sender);
+		assertThat(validRequest)
+			.hasSingleConstraintViolation("sender.name", "sender must be between 3-11 characters (allowed characters: a-z, A-Z, 0-9, whitespace) and start with a non-numeric character");
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = {"abc", "abc12", "Min Bankman"})
+	void shouldPassWithValidSender(final String name) {
+		var sender = new Sender(name);
+		validRequest.setSender(sender);
+		assertThat(validRequest).hasNoConstraintViolations();
+	}
+
+	@Test
+	void shouldFailWithNullSender() {
+		validRequest.setSender(null);
+		assertThat(validRequest)
+			.hasSingleConstraintViolation("sender", "must not be null");
+	}
+
+	@Test
+	void shouldFailWithBlankSender() {
+		var sender = new Sender("");
+		validRequest.setSender(sender);
+		assertThat(validRequest)
+			.hasConstraintViolation("sender.name", "must not be blank")
+			.hasConstraintViolation("sender.name", "sender must be between 3-11 characters (allowed characters: a-z, A-Z, 0-9, whitespace) and start with a non-numeric character");
+	}
+
+}

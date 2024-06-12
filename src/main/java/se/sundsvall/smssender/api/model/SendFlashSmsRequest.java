@@ -22,14 +22,14 @@ import lombok.Setter;
 @Schema(hidden = true)
 public class SendFlashSmsRequest {
 
-    @Valid
-    @NotNull
-    private Sender sender;
+	@Valid
+	@NotNull
+	private Sender sender;
 
 	@NotBlank
-    @Schema(description = "Mobile number", requiredMode = REQUIRED, example = "+46701234567")
-    private String mobileNumber;
-    
+	@Schema(description = "Mobile number", requiredMode = REQUIRED, example = "+46701234567")
+	private String mobileNumber;
+
 	@NotBlank
-    private String message;
+	private String message;
 }
