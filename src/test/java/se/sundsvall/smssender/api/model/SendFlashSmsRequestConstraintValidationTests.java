@@ -45,12 +45,12 @@ class SendFlashSmsRequestConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"ab", "1abc", "A_123456", "Abcdefghijkl", "   abc"})
+	@ValueSource(strings = {"a", "ab", "abcdefghijkl"})
 	void shouldFailForInvalidSender(final String name) {
 		var sender = new Sender(name);
 		validRequest.setSender(sender);
 		assertThat(validRequest)
-			.hasSingleConstraintViolation("sender.name", "sender must be between 3-11 characters (allowed characters: a-z, A-Z, 0-9, whitespace) and start with a non-numeric character");
+			.hasSingleConstraintViolation("sender.name", "size must be between 3 and 11");
 	}
 
 	@ParameterizedTest
@@ -73,8 +73,7 @@ class SendFlashSmsRequestConstraintValidationTests {
 		var sender = new Sender("");
 		validRequest.setSender(sender);
 		assertThat(validRequest)
-			.hasConstraintViolation("sender.name", "must not be blank")
-			.hasConstraintViolation("sender.name", "sender must be between 3-11 characters (allowed characters: a-z, A-Z, 0-9, whitespace) and start with a non-numeric character");
+			.hasConstraintViolation("sender.name", "must not be blank");
 	}
 
 

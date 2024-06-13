@@ -20,8 +20,7 @@ class SenderConstraintValidationTests {
 	void shouldFailForBlankName() {
 		validSender.setName("");
 		assertThat(validSender)
-			.hasConstraintViolation("name", "must not be blank")
-			.hasConstraintViolation("name", "sender must be between 3-11 characters (allowed characters: a-z, A-Z, 0-9, whitespace) and start with a non-numeric character");
+			.hasConstraintViolation("name", "must not be blank");
 	}
 
 	@Test
@@ -32,11 +31,11 @@ class SenderConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"a", "321ab", "abcdefghijkl", "abcdefghijklmno", "  abc"})
+	@ValueSource(strings = {"a", "ab", "abcdefghijkl"})
 	void shouldFailForInvalidName(final String name) {
 		validSender.setName(name);
 		assertThat(validSender)
-			.hasSingleConstraintViolation("name", "sender must be between 3-11 characters (allowed characters: a-z, A-Z, 0-9, whitespace) and start with a non-numeric character");
+			.hasSingleConstraintViolation("name", "size must be between 3 and 11");
 	}
 
 	@ParameterizedTest
