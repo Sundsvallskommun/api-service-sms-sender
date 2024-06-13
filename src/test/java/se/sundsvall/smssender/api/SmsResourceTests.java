@@ -26,43 +26,44 @@ import se.sundsvall.smssender.provider.SmsProviderRouter;
 @WebMvcTest(excludeAutoConfiguration = SecurityAutoConfiguration.class)
 class SmsResourceTests {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Autowired
+	private MockMvc mockMvc;
 
-    @MockBean
-    private SmsProviderRouter mockSmsProviderRouter;
+	@Autowired
+	private ObjectMapper objectMapper;
 
-    @Test
-    void sendSms_OK() throws Exception {
-        when(mockSmsProviderRouter.sendSms(any(SendSmsRequest.class))).thenReturn(true);
+	@MockBean
+	private SmsProviderRouter mockSmsProviderRouter;
 
-        mockMvc.perform(MockMvcRequestBuilders
-            .post("/send/sms")
-            .accept(APPLICATION_JSON)
-            .contentType(APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(createValidSendSmsRequest())))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.sent").value(true));
+	@Test
+	void sendSms_OK() throws Exception {
+		when(mockSmsProviderRouter.sendSms(any(SendSmsRequest.class))).thenReturn(true);
 
-        verify(mockSmsProviderRouter, times(1)).sendSms(any(SendSmsRequest.class));
-    }
+		mockMvc.perform(MockMvcRequestBuilders
+				.post("/send/sms")
+				.accept(APPLICATION_JSON)
+				.contentType(APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(createValidSendSmsRequest())))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.sent").value(true));
 
-    @Test
-    void sendFlashSms_OK() throws Exception {
-        when(mockSmsProviderRouter.sendFlashSms(any(SendSmsRequest.class))).thenReturn(true);
+		verify(mockSmsProviderRouter, times(1)).sendSms(any(SendSmsRequest.class));
+	}
 
-        mockMvc.perform(MockMvcRequestBuilders
-            .post("/send/sms")
-            .param("flash", "true")
-            .accept(APPLICATION_JSON)
-            .contentType(APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(createValidSendSmsRequest())))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.sent").value(true));
+	@Test
+	void sendFlashSms_OK() throws Exception {
+		when(mockSmsProviderRouter.sendFlashSms(any(SendSmsRequest.class))).thenReturn(true);
 
-        verify(mockSmsProviderRouter, times(1)).sendFlashSms(any(SendSmsRequest.class));
+		mockMvc.perform(MockMvcRequestBuilders
+				.post("/send/sms")
+				.param("flash", "true")
+				.accept(APPLICATION_JSON)
+				.contentType(APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(createValidSendSmsRequest())))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.sent").value(true));
 
-    }
+		verify(mockSmsProviderRouter, times(1)).sendFlashSms(any(SendSmsRequest.class));
+	}
+
 }
