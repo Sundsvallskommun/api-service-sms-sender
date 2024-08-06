@@ -8,17 +8,22 @@ import static se.sundsvall.smssender.model.Priority.HIGH;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zalando.problem.Problem;
 
+import se.sundsvall.dept44.common.validators.annotation.ValidMunicipalityId;
 import se.sundsvall.smssender.api.model.SendFlashSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsResponse;
 import se.sundsvall.smssender.provider.SmsProviderRouter;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,6 +31,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @Tag(name = "SMS Resources")
+@Validated
+@RequestMapping("/{municipalityId}/send/sms")
 class SmsResource {
 
 	private final SmsProviderRouter smsProviderRouter;
@@ -50,8 +57,10 @@ class SmsResource {
 		description = "Internal Server Error",
 		content = @Content(schema = @Schema(implementation = Problem.class))
 	)
-	@PostMapping("/send/sms")
-	ResponseEntity<SendSmsResponse> sendSms(@Valid @RequestBody final SendSmsRequest request) {
+	@PostMapping()
+	ResponseEntity<SendSmsResponse> sendSms(
+		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
+		@Valid @RequestBody final SendSmsRequest request) {
 		final var cleanedRequest = SendSmsRequest.builder()
 			.withPriority(request.getPriority())
 			.withMessage(request.getMessage())
@@ -67,8 +76,10 @@ class SmsResource {
 	}
 
 	@Operation(hidden = true)
-	@PostMapping(value = "/send/sms", params = "flash=true")
-	ResponseEntity<SendSmsResponse> sendFlashSms(@Valid @RequestBody final SendFlashSmsRequest request) {
+	@PostMapping(params = "flash=true")
+	ResponseEntity<SendSmsResponse> sendFlashSms(
+		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
+		@Valid @RequestBody final SendFlashSmsRequest request) {
 		// Remap the flash SMS request to a regular SMS request and always use HIGH priority for
 		// flash SMS:es
 		final var mappedRequest = SendSmsRequest.builder()

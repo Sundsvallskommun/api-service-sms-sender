@@ -7,15 +7,23 @@ info:
     url: https://opensource.org/licenses/MIT
   version: "1.3"
 servers:
-  - url: http://localhost:56363
+  - url: http://localhost:52406
     description: Generated server url
 paths:
-  /send/sms:
+  /{municipalityId}/send/sms:
     post:
       tags:
         - SMS Resources
       summary: Send an SMS
       operationId: sendSms
+      parameters:
+        - name: municipalityId
+          in: path
+          description: Municipality id
+          required: true
+          schema:
+            type: string
+          example: 2281
       requestBody:
         content:
           application/json:
@@ -23,14 +31,14 @@ paths:
               $ref: "#/components/schemas/SendSmsRequest"
         required: true
       responses:
-        "400":
-          description: Bad Request
+        "500":
+          description: Internal Server Error
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/Problem"
-        "500":
-          description: Internal Server Error
+        "400":
+          description: Bad Request
           content:
             '*/*':
               schema:
@@ -107,20 +115,20 @@ components:
           type: object
           additionalProperties:
             type: object
-        status:
-          $ref: "#/components/schemas/StatusType"
         title:
           type: string
         detail:
           type: string
+        status:
+          $ref: "#/components/schemas/StatusType"
     StatusType:
       type: object
       properties:
+        reasonPhrase:
+          type: string
         statusCode:
           type: integer
           format: int32
-        reasonPhrase:
-          type: string
     SendSmsResponse:
       type: object
       properties:
