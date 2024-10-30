@@ -17,10 +17,10 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "provider.linkmobility")
 public class LinkMobilitySmsProviderProperties extends SmsProviderProperties {
 
-    @NotBlank
-    private String platformId;
-    @NotBlank
-    private String platformPartnerId;
-    @Valid
-    private BasicAuth basicauth = new BasicAuth();
+	@NotBlank
+	private String platformId;
+	@NotBlank
+	private String platformPartnerId;
+	@Valid
+	private BasicAuth basicauth = new BasicAuth();
 }

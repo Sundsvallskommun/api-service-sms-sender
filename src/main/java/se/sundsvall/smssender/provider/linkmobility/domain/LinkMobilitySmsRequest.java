@@ -17,19 +17,19 @@ import lombok.With;
 @ToString
 public class LinkMobilitySmsRequest {
 
-    private String platformId;
-    private String platformPartnerId;
-    @Builder.Default
-    private boolean useDeliveryReport = false;
-    @Builder.Default
-    private String sourceTON = "ALPHANUMERIC";
-    private String source;
-    @Builder.Default
-    private String destinationTON = "MSISDN";
-    private String destination;
-    private String userData;
-    private String priority;
+	private String platformId;
+	private String platformPartnerId;
+	@Builder.Default
+	private boolean useDeliveryReport = false;
+	@Builder.Default
+	private String sourceTON = "ALPHANUMERIC";
+	private String source;
+	@Builder.Default
+	private String destinationTON = "MSISDN";
+	private String destination;
+	private String userData;
+	private String priority;
 
-    @With
-    private Map<String, String> customParameters;
+	@With
+	private Map<String, String> customParameters;
 }

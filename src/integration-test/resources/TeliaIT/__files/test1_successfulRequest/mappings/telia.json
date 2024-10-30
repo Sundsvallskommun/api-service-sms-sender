@@ -1,19 +1,15 @@
 {
-  "request": {
-    "method": "POST",
-    "url": "/telia/sendSms",
-    "bodyPatterns": [{
-      "equalToJson": "{\"originator\":\"SomeSender\",\"destinationNumber\":\"+46701234567\",\"message\":\"This is a message\",\"deliveryPriority\":\"normal\"}",
-      "ignoreArrayOrder": true
-    }]
-  },
-  "response": {
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "status": 200,
-    "jsonBody": {
-      "sent": true
-    }
-  }
+	"request": {
+		"method": "POST",
+		"bodyPatterns": [{
+			"equalToJson": "{\"originator\":\"SomeSender\",\"destinationNumber\":\"+46701234567\",\"message\":\"This is a message\",\"deliveryPriority\":\"normal\"}",
+			"ignoreArrayOrder": true
+		}],
+		"url": "/telia/sendSms"
+	},
+	"response": {
+		"headers": {"Content-Type": "application/json"},
+		"jsonBody": {"sent": true},
+		"status": 200
+	}
 }

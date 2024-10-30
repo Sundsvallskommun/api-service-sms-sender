@@ -21,7 +21,10 @@ import lombok.Setter;
 public class Sender {
 
 	@Schema(description = "The sender of the SMS, swedish letters(å,ä,ö) will be replaced by (a,a,o) respectively",
-		requiredMode = REQUIRED, maxLength = 11, minLength = 3, example = "sender")
+		requiredMode = REQUIRED,
+		maxLength = 11,
+		minLength = 3,
+		example = "sender")
 	@Size(max = 11, min = 3)
 	@NotBlank
 	private String name;

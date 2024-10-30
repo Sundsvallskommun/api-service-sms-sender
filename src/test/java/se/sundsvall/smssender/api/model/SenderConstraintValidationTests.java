@@ -31,7 +31,9 @@ class SenderConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"a", "ab", "abcdefghijkl"})
+	@ValueSource(strings = {
+		"a", "ab", "abcdefghijkl"
+	})
 	void shouldFailForInvalidName(final String name) {
 		validSender.setName(name);
 		assertThat(validSender)
@@ -39,7 +41,9 @@ class SenderConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"abc", "abc12", "Min Bankman"})
+	@ValueSource(strings = {
+		"abc", "abc12", "Min Bankman"
+	})
 	void shouldPassWithValidName(final String name) {
 		validSender.setName(name);
 		assertThat(validSender).hasNoConstraintViolations();

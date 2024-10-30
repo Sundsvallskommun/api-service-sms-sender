@@ -1,21 +1,19 @@
 {
-  "request": {
-    "method": "POST",
-    "url": "/linkmobility/sms/send",
-    "bodyPatterns": [{
-      "equalToJson": "{\"platformId\":\"somePlatformId\",\"platformPartnerId\":\"1234\",\"useDeliveryReport\":false,\"sourceTON\":\"ALPHANUMERIC\",\"source\":\"SomeSender\",\"destinationTON\":\"MSISDN\",\"destination\":\"+46701234567\",\"userData\":\"This is a message\",\"priority\":\"NORMAL\"}",
-      "ignoreArrayOrder": true
-    }]
-  },
-  "response": {
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "status": 200,
-    "jsonBody": {
-      "messageId": "vL521oB2TafWYgPIBbkJRE",
-      "resultCode": 1005,
-      "description": "Queued"
-    }
-  }
+	"request": {
+		"method": "POST",
+		"bodyPatterns": [{
+			"equalToJson": "{\"platformId\":\"somePlatformId\",\"platformPartnerId\":\"1234\",\"useDeliveryReport\":false,\"sourceTON\":\"ALPHANUMERIC\",\"source\":\"SomeSender\",\"destinationTON\":\"MSISDN\",\"destination\":\"+46701234567\",\"userData\":\"This is a message\",\"priority\":\"NORMAL\"}",
+			"ignoreArrayOrder": true
+		}],
+		"url": "/linkmobility/sms/send"
+	},
+	"response": {
+		"headers": {"Content-Type": "application/json"},
+		"jsonBody": {
+			"resultCode": 1005,
+			"messageId": "vL521oB2TafWYgPIBbkJRE",
+			"description": "Queued"
+		},
+		"status": 200
+	}
 }

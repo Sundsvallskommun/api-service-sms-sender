@@ -12,47 +12,46 @@ import se.sundsvall.smssender.provider.SmsProvider;
 @EnableConfigurationProperties(TeliaSmsProviderProperties.class)
 public class TeliaSmsProvider implements SmsProvider {
 
-    static final String PROVIDER_NAME = "Telia";
+	static final String PROVIDER_NAME = "Telia";
 
-    private final TeliaSmsProviderProperties properties;
-    private final TeliaClient client;
-    private final TeliaMapper mapper;
+	private final TeliaSmsProviderProperties properties;
+	private final TeliaClient client;
+	private final TeliaMapper mapper;
 
-    TeliaSmsProvider(final TeliaSmsProviderProperties properties, final TeliaClient client, final TeliaMapper mapper) {
-        this.properties = properties;
-        this.client = client;
-        this.mapper = mapper;
-    }
+	TeliaSmsProvider(final TeliaSmsProviderProperties properties, final TeliaClient client, final TeliaMapper mapper) {
+		this.properties = properties;
+		this.client = client;
+		this.mapper = mapper;
+	}
 
-    @Override
-    public boolean sendSms(final SendSmsRequest sms, final boolean flash) {
-        verifyFlashCapability(flash);
+	@Override
+	public boolean sendSms(final SendSmsRequest sms, final boolean flash) {
+		verifyFlashCapability(flash);
 
-        final var request = mapper.mapFromSendSmsRequest(sms, flash);
+		final var request = mapper.mapFromSendSmsRequest(sms, flash);
 
-        return ofNullable(client.send(request))
-            .map(responseEntity -> responseEntity.getStatusCode().is2xxSuccessful())
-            .orElse(false);
-    }
+		return ofNullable(client.send(request))
+			.map(responseEntity -> responseEntity.getStatusCode().is2xxSuccessful())
+			.orElse(false);
+	}
 
-    @Override
-    public String getName() {
-        return PROVIDER_NAME;
-    }
+	@Override
+	public String getName() {
+		return PROVIDER_NAME;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return properties.isEnabled();
-    }
+	@Override
+	public boolean isEnabled() {
+		return properties.isEnabled();
+	}
 
-    @Override
-    public boolean isFlashSmsCapable() {
-        return properties.isFlashCapable();
-    }
+	@Override
+	public boolean isFlashSmsCapable() {
+		return properties.isFlashCapable();
+	}
 
-    @Override
-    public int getPriority() {
-        return properties.getPriority();
-    }
+	@Override
+	public int getPriority() {
+		return properties.getPriority();
+	}
 }
-

@@ -45,7 +45,9 @@ class SendFlashSmsRequestConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"a", "ab", "abcdefghijkl"})
+	@ValueSource(strings = {
+		"a", "ab", "abcdefghijkl"
+	})
 	void shouldFailForInvalidSender(final String name) {
 		var sender = new Sender(name);
 		validRequest.setSender(sender);
@@ -54,7 +56,9 @@ class SendFlashSmsRequestConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"abc", "abc12", "Min Bankman"})
+	@ValueSource(strings = {
+		"abc", "abc12", "Min Bankman"
+	})
 	void shouldPassWithValidSender(final String name) {
 		var sender = new Sender(name);
 		validRequest.setSender(sender);
@@ -75,6 +79,5 @@ class SendFlashSmsRequestConstraintValidationTests {
 		assertThat(validRequest)
 			.hasConstraintViolation("sender.name", "must not be blank");
 	}
-
 
 }

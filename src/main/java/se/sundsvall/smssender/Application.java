@@ -7,7 +7,7 @@ import se.sundsvall.dept44.ServiceApplication;
 @ServiceApplication
 public class Application {
 
-    public static void main(final String[] args) {
-        run(Application.class, args);
-    }
+	public static void main(final String[] args) {
+		run(Application.class, args);
+	}
 }

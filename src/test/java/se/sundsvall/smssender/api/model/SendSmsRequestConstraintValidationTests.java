@@ -17,7 +17,9 @@ class SendSmsRequestConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"070-123 45 67", "0701234567", "46701234567", "123", "+46"})
+	@ValueSource(strings = {
+		"070-123 45 67", "0701234567", "46701234567", "123", "+46"
+	})
 	void shouldFailForInvalidMobileNumber(String mobileNumber) {
 		validRequest.setMobileNumber(mobileNumber);
 		assertThat(validRequest)
@@ -39,7 +41,9 @@ class SendSmsRequestConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"a", "ab", "abcdefghijkl"})
+	@ValueSource(strings = {
+		"a", "ab", "abcdefghijkl"
+	})
 	void shouldFailForInvalidSender(final String name) {
 		var sender = new Sender(name);
 		validRequest.setSender(sender);
@@ -48,7 +52,9 @@ class SendSmsRequestConstraintValidationTests {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"abc", "abc12", "Min Bankman"})
+	@ValueSource(strings = {
+		"abc", "abc12", "Min Bankman"
+	})
 	void shouldPassWithValidSender(final String name) {
 		var sender = new Sender(name);
 		validRequest.setSender(sender);

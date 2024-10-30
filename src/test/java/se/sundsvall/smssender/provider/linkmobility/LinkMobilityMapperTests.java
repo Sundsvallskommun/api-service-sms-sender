@@ -16,47 +16,47 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class LinkMobilityMapperTests {
 
-    @Mock
-    private LinkMobilitySmsProviderProperties mockProperties;
-    @InjectMocks
-    private LinkMobilityMapper mapper;
+	@Mock
+	private LinkMobilitySmsProviderProperties mockProperties;
+	@InjectMocks
+	private LinkMobilityMapper mapper;
 
-    @Test
-    void testMapFromSendSmsRequest() {
-        final var request = createValidSendSmsRequest();
+	@Test
+	void testMapFromSendSmsRequest() {
+		final var request = createValidSendSmsRequest();
 
-        final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
+		final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
 
-        assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
-        assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
-        assertThat(mappedRequest.getDestination()).isEqualTo(request.getMobileNumber());
-        assertThat(mappedRequest.getPriority()).isNull();
-        assertThat(mappedRequest.getSource()).isEqualTo(request.getSender().getName());
-        assertThat(mappedRequest.getUserData()).isEqualTo(request.getMessage());
-        assertThat(mappedRequest.getCustomParameters()).isNull();
-    }
+		assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
+		assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
+		assertThat(mappedRequest.getDestination()).isEqualTo(request.getMobileNumber());
+		assertThat(mappedRequest.getPriority()).isNull();
+		assertThat(mappedRequest.getSource()).isEqualTo(request.getSender().getName());
+		assertThat(mappedRequest.getUserData()).isEqualTo(request.getMessage());
+		assertThat(mappedRequest.getCustomParameters()).isNull();
+	}
 
-    @Test
-    void testMapFromSendSmsRequestWithPriority() {
-        final var request = createValidSendSmsRequest(req -> req.setPriority(NORMAL));
+	@Test
+	void testMapFromSendSmsRequestWithPriority() {
+		final var request = createValidSendSmsRequest(req -> req.setPriority(NORMAL));
 
-        final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
+		final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
 
-        assertThat(mappedRequest.getPriority()).isEqualTo(NORMAL.name());
-    }
+		assertThat(mappedRequest.getPriority()).isEqualTo(NORMAL.name());
+	}
 
-    @Test
-    void testMapFromSendSmsRequestAsFlashSms() {
-        final var request = createValidSendSmsRequest(req -> req.setPriority(HIGH));
+	@Test
+	void testMapFromSendSmsRequestAsFlashSms() {
+		final var request = createValidSendSmsRequest(req -> req.setPriority(HIGH));
 
-        final var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
+		final var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
 
-        assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
-        assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
-        assertThat(mappedRequest.getDestination()).isEqualTo(request.getMobileNumber());
-        assertThat(mappedRequest.getPriority()).isEqualTo(HIGH.name());
-        assertThat(mappedRequest.getSource()).isEqualTo(request.getSender().getName());
-        assertThat(mappedRequest.getUserData()).isEqualTo(request.getMessage());
-        assertThat(mappedRequest.getCustomParameters()).containsExactly(Map.entry("flash.sms", "true"));
-    }
+		assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
+		assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
+		assertThat(mappedRequest.getDestination()).isEqualTo(request.getMobileNumber());
+		assertThat(mappedRequest.getPriority()).isEqualTo(HIGH.name());
+		assertThat(mappedRequest.getSource()).isEqualTo(request.getSender().getName());
+		assertThat(mappedRequest.getUserData()).isEqualTo(request.getMessage());
+		assertThat(mappedRequest.getCustomParameters()).containsExactly(Map.entry("flash.sms", "true"));
+	}
 }

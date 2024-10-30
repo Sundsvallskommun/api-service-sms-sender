@@ -16,6 +16,6 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "provider.telia")
 public class TeliaSmsProviderProperties extends SmsProviderProperties {
 
-    @Valid
-    private OAuth2 oauth2 = new OAuth2();
+	@Valid
+	private OAuth2 oauth2 = new OAuth2();
 }
