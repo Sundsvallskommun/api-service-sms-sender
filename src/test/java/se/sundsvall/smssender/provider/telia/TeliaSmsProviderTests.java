@@ -22,21 +22,21 @@ import generated.com.teliacompany.c2b.smssender.SmsServiceRequest;
 @ExtendWith(MockitoExtension.class)
 class TeliaSmsProviderTests {
 
-    @Mock
-    private TeliaClient mockClient;
-    @Mock(answer = Answers.CALLS_REAL_METHODS)
-    private TeliaMapper mockMapper;
-    @InjectMocks
-    private TeliaSmsProvider provider;
+	@Mock
+	private TeliaClient mockClient;
+	@Mock(answer = Answers.CALLS_REAL_METHODS)
+	private TeliaMapper mockMapper;
+	@InjectMocks
+	private TeliaSmsProvider provider;
 
-    @Test
-    void testSendSms_no_flash_OK() {
-        when(mockClient.send(any(SmsServiceRequest.class)))
-            .thenReturn(ResponseEntity.noContent().build());
+	@Test
+	void testSendSms_no_flash_OK() {
+		when(mockClient.send(any(SmsServiceRequest.class)))
+			.thenReturn(ResponseEntity.noContent().build());
 
-        final var isSent = provider.sendSms(createValidSendSmsRequest(), false);
-        assertThat(isSent).isTrue();
+		final var isSent = provider.sendSms(createValidSendSmsRequest(), false);
+		assertThat(isSent).isTrue();
 
-        verify(mockClient, times(1)).send(any(SmsServiceRequest.class));
-    }
+		verify(mockClient, times(1)).send(any(SmsServiceRequest.class));
+	}
 }

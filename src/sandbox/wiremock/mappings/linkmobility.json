@@ -1,19 +1,17 @@
 {
-  "id" : "3c813def-7f31-4875-b7ee-0a3c0b1bddd3",
-  "name" : "linkmobility",
-  "priority": 2,
-  "request" : {
-    "url" : "/linkmobility/sms/send",
-    "method" : "POST"
-  },
-  "response" : {
-    "status" : 200,
-    "bodyFileName" : "responses/linkmobility.response.json",
-    "headers": {
-      "Content-Type": "application/json;charset=UTF-8"
-    }
-  },
-  "uuid" : "3c813def-7f31-4875-b7ee-0a3c0b1bddd3",
-  "persistent" : true,
-  "insertionIndex" : 1
+	"request": {
+		"method": "POST",
+		"url": "/linkmobility/sms/send"
+	},
+	"response": {
+		"headers": {"Content-Type": "application/json;charset=UTF-8"},
+		"bodyFileName": "responses/linkmobility.response.json",
+		"status": 200
+	},
+	"name": "linkmobility",
+	"id": "3c813def-7f31-4875-b7ee-0a3c0b1bddd3",
+	"priority": 2,
+	"persistent": true,
+	"insertionIndex": 1,
+	"uuid": "3c813def-7f31-4875-b7ee-0a3c0b1bddd3"
 }

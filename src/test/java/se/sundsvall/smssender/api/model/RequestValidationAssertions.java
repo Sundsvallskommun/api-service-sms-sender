@@ -11,8 +11,7 @@ import jakarta.validation.Validator;
 
 import org.assertj.core.api.AbstractAssert;
 
-public abstract class RequestValidationAssertions<R>
-	extends AbstractAssert<RequestValidationAssertions<R>, R> {
+public abstract class RequestValidationAssertions<R> extends AbstractAssert<RequestValidationAssertions<R>, R> {
 
 	private final Validator validator;
 	private final List<ConstraintViolation<R>> constraintViolations;

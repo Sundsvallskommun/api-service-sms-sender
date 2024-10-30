@@ -20,79 +20,81 @@ import org.springframework.test.context.ActiveProfiles;
 @ExtendWith(MockitoExtension.class)
 class SmsProviderRouterTests {
 
-    @Mock
-    private RetryTemplate mockRetryTemplate;
-    @Mock
-    private SmsProvider mockSmsProvider1;
-    @Mock
-    private SmsProvider mockSmsProvider2;
+	@Mock
+	private RetryTemplate mockRetryTemplate;
+	@Mock
+	private SmsProvider mockSmsProvider1;
+	@Mock
+	private SmsProvider mockSmsProvider2;
 
-    private SmsProviderRouter router;
+	private SmsProviderRouter router;
 
-    @BeforeEach
-    void setUp() {
-        when(mockSmsProvider1.getName()).thenReturn("P1.default");
-        when(mockSmsProvider1.isEnabled()).thenReturn(true);
-        when(mockSmsProvider1.isFlashSmsCapable()).thenReturn(true);
+	@BeforeEach
+	void setUp() {
+		when(mockSmsProvider1.getName()).thenReturn("P1.default");
+		when(mockSmsProvider1.isEnabled()).thenReturn(true);
+		when(mockSmsProvider1.isFlashSmsCapable()).thenReturn(true);
 
-        when(mockSmsProvider2.getName()).thenReturn("P2.default");
-        when(mockSmsProvider2.isEnabled()).thenReturn(true);
-        when(mockSmsProvider2.isFlashSmsCapable()).thenReturn(true);
+		when(mockSmsProvider2.getName()).thenReturn("P2.default");
+		when(mockSmsProvider2.isEnabled()).thenReturn(true);
+		when(mockSmsProvider2.isFlashSmsCapable()).thenReturn(true);
 
-        router = new SmsProviderRouter(mockRetryTemplate, List.of(mockSmsProvider1, mockSmsProvider2));
-    }
+		router = new SmsProviderRouter(mockRetryTemplate, List.of(mockSmsProvider1, mockSmsProvider2));
+	}
 
-    @Test
-    void testInitializeProviderQueue() {
-        when(mockSmsProvider1.getName()).thenReturn("P1");
-        when(mockSmsProvider2.getName()).thenReturn("P2");
+	@Test
+	void testInitializeProviderQueue() {
+		when(mockSmsProvider1.getName()).thenReturn("P1");
+		when(mockSmsProvider2.getName()).thenReturn("P2");
 
-        final var smsProviderQueue = router.initializeProviderQueue(
-            List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
+		final var smsProviderQueue = router.initializeProviderQueue(
+			List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
 
-        assertThat(smsProviderQueue).hasSize(2);
-        assertThat(smsProviderQueue.poll()).satisfies(provider -> {
-            assertThat(provider).isNotNull();
-            assertThat(provider.getName()).isEqualTo(mockSmsProvider1.getName());
-        });
-        assertThat(smsProviderQueue.poll()).satisfies(provider -> {
-            assertThat(provider).isNotNull();
-            assertThat(provider.getName()).isEqualTo(mockSmsProvider2.getName());
-        });
-    }
+		assertThat(smsProviderQueue).hasSize(2);
+		assertThat(smsProviderQueue.poll()).satisfies(provider -> {
+			assertThat(provider).isNotNull();
+			assertThat(provider.getName()).isEqualTo(mockSmsProvider1.getName());
+		});
+		assertThat(smsProviderQueue.poll()).satisfies(provider -> {
+			assertThat(provider).isNotNull();
+			assertThat(provider.getName()).isEqualTo(mockSmsProvider2.getName());
+		});
+	}
 
-    @Test
-    void testInitializeProviderQueueWithOneDisabledProvider() {
-        when(mockSmsProvider1.isEnabled()).thenReturn(false);
+	@Test
+	void testInitializeProviderQueueWithOneDisabledProvider() {
+		when(mockSmsProvider1.isEnabled()).thenReturn(false);
 
-        final var smsProviderQueue = router.initializeProviderQueue(
-            List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
+		final var smsProviderQueue = router.initializeProviderQueue(
+			List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
 
-        assertThat(smsProviderQueue).hasSize(1);
-        assertThat(smsProviderQueue.poll()).satisfies(provider -> {
-            assertThat(provider).isNotNull();
-            assertThat(provider.getName()).isEqualTo(mockSmsProvider2.getName());
-        });
-    }
+		assertThat(smsProviderQueue).hasSize(1);
+		assertThat(smsProviderQueue.poll()).satisfies(provider -> {
+			assertThat(provider).isNotNull();
+			assertThat(provider.getName()).isEqualTo(mockSmsProvider2.getName());
+		});
+	}
 
-    @Test
-    void testInitializeProviderQueueWithAllProvidersDisabled() {
-        when(mockSmsProvider1.isEnabled()).thenReturn(false);
-        when(mockSmsProvider2.isEnabled()).thenReturn(false);
+	@Test
+	void testInitializeProviderQueueWithAllProvidersDisabled() {
+		when(mockSmsProvider1.isEnabled()).thenReturn(false);
+		when(mockSmsProvider2.isEnabled()).thenReturn(false);
 
-        final var smsProviderQueue = router.initializeProviderQueue(
-            List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
+		final var smsProviderQueue = router.initializeProviderQueue(
+			List.of(mockSmsProvider1, mockSmsProvider2), IS_ENABLED);
 
-        assertThat(smsProviderQueue).isEmpty();
-    }
+		assertThat(smsProviderQueue).isEmpty();
+	}
 
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    void testGetSmsType(final boolean flash) {
-        if (flash) {
-            assertThat(router.getSmsType(flash)).isEqualTo("FLASH SMS");
-        } else {
-            assertThat(router.getSmsType(flash)).isEqualTo("SMS");
-        }
-    }
+	@ParameterizedTest
+	@ValueSource(booleans = {
+		true, false
+	})
+	void testGetSmsType(final boolean flash) {
+		if (flash) {
+			assertThat(router.getSmsType(flash)).isEqualTo("FLASH SMS");
+		} else {
+			assertThat(router.getSmsType(flash)).isEqualTo("SMS");
+		}
+	}
 }

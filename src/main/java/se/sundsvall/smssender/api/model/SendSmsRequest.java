@@ -24,20 +24,19 @@ import lombok.Setter;
 @Builder(setterPrefix = "with")
 public class SendSmsRequest {
 
-    @Valid
-    @NotNull
-    private Sender sender;
+	@Valid
+	@NotNull
+	private Sender sender;
 
-    @Schema(description = "Mobile number incl. country code", requiredMode = REQUIRED, example = "+46701234567")
-    @ValidMSISDN
-    private String mobileNumber;
+	@Schema(description = "Mobile number incl. country code", requiredMode = REQUIRED, example = "+46701234567")
+	@ValidMSISDN
+	private String mobileNumber;
 
-    @Schema(
-        description = "Priority - indicates whether the SMS may be sent between 20:00 and 08:00 or not",
-        defaultValue = "NORMAL"
-    )
-    private Priority priority;
-    
+	@Schema(
+		description = "Priority - indicates whether the SMS may be sent between 20:00 and 08:00 or not",
+		defaultValue = "NORMAL")
+	private Priority priority;
+
 	@NotBlank
-    private String message;
+	private String message;
 }

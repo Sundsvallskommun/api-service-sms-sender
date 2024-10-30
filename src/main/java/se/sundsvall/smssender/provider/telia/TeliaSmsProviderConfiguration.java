@@ -16,26 +16,26 @@ import feign.Request;
 @Import(FeignConfiguration.class)
 class TeliaSmsProviderConfiguration {
 
-    private final TeliaSmsProviderProperties properties;
+	private final TeliaSmsProviderProperties properties;
 
-    TeliaSmsProviderConfiguration(final TeliaSmsProviderProperties properties) {
-        this.properties = properties;
-    }
+	TeliaSmsProviderConfiguration(final TeliaSmsProviderProperties properties) {
+		this.properties = properties;
+	}
 
-    @Bean
-    FeignBuilderCustomizer customizer() {
-        return FeignMultiCustomizer.create()
-            .withRetryableOAuth2InterceptorForClientRegistration(ClientRegistration
-                .withRegistrationId(TeliaSmsProvider.PROVIDER_NAME)
-                .tokenUri(properties.getOauth2().getTokenUrl())
-                .clientId(properties.getOauth2().getClientId())
-                .clientSecret(properties.getOauth2().getClientSecret())
-                .authorizationGrantType(new AuthorizationGrantType(properties.getOauth2().getGrantType()))
-                .build())
-            .withRequestOptions(new Request.Options(
-                properties.getConnectTimeout().toMillis(), MILLISECONDS,
-                properties.getReadTimeout().toMillis(), MILLISECONDS,
-                true))
-            .composeCustomizersToOne();
-    }
+	@Bean
+	FeignBuilderCustomizer customizer() {
+		return FeignMultiCustomizer.create()
+			.withRetryableOAuth2InterceptorForClientRegistration(ClientRegistration
+				.withRegistrationId(TeliaSmsProvider.PROVIDER_NAME)
+				.tokenUri(properties.getOauth2().getTokenUrl())
+				.clientId(properties.getOauth2().getClientId())
+				.clientSecret(properties.getOauth2().getClientSecret())
+				.authorizationGrantType(new AuthorizationGrantType(properties.getOauth2().getGrantType()))
+				.build())
+			.withRequestOptions(new Request.Options(
+				properties.getConnectTimeout().toMillis(), MILLISECONDS,
+				properties.getReadTimeout().toMillis(), MILLISECONDS,
+				true))
+			.composeCustomizersToOne();
+	}
 }

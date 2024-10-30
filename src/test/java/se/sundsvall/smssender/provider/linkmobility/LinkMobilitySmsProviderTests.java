@@ -22,30 +22,30 @@ import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRespon
 @ExtendWith(MockitoExtension.class)
 class LinkMobilitySmsProviderTests {
 
-    @Mock
-    private LinkMobilitySmsProviderProperties mockProperties;
-    @Mock
-    private LinkMobilityClient mockClient;
+	@Mock
+	private LinkMobilitySmsProviderProperties mockProperties;
+	@Mock
+	private LinkMobilityClient mockClient;
 
-    private LinkMobilitySmsProvider provider;
+	private LinkMobilitySmsProvider provider;
 
-    @BeforeEach
-    void setUp() {
-        when(mockProperties.getPlatformId()).thenReturn("platformId");
-        when(mockProperties.getPlatformPartnerId()).thenReturn("platformPartnerId");
+	@BeforeEach
+	void setUp() {
+		when(mockProperties.getPlatformId()).thenReturn("platformId");
+		when(mockProperties.getPlatformPartnerId()).thenReturn("platformPartnerId");
 
-        provider = new LinkMobilitySmsProvider(mockProperties, mockClient);
-    }
+		provider = new LinkMobilitySmsProvider(mockProperties, mockClient);
+	}
 
-    @Test
-    void testSendSms_noFlash_OK() {
-        final var response = new LinkMobilitySmsResponse();
-        response.setStatus(SENT);
+	@Test
+	void testSendSms_noFlash_OK() {
+		final var response = new LinkMobilitySmsResponse();
+		response.setStatus(SENT);
 
-        when(mockClient.send(any(LinkMobilitySmsRequest.class))).thenReturn(response);
+		when(mockClient.send(any(LinkMobilitySmsRequest.class))).thenReturn(response);
 
-        assertThat(provider.sendSms(createValidSendSmsRequest(), false)).isTrue();
+		assertThat(provider.sendSms(createValidSendSmsRequest(), false)).isTrue();
 
-        verify(mockClient, times(1)).send(any(LinkMobilitySmsRequest.class));
-    }
+		verify(mockClient, times(1)).send(any(LinkMobilitySmsRequest.class));
+	}
 }

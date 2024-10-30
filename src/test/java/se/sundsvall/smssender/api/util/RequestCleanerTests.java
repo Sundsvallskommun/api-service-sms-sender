@@ -48,8 +48,7 @@ class RequestCleanerTests {
 			Arguments.of("123", "123"),
 			Arguments.of("+46", "+46"),
 			Arguments.of("00 46 70 123 45 67", "+46701234567"),
-			Arguments.of("+46071234567", "+4671234567")
-		);
+			Arguments.of("+46071234567", "+4671234567"));
 	}
 
 }

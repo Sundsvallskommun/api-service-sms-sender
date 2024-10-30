@@ -10,29 +10,29 @@ import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsReques
 
 class LinkMobilityMapper {
 
-    private final LinkMobilitySmsProviderProperties properties;
+	private final LinkMobilitySmsProviderProperties properties;
 
-    LinkMobilityMapper(final LinkMobilitySmsProviderProperties properties) {
-        this.properties = properties;
-    }
+	LinkMobilityMapper(final LinkMobilitySmsProviderProperties properties) {
+		this.properties = properties;
+	}
 
-    LinkMobilitySmsRequest mapFromSendSmsRequest(final SendSmsRequest smsRequest, final boolean flash) {
-        final var request =  LinkMobilitySmsRequest.builder()
-            .withPlatformId(properties.getPlatformId())
-            .withPlatformPartnerId(properties.getPlatformPartnerId())
-            .withSource(smsRequest.getSender().getName())
-            .withDestinationTON("MSISDN")
-            .withDestination(smsRequest.getMobileNumber())
-            .withPriority(ofNullable(smsRequest.getPriority())
-                .map(Priority::name)
-                .orElse(null))
-            .withUserData(smsRequest.getMessage())
-            .build();
+	LinkMobilitySmsRequest mapFromSendSmsRequest(final SendSmsRequest smsRequest, final boolean flash) {
+		final var request = LinkMobilitySmsRequest.builder()
+			.withPlatformId(properties.getPlatformId())
+			.withPlatformPartnerId(properties.getPlatformPartnerId())
+			.withSource(smsRequest.getSender().getName())
+			.withDestinationTON("MSISDN")
+			.withDestination(smsRequest.getMobileNumber())
+			.withPriority(ofNullable(smsRequest.getPriority())
+				.map(Priority::name)
+				.orElse(null))
+			.withUserData(smsRequest.getMessage())
+			.build();
 
-        if (flash) {
-            return request.withCustomParameters(Map.of("flash.sms", "true"));
-        }
+		if (flash) {
+			return request.withCustomParameters(Map.of("flash.sms", "true"));
+		}
 
-        return request;
-    }
+		return request;
+	}
 }

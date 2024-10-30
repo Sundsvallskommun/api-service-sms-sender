@@ -11,11 +11,11 @@ import org.springframework.retry.support.RetryTemplate;
 @Configuration
 class RetryConfiguration {
 
-    @Bean
-    RetryTemplate retryTemplate() {
-        var retryTemplate = new RetryTemplate();
-        retryTemplate.setBackOffPolicy(new NoBackOffPolicy());
-        retryTemplate.setRetryPolicy(new NeverRetryPolicy());
-        return retryTemplate;
-    }
+	@Bean
+	RetryTemplate retryTemplate() {
+		var retryTemplate = new RetryTemplate();
+		retryTemplate.setBackOffPolicy(new NoBackOffPolicy());
+		retryTemplate.setRetryPolicy(new NeverRetryPolicy());
+		return retryTemplate;
+	}
 }

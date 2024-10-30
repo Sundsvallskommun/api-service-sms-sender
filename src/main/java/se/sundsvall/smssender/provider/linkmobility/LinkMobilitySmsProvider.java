@@ -14,49 +14,49 @@ import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRespon
 @EnableConfigurationProperties(LinkMobilitySmsProviderProperties.class)
 public class LinkMobilitySmsProvider implements SmsProvider {
 
-    static final String PROVIDER_NAME = "LinkMobility";
+	static final String PROVIDER_NAME = "LinkMobility";
 
-    private final LinkMobilitySmsProviderProperties properties;
-    private final LinkMobilityClient client;
-    private final LinkMobilityMapper mapper;
+	private final LinkMobilitySmsProviderProperties properties;
+	private final LinkMobilityClient client;
+	private final LinkMobilityMapper mapper;
 
-    LinkMobilitySmsProvider(final LinkMobilitySmsProviderProperties properties,
-            final LinkMobilityClient client) {
-        this.properties = properties;
-        this.client = client;
+	LinkMobilitySmsProvider(final LinkMobilitySmsProviderProperties properties,
+		final LinkMobilityClient client) {
+		this.properties = properties;
+		this.client = client;
 
-        mapper = new LinkMobilityMapper(properties);
-    }
+		mapper = new LinkMobilityMapper(properties);
+	}
 
-    @Override
-    public boolean sendSms(final SendSmsRequest smsRequest, final boolean flash) {
-        verifyFlashCapability(flash);
+	@Override
+	public boolean sendSms(final SendSmsRequest smsRequest, final boolean flash) {
+		verifyFlashCapability(flash);
 
-        final var request = mapper.mapFromSendSmsRequest(smsRequest, flash);
+		final var request = mapper.mapFromSendSmsRequest(smsRequest, flash);
 
-        return ofNullable(client.send(request))
-            .map(LinkMobilitySmsResponse::getStatus)
-            .map(ResponseStatus::isSent)
-            .orElse(false);
-    }
+		return ofNullable(client.send(request))
+			.map(LinkMobilitySmsResponse::getStatus)
+			.map(ResponseStatus::isSent)
+			.orElse(false);
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return properties.isEnabled();
-    }
+	@Override
+	public boolean isEnabled() {
+		return properties.isEnabled();
+	}
 
-    @Override
-    public boolean isFlashSmsCapable() {
-        return properties.isFlashCapable();
-    }
+	@Override
+	public boolean isFlashSmsCapable() {
+		return properties.isFlashCapable();
+	}
 
-    @Override
-    public String getName() {
-        return PROVIDER_NAME;
-    }
+	@Override
+	public String getName() {
+		return PROVIDER_NAME;
+	}
 
-    @Override
-    public int getPriority() {
-        return properties.getPriority();
-    }
+	@Override
+	public int getPriority() {
+		return properties.getPriority();
+	}
 }

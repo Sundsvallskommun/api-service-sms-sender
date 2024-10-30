@@ -9,40 +9,40 @@ import org.junit.jupiter.api.Test;
 
 class TeliaMapperTests {
 
-    private final TeliaMapper mapper = new TeliaMapper();
+	private final TeliaMapper mapper = new TeliaMapper();
 
-    @Test
-    void testMapFromSendSmsRequest() {
-        final var request = createValidSendSmsRequest();
+	@Test
+	void testMapFromSendSmsRequest() {
+		final var request = createValidSendSmsRequest();
 
-        final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
+		final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
 
-        assertThat(mappedRequest.getOriginator()).isEqualTo(request.getSender().getName());
-        assertThat(mappedRequest.getDestinationNumber()).isEqualTo(request.getMobileNumber());
-        assertThat(mappedRequest.getDeliveryPriority()).isNull();
-        assertThat(mappedRequest.getMessage()).isEqualTo(request.getMessage());
-        assertThat(mappedRequest.getFlashSms()).isNull();
-    }
+		assertThat(mappedRequest.getOriginator()).isEqualTo(request.getSender().getName());
+		assertThat(mappedRequest.getDestinationNumber()).isEqualTo(request.getMobileNumber());
+		assertThat(mappedRequest.getDeliveryPriority()).isNull();
+		assertThat(mappedRequest.getMessage()).isEqualTo(request.getMessage());
+		assertThat(mappedRequest.getFlashSms()).isNull();
+	}
 
-    @Test
-    void testMapFromSendSmsRequestWithPriority() {
-        final var request = createValidSendSmsRequest(req -> req.setPriority(NORMAL));
+	@Test
+	void testMapFromSendSmsRequestWithPriority() {
+		final var request = createValidSendSmsRequest(req -> req.setPriority(NORMAL));
 
-        final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
+		final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
 
-        assertThat(mappedRequest.getDeliveryPriority()).isEqualTo(NORMAL.name().toLowerCase());
-    }
+		assertThat(mappedRequest.getDeliveryPriority()).isEqualTo(NORMAL.name().toLowerCase());
+	}
 
-    @Test
-    void testMapFromSendSmsRequestAsFlashSms() {
-        final var request = createValidSendSmsRequest(req -> req.setPriority(HIGH));
+	@Test
+	void testMapFromSendSmsRequestAsFlashSms() {
+		final var request = createValidSendSmsRequest(req -> req.setPriority(HIGH));
 
-        final var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
+		final var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
 
-        assertThat(mappedRequest.getOriginator()).isEqualTo(request.getSender().getName());
-        assertThat(mappedRequest.getDestinationNumber()).isEqualTo(request.getMobileNumber());
-        assertThat(mappedRequest.getDeliveryPriority()).isEqualTo(HIGH.name().toLowerCase());
-        assertThat(mappedRequest.getMessage()).isEqualTo(request.getMessage());
-        assertThat(mappedRequest.getFlashSms()).isTrue();
-    }
+		assertThat(mappedRequest.getOriginator()).isEqualTo(request.getSender().getName());
+		assertThat(mappedRequest.getDestinationNumber()).isEqualTo(request.getMobileNumber());
+		assertThat(mappedRequest.getDeliveryPriority()).isEqualTo(HIGH.name().toLowerCase());
+		assertThat(mappedRequest.getMessage()).isEqualTo(request.getMessage());
+		assertThat(mappedRequest.getFlashSms()).isTrue();
+	}
 }

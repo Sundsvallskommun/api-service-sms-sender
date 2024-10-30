@@ -106,5 +106,4 @@ class SmsResourceTests {
 			.containsExactly(tuple("sendSms.municipalityId", "not a valid municipality ID"));
 	}
 
-
 }

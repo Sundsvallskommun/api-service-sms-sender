@@ -7,12 +7,11 @@ import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsReques
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse;
 
 @FeignClient(
-    name = LinkMobilitySmsProvider.PROVIDER_NAME,
-    url = "${provider.linkmobility.base-url}",
-    configuration = LinkMobilitySmsProviderConfiguration.class
-)
+	name = LinkMobilitySmsProvider.PROVIDER_NAME,
+	url = "${provider.linkmobility.base-url}",
+	configuration = LinkMobilitySmsProviderConfiguration.class)
 interface LinkMobilityClient {
 
-    @PostMapping("/sms/send")
-    LinkMobilitySmsResponse send(LinkMobilitySmsRequest request);
+	@PostMapping("/sms/send")
+	LinkMobilitySmsResponse send(LinkMobilitySmsRequest request);
 }

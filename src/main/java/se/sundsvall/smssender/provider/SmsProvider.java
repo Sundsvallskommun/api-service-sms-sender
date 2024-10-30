@@ -8,24 +8,24 @@ import se.sundsvall.smssender.api.model.SendSmsRequest;
 
 public interface SmsProvider extends Comparable<SmsProvider> {
 
-    boolean sendSms(SendSmsRequest request, boolean flash);
+	boolean sendSms(SendSmsRequest request, boolean flash);
 
-    boolean isEnabled();
+	boolean isEnabled();
 
-    boolean isFlashSmsCapable();
+	boolean isFlashSmsCapable();
 
-    String getName();
+	String getName();
 
-    int getPriority();
+	int getPriority();
 
-    default void verifyFlashCapability(final boolean flash) {
-        if (flash && !isFlashSmsCapable()) {
-            throw Problem.valueOf(Status.BAD_REQUEST, String.format("SMS provider %s does not support flash messages", getName()));
-        }
-    }
+	default void verifyFlashCapability(final boolean flash) {
+		if (flash && !isFlashSmsCapable()) {
+			throw Problem.valueOf(Status.BAD_REQUEST, String.format("SMS provider %s does not support flash messages", getName()));
+		}
+	}
 
-    @Override
-    default int compareTo(@NotNull final SmsProvider other) {
-        return Integer.compare(getPriority(), other.getPriority());
-    }
+	@Override
+	default int compareTo(@NotNull final SmsProvider other) {
+		return Integer.compare(getPriority(), other.getPriority());
+	}
 }

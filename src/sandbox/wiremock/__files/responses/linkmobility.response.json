@@ -1,6 +1,5 @@
 {
-  "messageId": "CGTU4aorCf8WNyc6SYCwk9",
-  "resultCode": 1005,
-  "description": "Queued"
+	"resultCode": 1005,
+	"messageId": "CGTU4aorCf8WNyc6SYCwk9",
+	"description": "Queued"
 }
-

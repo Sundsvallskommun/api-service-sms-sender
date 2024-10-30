@@ -14,5 +14,5 @@ import lombok.Setter;
 @Builder(setterPrefix = "with")
 public class SendSmsResponse {
 
-    private boolean sent;
+	private boolean sent;
 }
