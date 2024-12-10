@@ -20,7 +20,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 import org.zalando.problem.violations.Violation;
-
 import se.sundsvall.smssender.Application;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.provider.SmsProviderRouter;

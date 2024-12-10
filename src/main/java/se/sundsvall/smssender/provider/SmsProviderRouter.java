@@ -7,17 +7,14 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.function.Predicate;
-
+import lombok.Generated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 import org.zalando.problem.Problem;
-
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.exception.SmsException;
-
-import lombok.Generated;
 
 @Component
 // @Generated for now, since I don't have the energy to figure out how to mock the RetryTemplate stuff...

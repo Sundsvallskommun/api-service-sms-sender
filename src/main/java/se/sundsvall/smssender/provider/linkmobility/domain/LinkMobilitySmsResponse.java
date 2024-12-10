@@ -1,11 +1,9 @@
 package se.sundsvall.smssender.provider.linkmobility.domain;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.Arrays;
+import java.util.EnumSet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

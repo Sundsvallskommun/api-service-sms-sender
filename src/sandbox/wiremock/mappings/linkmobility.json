@@ -4,7 +4,9 @@
 		"url": "/linkmobility/sms/send"
 	},
 	"response": {
-		"headers": {"Content-Type": "application/json;charset=UTF-8"},
+		"headers": {
+			"Content-Type": "application/json;charset=UTF-8"
+		},
 		"bodyFileName": "responses/linkmobility.response.json",
 		"status": 200
 	},

@@ -1,14 +1,18 @@
 {
 	"request": {
 		"method": "POST",
-		"bodyPatterns": [{
-			"equalToJson": "{\"platformId\":\"somePlatformId\",\"platformPartnerId\":\"1234\",\"useDeliveryReport\":false,\"sourceTON\":\"ALPHANUMERIC\",\"source\":\"SomeSender\",\"destinationTON\":\"MSISDN\",\"destination\":\"+46701234567\",\"userData\":\"This is a message\",\"priority\":\"NORMAL\"}",
-			"ignoreArrayOrder": true
-		}],
+		"bodyPatterns": [
+			{
+				"equalToJson": "{\"platformId\":\"somePlatformId\",\"platformPartnerId\":\"1234\",\"useDeliveryReport\":false,\"sourceTON\":\"ALPHANUMERIC\",\"source\":\"SomeSender\",\"destinationTON\":\"MSISDN\",\"destination\":\"+46701234567\",\"userData\":\"This is a message\",\"priority\":\"NORMAL\"}",
+				"ignoreArrayOrder": true
+			}
+		],
 		"url": "/linkmobility/sms/send"
 	},
 	"response": {
-		"headers": {"Content-Type": "application/json"},
+		"headers": {
+			"Content-Type": "application/json"
+		},
 		"jsonBody": {
 			"resultCode": 1005,
 			"messageId": "vL521oB2TafWYgPIBbkJRE",

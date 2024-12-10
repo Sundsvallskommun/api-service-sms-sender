@@ -1,14 +1,11 @@
 package se.sundsvall.smssender.provider.telia;
 
 import jakarta.validation.Valid;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
-
-import se.sundsvall.smssender.provider.SmsProviderProperties;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+import se.sundsvall.smssender.provider.SmsProviderProperties;
 
 @Getter
 @Setter

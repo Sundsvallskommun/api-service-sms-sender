@@ -3,7 +3,6 @@ package se.sundsvall.smssender.provider.linkmobility;
 import static java.util.Optional.ofNullable;
 
 import java.util.Map;
-
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.model.Priority;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRequest;

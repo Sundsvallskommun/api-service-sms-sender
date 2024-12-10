@@ -1,7 +1,6 @@
 package se.sundsvall.smssender.provider.linkmobility.domain;
 
 import java.util.Map;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
