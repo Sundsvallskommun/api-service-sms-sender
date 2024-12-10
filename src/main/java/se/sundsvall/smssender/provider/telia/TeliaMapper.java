@@ -2,12 +2,10 @@ package se.sundsvall.smssender.provider.telia;
 
 import static java.util.Optional.ofNullable;
 
+import generated.com.teliacompany.c2b.smssender.SmsServiceRequest;
 import org.springframework.stereotype.Component;
-
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.model.Priority;
-
-import generated.com.teliacompany.c2b.smssender.SmsServiceRequest;
 
 @Component
 class TeliaMapper {

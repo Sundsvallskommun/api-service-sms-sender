@@ -4,7 +4,6 @@ import static java.util.Optional.ofNullable;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
-
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.provider.SmsProvider;
 

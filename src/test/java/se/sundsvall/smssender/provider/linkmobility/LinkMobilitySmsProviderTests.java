@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
-
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRequest;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse;
 

@@ -7,7 +7,6 @@ import static se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySm
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
-
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus;
 
 @ActiveProfiles("junit")

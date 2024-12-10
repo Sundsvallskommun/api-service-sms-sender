@@ -1,10 +1,9 @@
 package se.sundsvall.smssender.provider.telia;
 
+import generated.com.teliacompany.c2b.smssender.SmsServiceRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import generated.com.teliacompany.c2b.smssender.SmsServiceRequest;
 
 @FeignClient(
 	name = TeliaSmsProvider.PROVIDER_NAME,

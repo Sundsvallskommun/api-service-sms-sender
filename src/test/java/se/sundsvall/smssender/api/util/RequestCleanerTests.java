@@ -5,11 +5,9 @@ import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMobileNumber;
 import static se.sundsvall.smssender.api.util.RequestCleaner.cleanSenderName;
 
 import java.util.stream.Stream;
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
 import se.sundsvall.smssender.api.model.Sender;
 
 class RequestCleanerTests {

@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import org.junit.jupiter.api.Test;
 import org.zalando.problem.ThrowableProblem;
-
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 
 class SmsProviderTests {

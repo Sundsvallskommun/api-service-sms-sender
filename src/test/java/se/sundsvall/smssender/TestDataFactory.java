@@ -1,7 +1,6 @@
 package se.sundsvall.smssender;
 
 import java.util.function.Consumer;
-
 import se.sundsvall.smssender.api.model.SendFlashSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.Sender;
