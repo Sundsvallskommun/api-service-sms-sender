@@ -2,16 +2,14 @@ package se.sundsvall.smssender.provider.telia;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import feign.Request;
 import org.springframework.cloud.openfeign.FeignBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
-
 import se.sundsvall.dept44.configuration.feign.FeignConfiguration;
 import se.sundsvall.dept44.configuration.feign.FeignMultiCustomizer;
-
-import feign.Request;
 
 @Import(FeignConfiguration.class)
 class TeliaSmsProviderConfiguration {

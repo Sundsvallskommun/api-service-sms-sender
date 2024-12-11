@@ -3,7 +3,6 @@ package se.sundsvall.smssender.provider;
 import org.jetbrains.annotations.NotNull;
 import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
-
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 
 public interface SmsProvider extends Comparable<SmsProvider> {

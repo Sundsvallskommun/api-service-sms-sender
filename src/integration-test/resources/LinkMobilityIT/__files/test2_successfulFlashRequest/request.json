@@ -1,5 +1,7 @@
 {
-	"sender": {"name": "SomeSender"},
+	"sender": {
+		"name": "SomeSender"
+	},
 	"mobileNumber": "0701234567",
 	"priority": "NORMAL",
 	"message": "This is a message"

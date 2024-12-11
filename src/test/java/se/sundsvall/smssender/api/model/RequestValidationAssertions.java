@@ -2,13 +2,11 @@ package se.sundsvall.smssender.api.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-import java.util.function.Predicate;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-
+import java.util.List;
+import java.util.function.Predicate;
 import org.assertj.core.api.AbstractAssert;
 
 public abstract class RequestValidationAssertions<R> extends AbstractAssert<RequestValidationAssertions<R>, R> {
