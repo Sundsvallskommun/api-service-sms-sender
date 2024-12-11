@@ -38,19 +38,20 @@ class SmsResource {
 		this.smsProviderRouter = smsProviderRouter;
 	}
 
-	@Operation(summary = "Send an SMS")
-	@ApiResponse(
-		responseCode = "200",
-		description = "Successful Operation",
-		useReturnTypeSchema = true)
-	@ApiResponse(
-		responseCode = "400",
-		description = "Bad Request",
-		content = @Content(schema = @Schema(implementation = Problem.class)))
-	@ApiResponse(
-		responseCode = "500",
-		description = "Internal Server Error",
-		content = @Content(schema = @Schema(implementation = Problem.class)))
+	@Operation(summary = "Send an SMS", responses = {
+		@ApiResponse(
+			responseCode = "200",
+			description = "Successful Operation",
+			useReturnTypeSchema = true),
+		@ApiResponse(
+			responseCode = "400",
+			description = "Bad Request",
+			content = @Content(schema = @Schema(implementation = Problem.class))),
+		@ApiResponse(
+			responseCode = "500",
+			description = "Internal Server Error",
+			content = @Content(schema = @Schema(implementation = Problem.class)))
+	})
 	@PostMapping()
 	ResponseEntity<SendSmsResponse> sendSms(
 		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
