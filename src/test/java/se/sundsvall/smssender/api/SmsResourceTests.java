@@ -3,6 +3,7 @@ package se.sundsvall.smssender.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -23,6 +24,7 @@ import org.zalando.problem.violations.Violation;
 import se.sundsvall.smssender.Application;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.provider.SmsProviderRouter;
+import se.sundsvall.smssender.provider.linkmobility.LinkMobilitySmsProvider;
 
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("junit")
@@ -37,6 +39,9 @@ class SmsResourceTests {
 
 	@MockitoBean
 	private SmsProviderRouter mockSmsProviderRouter;
+
+	@MockitoBean
+	private LinkMobilitySmsProvider mockLinkMobilitySmsProvider;
 
 	@Captor
 	private ArgumentCaptor<SendSmsRequest> requestCaptor;
@@ -57,6 +62,25 @@ class SmsResourceTests {
 
 		// Assert
 		verify(mockSmsProviderRouter).sendSms(requestCaptor.capture());
+		assertThat(requestCaptor.getValue()).usingRecursiveComparison().isEqualTo(request);
+	}
+
+	@Test
+	void sendSmsUsingLinkMobility() {
+		// Arrange
+		var request = createValidSendSmsRequest();
+		when(mockLinkMobilitySmsProvider.sendSms(any(SendSmsRequest.class), anyBoolean())).thenReturn(true);
+
+		// Act
+		webTestClient.post().uri(PATH + "/linkmobility")
+			.contentType(APPLICATION_JSON)
+			.bodyValue(request)
+			.exchange()
+			.expectStatus().isOk()
+			.expectBody().jsonPath("$.sent").isEqualTo(true);
+
+		// Assert
+		verify(mockLinkMobilitySmsProvider).sendSms(requestCaptor.capture(), anyBoolean());
 		assertThat(requestCaptor.getValue()).usingRecursiveComparison().isEqualTo(request);
 	}
 

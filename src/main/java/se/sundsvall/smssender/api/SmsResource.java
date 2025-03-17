@@ -25,6 +25,7 @@ import se.sundsvall.smssender.api.model.SendFlashSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsResponse;
 import se.sundsvall.smssender.provider.SmsProviderRouter;
+import se.sundsvall.smssender.provider.linkmobility.LinkMobilitySmsProvider;
 
 @RestController
 @Tag(name = "SMS Resources")
@@ -33,9 +34,11 @@ import se.sundsvall.smssender.provider.SmsProviderRouter;
 class SmsResource {
 
 	private final SmsProviderRouter smsProviderRouter;
+	private final LinkMobilitySmsProvider linkMobilitySmsProvider;
 
-	SmsResource(final SmsProviderRouter smsProviderRouter) {
+	SmsResource(final SmsProviderRouter smsProviderRouter, final LinkMobilitySmsProvider linkMobilitySmsProvider) {
 		this.smsProviderRouter = smsProviderRouter;
+		this.linkMobilitySmsProvider = linkMobilitySmsProvider;
 	}
 
 	@Operation(summary = "Send an SMS", responses = {
@@ -64,6 +67,38 @@ class SmsResource {
 			.build();
 
 		final var sent = smsProviderRouter.sendSms(cleanedRequest);
+
+		return ok(SendSmsResponse.builder()
+			.withSent(sent)
+			.build());
+	}
+
+	@Operation(summary = "Send an SMS (explicitly using LinkMobility)", responses = {
+		@ApiResponse(
+			responseCode = "200",
+			description = "Successful Operation",
+			useReturnTypeSchema = true),
+		@ApiResponse(
+			responseCode = "400",
+			description = "Bad Request",
+			content = @Content(schema = @Schema(implementation = Problem.class))),
+		@ApiResponse(
+			responseCode = "500",
+			description = "Internal Server Error",
+			content = @Content(schema = @Schema(implementation = Problem.class)))
+	})
+	@PostMapping("/linkmobility")
+	ResponseEntity<SendSmsResponse> sendUsingLinkMobility(
+		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
+		@Valid @RequestBody final SendSmsRequest request) {
+		final var cleanedRequest = SendSmsRequest.builder()
+			.withPriority(request.getPriority())
+			.withMessage(request.getMessage())
+			.withMobileNumber(cleanMobileNumber(request.getMobileNumber()))
+			.withSender(cleanSenderName(request.getSender()))
+			.build();
+
+		var sent = linkMobilitySmsProvider.sendSms(cleanedRequest, false);
 
 		return ok(SendSmsResponse.builder()
 			.withSent(sent)

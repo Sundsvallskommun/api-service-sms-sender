@@ -1,29 +1,29 @@
 openapi: 3.0.1
 info:
   title: SmsSender
-  contact: { }
+  contact: {}
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
   version: "2.0"
 servers:
-  - url: http://localhost:52406
-    description: Generated server url
+- url: http://localhost:8080
+  description: Generated server url
 paths:
   /{municipalityId}/send/sms:
     post:
       tags:
-        - SMS Resources
+      - SMS Resources
       summary: Send an SMS
       operationId: sendSms
       parameters:
-        - name: municipalityId
-          in: path
-          description: Municipality id
-          required: true
-          schema:
-            type: string
-          example: 2281
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
       requestBody:
         content:
           application/json:
@@ -31,28 +31,67 @@ paths:
               $ref: "#/components/schemas/SendSmsRequest"
         required: true
       responses:
-        "500":
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful Operation
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/SendSmsResponse"
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Problem"
+  /{municipalityId}/send/sms/linkmobility:
+    post:
+      tags:
+      - SMS Resources
+      summary: Send an SMS (explicitly using LinkMobility)
+      operationId: sendUsingLinkMobility
+      parameters:
+      - name: municipalityId
+        in: path
+        description: Municipality id
+        required: true
+        schema:
+          type: string
+        example: 2281
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendSmsRequest"
+        required: true
+      responses:
+        "200":
+          description: Successful Operation
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/SendSmsResponse"
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Problem"
   /api-docs:
     get:
       tags:
-        - API
+      - API
       summary: OpenAPI
       operationId: getApiDocs
       responses:
@@ -67,11 +106,38 @@ paths:
       x-wso2-mutual-ssl: Optional
 components:
   schemas:
+    Problem:
+      type: object
+      properties:
+        instance:
+          type: string
+          format: uri
+        type:
+          type: string
+          format: uri
+        parameters:
+          type: object
+          additionalProperties:
+            type: object
+        status:
+          $ref: "#/components/schemas/StatusType"
+        title:
+          type: string
+        detail:
+          type: string
+    StatusType:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+        reasonPhrase:
+          type: string
     SendSmsRequest:
       required:
-        - message
-        - mobileNumber
-        - sender
+      - message
+      - mobileNumber
+      - sender
       type: object
       properties:
         sender:
@@ -86,13 +152,13 @@ components:
             and 08:00 or not
           default: NORMAL
           enum:
-            - HIGH
-            - NORMAL
+          - HIGH
+          - NORMAL
         message:
           type: string
     Sender:
       required:
-        - name
+      - name
       type: object
       properties:
         name:
@@ -102,36 +168,9 @@ components:
           description: "The sender of the SMS, swedish letters(å,ä,ö) will be replaced\
             \ by (a,a,o) respectively"
           example: sender
-    Problem:
-      type: object
-      properties:
-        instance:
-          type: string
-          format: uri
-        type:
-          type: string
-          format: uri
-        parameters:
-          type: object
-          additionalProperties:
-            type: object
-        title:
-          type: string
-        detail:
-          type: string
-        status:
-          $ref: "#/components/schemas/StatusType"
-    StatusType:
-      type: object
-      properties:
-        reasonPhrase:
-          type: string
-        statusCode:
-          type: integer
-          format: int32
     SendSmsResponse:
       type: object
       properties:
         sent:
           type: boolean
-  securitySchemes: { }
+  securitySchemes: {}
