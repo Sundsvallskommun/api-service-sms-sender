@@ -7,7 +7,7 @@ info:
     url: https://opensource.org/licenses/MIT
   version: "2.0"
 servers:
-  - url: http://localhost:52406
+  - url: http://localhost:55232
     description: Generated server url
 paths:
   /{municipalityId}/send/sms:
@@ -31,24 +31,24 @@ paths:
               $ref: "#/components/schemas/SendSmsRequest"
         required: true
       responses:
-        "500":
-          description: Internal Server Error
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Problem"
-        "400":
-          description: Bad Request
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Problem"
         "200":
           description: Successful Operation
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/SendSmsResponse"
+        "400":
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Problem"
   /api-docs:
     get:
       tags:
@@ -67,41 +67,6 @@ paths:
       x-wso2-mutual-ssl: Optional
 components:
   schemas:
-    SendSmsRequest:
-      required:
-        - message
-        - mobileNumber
-        - sender
-      type: object
-      properties:
-        sender:
-          $ref: "#/components/schemas/Sender"
-        mobileNumber:
-          type: string
-          description: Mobile number incl. country code
-          example: "+46701234567"
-        priority:
-          type: string
-          description: Priority - indicates whether the SMS may be sent between 20:00
-            and 08:00 or not
-          default: NORMAL
-          enum:
-            - HIGH
-            - NORMAL
-        message:
-          type: string
-    Sender:
-      required:
-        - name
-      type: object
-      properties:
-        name:
-          maxLength: 11
-          minLength: 3
-          type: string
-          description: "The sender of the SMS, swedish letters(å,ä,ö) will be replaced\
-            \ by (a,a,o) respectively"
-          example: sender
     Problem:
       type: object
       properties:
@@ -129,6 +94,41 @@ components:
         statusCode:
           type: integer
           format: int32
+    SendSmsRequest:
+      required:
+        - mobileNumber
+        - sender
+      type: object
+      properties:
+        sender:
+          $ref: "#/components/schemas/Sender"
+        mobileNumber:
+          type: string
+          description: Mobile number incl. country code
+          example: "+46701234567"
+        priority:
+          type: string
+          description: Priority - indicates whether the SMS may be sent between 20:00
+            and 08:00 or not
+          default: NORMAL
+          enum:
+            - HIGH
+            - NORMAL
+        message:
+          minLength: 1
+          type: string
+    Sender:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 11
+          minLength: 3
+          type: string
+          description: "The sender of the SMS, swedish letters(å,ä,ö) will be replaced\
+            \ by (a,a,o) respectively"
+          example: sender
     SendSmsResponse:
       type: object
       properties:
