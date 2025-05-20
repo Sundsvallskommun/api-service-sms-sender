@@ -7,7 +7,7 @@ info:
     url: https://opensource.org/licenses/MIT
   version: "2.0"
 servers:
-  - url: http://localhost:55232
+  - url: http://localhost:57685
     description: Generated server url
 paths:
   /{municipalityId}/send/sms:
@@ -70,6 +70,12 @@ components:
     Problem:
       type: object
       properties:
+        title:
+          type: string
+        detail:
+          type: string
+        status:
+          $ref: "#/components/schemas/StatusType"
         instance:
           type: string
           format: uri
@@ -80,12 +86,6 @@ components:
           type: object
           additionalProperties:
             type: object
-        title:
-          type: string
-        detail:
-          type: string
-        status:
-          $ref: "#/components/schemas/StatusType"
     StatusType:
       type: object
       properties:
@@ -96,6 +96,7 @@ components:
           format: int32
     SendSmsRequest:
       required:
+        - message
         - mobileNumber
         - sender
       type: object
@@ -110,10 +111,10 @@ components:
           type: string
           description: Priority - indicates whether the SMS may be sent between 20:00
             and 08:00 or not
-          default: NORMAL
           enum:
             - HIGH
             - NORMAL
+          default: NORMAL
         message:
           minLength: 1
           type: string
