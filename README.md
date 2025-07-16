@@ -1,68 +1,132 @@
 # SmsSender
 
-## Leverantör
-
-Sundsvalls Kommun
-
-## Beskrivning
-
-SmsSender används för att skicka SMS via extern SMS-gateway. För tillfället finns det implementerat stöd för användning av följande gateways:
+_The service provides functionality to send SMS via external SMS gateways. Support is currently implemented for the following gateways:_
 
 * Telia
 * LinkMobility
 
-Observera att avtal med leverantör för respektive SMS-gateway måste tecknas.
+_Please note that agreements with suppliers for each SMS gateway must be signed separately._
 
-## Tekniska detaljer
+## Getting Started
 
-### Konfiguration
+### Prerequisites
 
-|                Miljövariabel                |                                Beskrivning                                 |
-|---------------------------------------------|----------------------------------------------------------------------------|
-| **Inställningar för Telias SMS-gateway**                                                                                ||
-| `provider.telia.enabled`                    | Flagga för att aktivera/inaktivera gateway                                 |
-| `provider.telia.priority`                   | Prioritet för gateway                                                      |
-| `provider.telia.flash-capable`              | Flagga för att ange om gateway ska kunna användas för att skicka flash-SMS |
-| `provider.telia.base-url`                   | API-URL                                                                    |
-| `provider.telia.oauth2.token-url`           | URL för att hämta OAuth2-token                                             |
-| `provider.telia.oauth2.client-id`           | OAuth2-klient-id                                                           |
-| `provider.telia.oauth2.client-secret`       | OAuth2-klient-nyckel                                                       |
-| **Inställningar för LinkMobilitys SMS-gateway**                                                                         ||
-| `provider.linkmobility.enabled`             | Flagga för att aktivera/inaktivera gateway                                 |
-| `provider.linkmobility.priority`            | Prioritet för gateway                                                      |
-| `provider.linkmobility.flash-capable`       | Flagga för att ange om gateway ska kunna användas för att skicka flash-SMS |
-| `provider.linkmobility.base-url`            | API-URL                                                                    |
-| `provider.linkmobility.basicauth.username`  | Användarnamn                                                               |
-| `provider.linkmobility.basicauth.password`  | Lösenord                                                                   |
-| `provider.linkmobility.platform-id`         | Plattforms-id                                                              |
-| `provider.linkmobility.platform-partner-id` | Plattforms-partner-id                                                      |
+- **Java 21 or higher**
+- **Maven**
+- **Git**
+- **[Dependent Microservices](#dependencies)**
 
-### Paketera och starta tjänsten
+### Installation
 
-Tjänsten kan paketeras genom:
+1. **Clone the repository:**
 
-```
-mvn package
+```bash
+git clone https://github.com/Sundsvallskommun/api-service-sms-sender.git
+cd api-service-sms-sender
 ```
 
-Starta med:
+2. **Configure the application:**
 
+   Before running the application, you need to set up configuration settings.
+   See [Configuration](#configuration)
+
+   **Note:** Ensure all required configurations are set; otherwise, the application may fail to start.
+
+3. **Ensure dependent services are running:**
+
+   If this microservice depends on other services, make sure they are up and accessible. See [Dependencies](#dependencies) for more details.
+
+4. **Build and run the application:**
+
+   - Using Maven:
+
+```bash
+mvn spring-boot:run
 ```
-java -jar target/api-service-sms-sender-<VERSION>.jar
+
+- Using Gradle:
+
+```bash
+gradle bootRun
 ```
 
-### Bygga och starta tjänsten med Docker
+## Dependencies
 
-Bygg en Docker-image av tjänsten:
+This microservice does not depend on any other internal services. However, it does depend on external services for the provider(s) it intends to use:
 
+- **Telia**
+  - **Purpose:** Used to send SMS via Telia's gateway. An external agreement is required.
+  - **Repository:** Service is provided by third party (Telia)
+- **LinkMobility**
+  - **Purpose:** Used to send SMS via LinkMobility's gateway. An external agreement is required.
+  - **Repository:** Service is provided by third party (LinkMobility)
+
+## API Documentation
+
+Access the API documentation via:
+
+- **Swagger UI:** [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
+
+## Usage
+
+### API Endpoints
+
+See the [API Documentation](#api-documentation) for detailed information on available endpoints.
+
+### Example Request
+
+```bash
+
+
+curl -X 'POST' \
+  'https://localhost:8080/2281/send/sms' \
+  -d '{
+  "sender": {
+    "name": "some sendername"
+  },
+  "mobileNumber": "+46701234567",
+  "priority": "NORMAL",
+  "message": "a message"
+}'
 ```
-mvn spring-boot:build-image
+
+## Configuration
+
+Configuration is crucial for the application to run successfully. Ensure all necessary settings are configured in `application.yml`.
+
+### Key Configuration Parameters
+
+- **Server Port:**
+
+```yaml
+server:
+  port: 8080
 ```
 
-Starta en Docker-container:
+- **External Service URLs**
 
-```
-docker run -i --rm -p 8080:8080 evil.sundsvall.se/ms-sms-sender:latest
+```yaml
+provider:
+  telia:
+    base-url: <base-url>
+    enabled: <boolean>
+    priority: <integer>
+    flash-capable: <boolean>
+    oauth2:
+      token-url: <token-url>
+      client-id: <client-id>
+      client-secret: <client-secret>
+  linkmobility:
+    base-url: <base-url>
+    enabled: <boolean>
+    priority: <integer>
+    flash-capable: <boolean>
+    platform-id: <platform-id>
+    platform-partner-id: <platform-partner-id>
+    basicauth:
+      username: <username>
+      password: <password>
+
 ```
 
 ## Status
@@ -76,4 +140,4 @@ docker run -i --rm -p 8080:8080 evil.sundsvall.se/ms-sms-sender:latest
 
 ## 
 
-Copyright (c) 2021 Sundsvalls kommun
+&copy; 2021 Sundsvalls kommun
