@@ -18,12 +18,12 @@ class SendSmsRequestConstraintValidationTests {
 
 	@ParameterizedTest
 	@ValueSource(strings = {
-		"070-123 45 67", "0701234567", "46701234567", "123", "+46"
+		"070-123 45 67", "0701740605", "46701740605", "123", "+46"
 	})
 	void shouldFailForInvalidMobileNumber(String mobileNumber) {
 		validRequest.setMobileNumber(mobileNumber);
 		assertThat(validRequest)
-			.hasSingleConstraintViolation("mobileNumber", "must be a valid MSISDN (example: +46701234567). Regular expression: ^\\+[1-9][\\d]{3,14}$");
+			.hasSingleConstraintViolation("mobileNumber", "must be a valid MSISDN (example: +46701740605). Regular expression: ^\\+[1-9][\\d]{3,14}$");
 	}
 
 	@Test

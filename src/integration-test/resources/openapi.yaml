@@ -106,7 +106,7 @@ components:
         mobileNumber:
           type: string
           description: Mobile number incl. country code
-          example: "+46701234567"
+          example: "+46701740605"
         priority:
           type: string
           description: Priority - indicates whether the SMS may be sent between 20:00
