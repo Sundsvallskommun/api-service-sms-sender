@@ -84,7 +84,7 @@ curl -X 'POST' \
   "sender": {
     "name": "some sendername"
   },
-  "mobileNumber": "+46701234567",
+  "mobileNumber": "+46701740605",
   "priority": "NORMAL",
   "message": "a message"
 }'

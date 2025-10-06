@@ -19,7 +19,7 @@ public final class TestDataFactory {
 				.withName("sender")
 				.build())
 			.withMessage("message")
-			.withMobileNumber("+46701234567")
+			.withMobileNumber("+46701740605")
 			.build();
 
 		if (modifier != null) {
@@ -39,7 +39,7 @@ public final class TestDataFactory {
 				.withName("sender")
 				.build())
 			.withMessage("message")
-			.withMobileNumber("+46701234567")
+			.withMobileNumber("+46701740605")
 			.build();
 
 		if (modifier != null) {

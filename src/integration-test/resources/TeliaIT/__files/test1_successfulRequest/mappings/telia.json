@@ -3,7 +3,7 @@
 		"method": "POST",
 		"bodyPatterns": [
 			{
-				"equalToJson": "{\"originator\":\"SomeSender\",\"destinationNumber\":\"+46701234567\",\"message\":\"This is a message\",\"deliveryPriority\":\"normal\"}",
+				"equalToJson": "{\"originator\":\"SomeSender\",\"destinationNumber\":\"+46701740605\",\"message\":\"This is a message\",\"deliveryPriority\":\"normal\"}",
 				"ignoreArrayOrder": true
 			}
 		],
