@@ -17,7 +17,7 @@ class LinkMobilitySmsRequestTests {
 			.withSourceTON("NUMERIC")
 			.withSource("source")
 			.withDestinationTON("MSID")
-			.withDestination("+46701234567")
+			.withDestination("+46701740605")
 			.withUserData("message")
 			.build();
 
@@ -27,7 +27,7 @@ class LinkMobilitySmsRequestTests {
 		assertThat(request.getSourceTON()).isEqualTo("NUMERIC");
 		assertThat(request.getSource()).isEqualTo("source");
 		assertThat(request.getDestinationTON()).isEqualTo("MSID");
-		assertThat(request.getDestination()).isEqualTo("+46701234567");
+		assertThat(request.getDestination()).isEqualTo("+46701740605");
 		assertThat(request.getUserData()).isEqualTo("message");
 
 		// just for coverage

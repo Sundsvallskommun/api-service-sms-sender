@@ -41,12 +41,12 @@ class RequestCleanerTests {
 
 	private static Stream<Arguments> mobileNumberProvider() {
 		return Stream.of(
-			Arguments.of("070-123 45 67", "+46701234567"),
-			Arguments.of("0701234567", "+46701234567"),
+			Arguments.of("070-174 06 05", "+46701740605"),
+			Arguments.of("0701740605", "+46701740605"),
 			Arguments.of("123", "123"),
 			Arguments.of("+46", "+46"),
-			Arguments.of("00 46 70 123 45 67", "+46701234567"),
-			Arguments.of("+46071234567", "+4671234567"));
+			Arguments.of("00 46 70 174 06 05", "+46701740605"),
+			Arguments.of("+46071740605", "+4671740605"));
 	}
 
 }
