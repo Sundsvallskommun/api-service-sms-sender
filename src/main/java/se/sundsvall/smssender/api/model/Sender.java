@@ -23,7 +23,7 @@ public class Sender {
 		requiredMode = REQUIRED,
 		maxLength = 11,
 		minLength = 3,
-		example = "sender")
+		examples = "sender")
 	@Size(max = 11, min = 3)
 	@NotBlank
 	private String name;

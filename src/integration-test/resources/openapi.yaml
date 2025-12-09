@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
   title: SmsSender
   contact: { }
@@ -7,7 +7,7 @@ info:
     url: https://opensource.org/licenses/MIT
   version: "2.0"
 servers:
-  - url: http://localhost:57685
+  - url: http://localhost:55480
     description: Generated server url
 paths:
   /{municipalityId}/send/sms:
@@ -70,12 +70,12 @@ components:
     Problem:
       type: object
       properties:
+        status:
+          $ref: "#/components/schemas/StatusType"
         title:
           type: string
         detail:
           type: string
-        status:
-          $ref: "#/components/schemas/StatusType"
         instance:
           type: string
           format: uri
@@ -84,21 +84,16 @@ components:
           format: uri
         parameters:
           type: object
-          additionalProperties:
-            type: object
+          additionalProperties: { }
     StatusType:
       type: object
       properties:
-        reasonPhrase:
-          type: string
         statusCode:
           type: integer
           format: int32
+        reasonPhrase:
+          type: string
     SendSmsRequest:
-      required:
-        - message
-        - mobileNumber
-        - sender
       type: object
       properties:
         sender:
@@ -106,30 +101,36 @@ components:
         mobileNumber:
           type: string
           description: Mobile number incl. country code
-          example: "+46701740605"
+          examples:
+            - "+46701740605"
         priority:
           type: string
+          default: NORMAL
           description: Priority - indicates whether the SMS may be sent between 20:00
             and 08:00 or not
           enum:
             - HIGH
             - NORMAL
-          default: NORMAL
         message:
-          minLength: 1
           type: string
-    Sender:
+          minLength: 1
       required:
-        - name
+        - message
+        - mobileNumber
+        - sender
+    Sender:
       type: object
       properties:
         name:
-          maxLength: 11
-          minLength: 3
           type: string
           description: "The sender of the SMS, swedish letters(å,ä,ö) will be replaced\
             \ by (a,a,o) respectively"
-          example: sender
+          examples:
+            - sender
+          maxLength: 11
+          minLength: 3
+      required:
+        - name
     SendSmsResponse:
       type: object
       properties:
