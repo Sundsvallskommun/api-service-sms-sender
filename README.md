@@ -11,7 +11,7 @@ _Please note that agreements with suppliers for each SMS gateway must be signed 
 
 ### Prerequisites
 
-- **Java 21 or higher**
+- **Java 25 or higher**
 - **Maven**
 - **Git**
 - **[Dependent Microservices](#dependencies)**
