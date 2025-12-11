@@ -8,3 +8,8 @@ openapi:
   name: api-service-sms-sender
   title: SmsSender
   version: '@project.version@'
+
+scheduler:
+  linkmobility:
+    health:
+      cron: "-" # Disabled by default

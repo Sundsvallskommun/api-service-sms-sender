@@ -18,6 +18,7 @@ public class LinkMobilitySmsResponse {
 	@JsonProperty("resultCode")
 	private ResponseStatus status;
 
+	@Getter
 	public enum ResponseStatus {
 
 		UNKNOWN_ERROR(0),
@@ -97,10 +98,6 @@ public class LinkMobilitySmsResponse {
 
 		ResponseStatus(int value) {
 			this.value = value;
-		}
-
-		public int getValue() {
-			return value;
 		}
 
 		public boolean isSent() {

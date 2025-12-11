@@ -3,19 +3,21 @@ package se.sundsvall.smssender.provider.linkmobility;
 import static java.util.Optional.ofNullable;
 
 import java.util.Map;
+import org.springframework.stereotype.Component;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.model.Priority;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRequest;
 
-class LinkMobilityMapper {
+@Component
+public class LinkMobilityMapper {
 
 	private final LinkMobilitySmsProviderProperties properties;
 
-	LinkMobilityMapper(final LinkMobilitySmsProviderProperties properties) {
+	public LinkMobilityMapper(final LinkMobilitySmsProviderProperties properties) {
 		this.properties = properties;
 	}
 
-	LinkMobilitySmsRequest mapFromSendSmsRequest(final SendSmsRequest smsRequest, final boolean flash) {
+	public LinkMobilitySmsRequest toLinkMobilitySmsRequest(final SendSmsRequest smsRequest, final boolean flash) {
 		final var request = LinkMobilitySmsRequest.builder()
 			.withPlatformId(properties.getPlatformId())
 			.withPlatformPartnerId(properties.getPlatformPartnerId())

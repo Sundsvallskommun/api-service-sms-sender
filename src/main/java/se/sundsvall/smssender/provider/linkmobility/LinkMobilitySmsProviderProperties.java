@@ -16,8 +16,10 @@ public class LinkMobilitySmsProviderProperties extends SmsProviderProperties {
 
 	@NotBlank
 	private String platformId;
+
 	@NotBlank
 	private String platformPartnerId;
+
 	@Valid
-	private BasicAuth basicauth = new BasicAuth();
+	private BasicAuth basicAuth = new BasicAuth();
 }

@@ -26,3 +26,7 @@ provider:
     basicauth:
       username: someUser
       password: somePassword
+scheduler:
+  linkmobility:
+    health:
+      cron: "-"
