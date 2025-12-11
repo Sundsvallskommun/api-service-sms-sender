@@ -16,24 +16,17 @@ public class LinkMobilitySmsProvider implements SmsProvider {
 	static final String PROVIDER_NAME = "LinkMobility";
 
 	private final LinkMobilitySmsProviderProperties properties;
-	private final LinkMobilityClient client;
-	private final LinkMobilityMapper mapper;
+	private final LinkMobilityIntegration linkMobilityIntegration;
 
-	LinkMobilitySmsProvider(final LinkMobilitySmsProviderProperties properties,
-		final LinkMobilityClient client) {
+	public LinkMobilitySmsProvider(final LinkMobilitySmsProviderProperties properties, final LinkMobilityIntegration linkMobilityIntegration) {
 		this.properties = properties;
-		this.client = client;
-
-		mapper = new LinkMobilityMapper(properties);
+		this.linkMobilityIntegration = linkMobilityIntegration;
 	}
 
 	@Override
 	public boolean sendSms(final SendSmsRequest smsRequest, final boolean flash) {
 		verifyFlashCapability(flash);
-
-		final var request = mapper.mapFromSendSmsRequest(smsRequest, flash);
-
-		return ofNullable(client.send(request))
+		return ofNullable(linkMobilityIntegration.sendSms(smsRequest, flash))
 			.map(LinkMobilitySmsResponse::getStatus)
 			.map(ResponseStatus::isSent)
 			.orElse(false);

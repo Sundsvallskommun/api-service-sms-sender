@@ -21,6 +21,10 @@ provider:
     flash-capable: true
     platformId: somePlatformId
     platform-partner-id: somePlatformPartnerId
-    basicauth:
+    basicAuth:
       username: someUsername
       password: somePassword
+scheduler:
+  linkmobility:
+    health:
+      cron: "-"

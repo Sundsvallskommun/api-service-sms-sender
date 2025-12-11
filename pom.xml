@@ -14,7 +14,6 @@
 	<properties>
 		<!-- Skip truststore validity check for now, since there is no cert with a longer validity at the moment -->
 		<dept44.check.truststore.skip>true</dept44.check.truststore.skip>
-
 		<generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
 	</properties>
 	<dependencies>

@@ -79,11 +79,11 @@ public class SmsProviderRouter {
 		}
 
 		// Try the current provider
-		return retryTemplate.execute(context -> {
+		return retryTemplate.execute(_ -> {
 			LOG.info("Attempting to send {} using {}", smsType, currentProvider.getName());
 
-			// Wrap the send-call in a try-catch and rethrow any exception, since the response and
-			// exception is otherwise suppressed by the retry mechanism
+			// Wrap the send-call in a try-catch and rethrow any exception, since the retry mechanism
+			// otherwise suppresses the response and exception
 			try {
 				return currentProvider.sendSms(request, flash);
 			} catch (final Exception e) {
@@ -91,7 +91,7 @@ public class SmsProviderRouter {
 
 				throw new SmsException(message, e);
 			}
-		}, recoveryContext -> {
+		}, _ -> {
 			LOG.info("Unable to send {} using {}", smsType, currentProvider.getName());
 
 			// We don't have a "next" provider - we're out of sending options

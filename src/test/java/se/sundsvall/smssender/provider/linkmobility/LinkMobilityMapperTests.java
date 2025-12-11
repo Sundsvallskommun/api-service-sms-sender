@@ -17,14 +17,15 @@ class LinkMobilityMapperTests {
 
 	@Mock
 	private LinkMobilitySmsProviderProperties mockProperties;
+
 	@InjectMocks
 	private LinkMobilityMapper mapper;
 
 	@Test
-	void testMapFromSendSmsRequest() {
+	void testToLinkMobilitySmsRequest() {
 		final var request = createValidSendSmsRequest();
 
-		final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
+		final var mappedRequest = mapper.toLinkMobilitySmsRequest(request, false);
 
 		assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
 		assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
@@ -36,19 +37,19 @@ class LinkMobilityMapperTests {
 	}
 
 	@Test
-	void testMapFromSendSmsRequestWithPriority() {
+	void testToLinkMobilitySmsRequestWithPriority() {
 		final var request = createValidSendSmsRequest(req -> req.setPriority(NORMAL));
 
-		final var mappedRequest = mapper.mapFromSendSmsRequest(request, false);
+		final var mappedRequest = mapper.toLinkMobilitySmsRequest(request, false);
 
 		assertThat(mappedRequest.getPriority()).isEqualTo(NORMAL.name());
 	}
 
 	@Test
-	void testMapFromSendSmsRequestAsFlashSms() {
+	void testToLinkMobilitySmsRequestAsFlashSms() {
 		final var request = createValidSendSmsRequest(req -> req.setPriority(HIGH));
 
-		final var mappedRequest = mapper.mapFromSendSmsRequest(request, true);
+		final var mappedRequest = mapper.toLinkMobilitySmsRequest(request, true);
 
 		assertThat(mappedRequest.getPlatformId()).isEqualTo(mockProperties.getPlatformId());
 		assertThat(mappedRequest.getPlatformPartnerId()).isEqualTo(mockProperties.getPlatformPartnerId());
