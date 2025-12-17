@@ -3,16 +3,11 @@ package se.sundsvall.smssender.provider.linkmobility.certificate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.actuate.health.Status;
 
-@ExtendWith(MockitoExtension.class)
 class CertificateHealthIndicatorTests {
 
-	@InjectMocks
-	private CertificateHealthIndicator certificateHealthIndicator;
+	private final CertificateHealthIndicator certificateHealthIndicator = new CertificateHealthIndicator();
 
 	@Test
 	void setUnhealthy() {
@@ -20,7 +15,7 @@ class CertificateHealthIndicatorTests {
 
 		var health = certificateHealthIndicator.health();
 		assertThat(health.getStatus().getCode()).isEqualTo("RESTRICTED");
-		assertThat(health.getDetails().get("Reason")).isEqualTo("Unknown");
+		assertThat(health.getDetails()).containsEntry("Reason", "Unknown");
 	}
 
 	@Test
@@ -29,7 +24,7 @@ class CertificateHealthIndicatorTests {
 
 		var health = certificateHealthIndicator.health();
 		assertThat(health.getStatus().getCode()).isEqualTo("RESTRICTED");
-		assertThat(health.getDetails().get("Reason")).isEqualTo("Shit happened");
+		assertThat(health.getDetails()).containsEntry("Reason", "Shit happened");
 	}
 
 	@Test
