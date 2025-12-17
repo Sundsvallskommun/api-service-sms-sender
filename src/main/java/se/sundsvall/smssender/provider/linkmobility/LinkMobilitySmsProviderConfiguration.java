@@ -23,8 +23,8 @@ class LinkMobilitySmsProviderConfiguration {
 	FeignBuilderCustomizer customizer() {
 		return FeignMultiCustomizer.create()
 			.withRequestInterceptor(new BasicAuthRequestInterceptor(
-				properties.getBasicauth().getUsername(),
-				properties.getBasicauth().getPassword()))
+				properties.getBasicAuth().getUsername(),
+				properties.getBasicAuth().getPassword()))
 			.withRequestOptions(new Request.Options(
 				properties.getConnectTimeout().toMillis(), MILLISECONDS,
 				properties.getReadTimeout().toMillis(), MILLISECONDS,
