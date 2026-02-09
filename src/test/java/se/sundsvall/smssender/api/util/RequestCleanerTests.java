@@ -1,6 +1,7 @@
 package se.sundsvall.smssender.api.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMessage;
 import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMobileNumber;
 import static se.sundsvall.smssender.api.util.RequestCleaner.cleanSenderName;
 
@@ -13,8 +14,15 @@ import se.sundsvall.smssender.api.model.Sender;
 class RequestCleanerTests {
 
 	@ParameterizedTest
+	@MethodSource("messageProvider")
+	void cleanMessage_replacesCarriageReturns(final String input, final String expected) {
+		final var result = cleanMessage(input);
+		assertThat(result).isEqualTo(expected);
+	}
+
+	@ParameterizedTest
 	@MethodSource("swedishCharacterStringProvider")
-	void cleanSenderName_ReplacesSwedishCharacters(String input, String expected) {
+	void cleanSenderName_replacesSwedishCharacters(final String input, final String expected) {
 		var sender = Sender.builder()
 			.withName(input)
 			.build();
@@ -22,11 +30,21 @@ class RequestCleanerTests {
 		assertThat(cleanedSender.getName()).isEqualTo(expected);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest()
 	@MethodSource("mobileNumberProvider")
-	void cleanMobileNumber_CleansNumberCorrectly(String input, String expected) {
+	void cleanMobileNumber_cleansIllegalNumberCorrectly(final String input, final String expected) {
 		String result = cleanMobileNumber(input);
 		assertThat(result).isEqualTo(expected);
+	}
+
+	private static Stream<Arguments> messageProvider() {
+		return Stream.of(
+			Arguments.of("hello\r\nworld", "hello\nworld"),
+			Arguments.of("line1\r\nline2\r\nline3", "line1\nline2\nline3"),
+			Arguments.of("no carriage returns", "no carriage returns"),
+			Arguments.of("already\nunix", "already\nunix"),
+			Arguments.of("mixed\r\ncarriage\nreturns", "mixed\ncarriage\nreturns"),
+			Arguments.of(null, null));
 	}
 
 	private static Stream<Arguments> swedishCharacterStringProvider() {

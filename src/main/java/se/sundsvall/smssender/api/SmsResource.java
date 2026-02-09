@@ -1,6 +1,7 @@
 package se.sundsvall.smssender.api;
 
 import static org.springframework.http.ResponseEntity.ok;
+import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMessage;
 import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMobileNumber;
 import static se.sundsvall.smssender.api.util.RequestCleaner.cleanSenderName;
 import static se.sundsvall.smssender.model.Priority.HIGH;
@@ -58,7 +59,7 @@ class SmsResource {
 		@Valid @RequestBody final SendSmsRequest request) {
 		final var cleanedRequest = SendSmsRequest.builder()
 			.withPriority(request.getPriority())
-			.withMessage(request.getMessage())
+			.withMessage(cleanMessage(request.getMessage()))
 			.withMobileNumber(cleanMobileNumber(request.getMobileNumber()))
 			.withSender(cleanSenderName(request.getSender()))
 			.build();
@@ -81,7 +82,7 @@ class SmsResource {
 			.withPriority(HIGH)
 			.withSender(cleanSenderName(request.getSender()))
 			.withMobileNumber(cleanMobileNumber(request.getMobileNumber()))
-			.withMessage(request.getMessage())
+			.withMessage(cleanMessage(request.getMessage()))
 			.build();
 
 		final var sent = smsProviderRouter.sendFlashSms(mappedRequest);

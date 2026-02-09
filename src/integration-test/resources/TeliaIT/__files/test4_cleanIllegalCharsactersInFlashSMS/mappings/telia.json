@@ -1,0 +1,21 @@
+{
+	"request": {
+		"method": "POST",
+		"bodyPatterns": [
+			{
+				"equalToJson": "{\"originator\":\"SomeSender\",\"destinationNumber\":\"+46701740605\",\"message\":\"This is a message with \\n illegal characters that should be cleaned up before sending. \\n\\nBest regards,\\nSomeSender\",\"deliveryPriority\":\"high\",\"flashSms\":true}",
+				"ignoreArrayOrder": true
+			}
+		],
+		"url": "/telia/sendSms"
+	},
+	"response": {
+		"headers": {
+			"Content-Type": "application/json"
+		},
+		"jsonBody": {
+			"sent": true
+		},
+		"status": 200
+	}
+}

@@ -1,11 +1,18 @@
 package se.sundsvall.smssender.api.util;
 
+import java.util.Optional;
 import se.sundsvall.smssender.api.model.Sender;
 
 public final class RequestCleaner {
 
 	private RequestCleaner() {
 		// Intentionally empty
+	}
+
+	public static String cleanMessage(final String message) {
+		return Optional.ofNullable(message)
+			.map(m -> m.replace("\r\n", "\n"))
+			.orElse(message);
 	}
 
 	public static String cleanMobileNumber(String mobileNumber) {
