@@ -41,5 +41,27 @@ class TeliaIT extends AbstractAppTest {
 			.withExpectedResponse("response.json")
 			.sendRequestAndVerifyResponse();
 	}
+	
+	@Test
+	void test3_cleanIllegalCharsactersInRegularSMS() {
+		setupCall()
+			.withServicePath(SERVICE_PATH)
+			.withHttpMethod(HttpMethod.POST)
+			.withRequest("request.json")
+			.withExpectedResponseStatus(HttpStatus.OK)
+			.withExpectedResponse("response.json")
+			.sendRequestAndVerifyResponse();
+	}
+	
+	@Test
+	void test4_cleanIllegalCharsactersInFlashSMS() {
+		setupCall()
+			.withServicePath(SERVICE_PATH + "?flash=true")
+			.withHttpMethod(HttpMethod.POST)
+			.withRequest("request.json")
+			.withExpectedResponseStatus(HttpStatus.OK)
+			.withExpectedResponse("response.json")
+			.sendRequestAndVerifyResponse();
+	}
 
 }
