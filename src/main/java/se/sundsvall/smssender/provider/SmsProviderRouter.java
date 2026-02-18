@@ -1,8 +1,5 @@
 package se.sundsvall.smssender.provider;
 
-import static java.lang.String.format;
-import static org.zalando.problem.Status.BAD_GATEWAY;
-
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -15,6 +12,9 @@ import org.springframework.stereotype.Component;
 import org.zalando.problem.Problem;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.exception.SmsException;
+
+import static java.lang.String.format;
+import static org.zalando.problem.Status.BAD_GATEWAY;
 
 @Component
 // @Generated for now, since I don't have the energy to figure out how to mock the RetryTemplate stuff...

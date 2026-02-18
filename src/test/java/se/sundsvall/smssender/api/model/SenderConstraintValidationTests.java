@@ -1,11 +1,11 @@
 package se.sundsvall.smssender.api.model;
 
-import static se.sundsvall.smssender.TestDataFactory.createValidSender;
-import static se.sundsvall.smssender.api.model.RequestValidationAssertions.SenderAssertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import static se.sundsvall.smssender.TestDataFactory.createValidSender;
+import static se.sundsvall.smssender.api.model.RequestValidationAssertions.SenderAssertions.assertThat;
 
 class SenderConstraintValidationTests {
 

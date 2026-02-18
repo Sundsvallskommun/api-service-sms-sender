@@ -1,11 +1,11 @@
 package se.sundsvall.smssender.provider.telia;
 
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.sundsvall.smssender.TestDataFactory.createValidSendSmsRequest;
 import static se.sundsvall.smssender.model.Priority.HIGH;
 import static se.sundsvall.smssender.model.Priority.NORMAL;
-
-import org.junit.jupiter.api.Test;
 
 class TeliaMapperTests {
 

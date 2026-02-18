@@ -1,7 +1,5 @@
 package se.sundsvall.smssender.provider.linkmobility;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
 import feign.Request;
 import feign.auth.BasicAuthRequestInterceptor;
 import org.springframework.cloud.openfeign.FeignBuilderCustomizer;
@@ -9,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import se.sundsvall.dept44.configuration.feign.FeignConfiguration;
 import se.sundsvall.dept44.configuration.feign.FeignMultiCustomizer;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @Import(FeignConfiguration.class)
 class LinkMobilitySmsProviderConfiguration {

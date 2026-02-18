@@ -1,9 +1,9 @@
 package se.sundsvall.smssender.provider.linkmobility.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("junit")
 class LinkMobilitySmsRequestTests {

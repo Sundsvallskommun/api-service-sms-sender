@@ -1,11 +1,5 @@
 package se.sundsvall.smssender.api;
 
-import static org.springframework.http.ResponseEntity.ok;
-import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMessage;
-import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMobileNumber;
-import static se.sundsvall.smssender.api.util.RequestCleaner.cleanSenderName;
-import static se.sundsvall.smssender.model.Priority.HIGH;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,6 +20,12 @@ import se.sundsvall.smssender.api.model.SendFlashSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsResponse;
 import se.sundsvall.smssender.provider.SmsProviderRouter;
+
+import static org.springframework.http.ResponseEntity.ok;
+import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMessage;
+import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMobileNumber;
+import static se.sundsvall.smssender.api.util.RequestCleaner.cleanSenderName;
+import static se.sundsvall.smssender.model.Priority.HIGH;
 
 @RestController
 @Tag(name = "SMS Resources")
