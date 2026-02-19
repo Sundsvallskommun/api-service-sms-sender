@@ -1,8 +1,8 @@
 package se.sundsvall.smssender;
 
-import static org.springframework.boot.SpringApplication.run;
-
 import se.sundsvall.dept44.ServiceApplication;
+
+import static org.springframework.boot.SpringApplication.run;
 
 @ServiceApplication
 public class Application {

@@ -1,13 +1,13 @@
 package se.sundsvall.smssender.provider.linkmobility;
 
-import static java.util.Optional.ofNullable;
-
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.provider.SmsProvider;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus;
+
+import static java.util.Optional.ofNullable;
 
 @Service
 @EnableConfigurationProperties(LinkMobilitySmsProviderProperties.class)

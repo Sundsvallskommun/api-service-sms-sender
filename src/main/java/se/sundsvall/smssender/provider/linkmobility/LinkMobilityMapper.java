@@ -1,12 +1,12 @@
 package se.sundsvall.smssender.provider.linkmobility;
 
-import static java.util.Optional.ofNullable;
-
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.model.Priority;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsRequest;
+
+import static java.util.Optional.ofNullable;
 
 @Component
 public class LinkMobilityMapper {

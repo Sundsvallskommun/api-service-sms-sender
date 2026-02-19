@@ -1,12 +1,12 @@
 package se.sundsvall.smssender.provider;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatNoException;
-
 import org.junit.jupiter.api.Test;
 import org.zalando.problem.ThrowableProblem;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 class SmsProviderTests {
 

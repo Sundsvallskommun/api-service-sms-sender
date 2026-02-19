@@ -1,9 +1,9 @@
 package se.sundsvall.smssender.provider.linkmobility.certificate;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.actuate.health.Status;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CertificateHealthIndicatorTests {
 

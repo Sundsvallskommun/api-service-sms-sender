@@ -1,9 +1,5 @@
 package se.sundsvall.smssender.provider;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static se.sundsvall.smssender.provider.SmsProviderRouter.IS_ENABLED;
-
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +10,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.test.context.ActiveProfiles;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+import static se.sundsvall.smssender.provider.SmsProviderRouter.IS_ENABLED;
 
 @ActiveProfiles("junit")
 @ExtendWith(MockitoExtension.class)

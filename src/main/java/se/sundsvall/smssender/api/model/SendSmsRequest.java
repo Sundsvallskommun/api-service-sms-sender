@@ -1,7 +1,5 @@
 package se.sundsvall.smssender.api.model;
 
-import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import se.sundsvall.dept44.common.validators.annotation.ValidMSISDN;
 import se.sundsvall.smssender.model.Priority;
+
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 @Getter
 @Setter
