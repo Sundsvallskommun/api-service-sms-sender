@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.zalando.problem.Problem;
 import se.sundsvall.dept44.common.validators.annotation.ValidMunicipalityId;
+import se.sundsvall.dept44.problem.Problem;
 import se.sundsvall.smssender.api.model.SendFlashSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
 import se.sundsvall.smssender.api.model.SendSmsResponse;
 import se.sundsvall.smssender.provider.SmsProviderRouter;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.ok;
 import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMessage;
 import static se.sundsvall.smssender.api.util.RequestCleaner.cleanMobileNumber;
@@ -53,7 +54,7 @@ class SmsResource {
 			description = "Internal Server Error",
 			content = @Content(schema = @Schema(implementation = Problem.class)))
 	})
-	@PostMapping()
+	@PostMapping(produces = APPLICATION_JSON_VALUE)
 	ResponseEntity<SendSmsResponse> sendSms(
 		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
 		@Valid @RequestBody final SendSmsRequest request) {
@@ -72,7 +73,7 @@ class SmsResource {
 	}
 
 	@Operation(hidden = true)
-	@PostMapping(params = "flash=true")
+	@PostMapping(params = "flash=true", produces = APPLICATION_JSON_VALUE)
 	ResponseEntity<SendSmsResponse> sendFlashSms(
 		@Parameter(name = "municipalityId", description = "Municipality id", example = "2281") @ValidMunicipalityId @PathVariable final String municipalityId,
 		@Valid @RequestBody final SendFlashSmsRequest request) {
