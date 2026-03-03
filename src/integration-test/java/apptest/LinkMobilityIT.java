@@ -1,10 +1,10 @@
 package apptest;
 
+import static org.springframework.http.HttpStatus.OK;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
-
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.smssender.Application;
@@ -12,7 +12,7 @@ import se.sundsvall.smssender.Application;
 @WireMockAppTestSuite(files = "classpath:/LinkMobilityIT/", classes = Application.class)
 @TestPropertySource(properties = {
 	"provider.telia.enabled=false",
-	"provider.linkmobility.enabled=true",
+	"provider.linkmobility.enabled=true"
 })
 class LinkMobilityIT extends AbstractAppTest {
 
@@ -26,7 +26,7 @@ class LinkMobilityIT extends AbstractAppTest {
 			.withServicePath(SERVICE_PATH)
 			.withHttpMethod(HttpMethod.POST)
 			.withRequest("request.json")
-			.withExpectedResponseStatus(HttpStatus.OK)
+			.withExpectedResponseStatus(OK)
 			.withExpectedResponse("response.json")
 			.sendRequestAndVerifyResponse();
 	}
@@ -37,9 +37,8 @@ class LinkMobilityIT extends AbstractAppTest {
 			.withServicePath(SERVICE_PATH + "?flash=true")
 			.withHttpMethod(HttpMethod.POST)
 			.withRequest("request.json")
-			.withExpectedResponseStatus(HttpStatus.OK)
+			.withExpectedResponseStatus(OK)
 			.withExpectedResponse("response.json")
 			.sendRequestAndVerifyResponse();
 	}
-
 }

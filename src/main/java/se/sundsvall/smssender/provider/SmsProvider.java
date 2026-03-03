@@ -1,9 +1,10 @@
 package se.sundsvall.smssender.provider;
 
 import org.jetbrains.annotations.NotNull;
-import org.zalando.problem.Problem;
-import org.zalando.problem.Status;
+import se.sundsvall.dept44.problem.Problem;
 import se.sundsvall.smssender.api.model.SendSmsRequest;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 public interface SmsProvider extends Comparable<SmsProvider> {
 
@@ -19,7 +20,7 @@ public interface SmsProvider extends Comparable<SmsProvider> {
 
 	default void verifyFlashCapability(final boolean flash) {
 		if (flash && !isFlashSmsCapable()) {
-			throw Problem.valueOf(Status.BAD_REQUEST, String.format("SMS provider %s does not support flash messages", getName()));
+			throw Problem.valueOf(BAD_REQUEST, String.format("SMS provider %s does not support flash messages", getName()));
 		}
 	}
 

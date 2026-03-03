@@ -2,8 +2,8 @@ package se.sundsvall.smssender.provider.linkmobility.certificate;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.health.contributor.Health;
+import org.springframework.boot.health.contributor.HealthIndicator;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,5 +29,4 @@ public class CertificateHealthIndicator implements HealthIndicator {
 		this.healthy.set(true);
 		this.reason = null;
 	}
-
 }

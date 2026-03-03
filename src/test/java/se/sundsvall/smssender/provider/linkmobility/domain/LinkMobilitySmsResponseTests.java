@@ -1,13 +1,13 @@
 package se.sundsvall.smssender.provider.linkmobility.domain;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 import se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus;
+import tools.jackson.databind.json.JsonMapper;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.sundsvall.smssender.provider.linkmobility.domain.LinkMobilitySmsResponse.ResponseStatus.SENT;
+import static tools.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 @ActiveProfiles("junit")
 class LinkMobilitySmsResponseTests {
@@ -47,8 +47,7 @@ class LinkMobilitySmsResponseTests {
 	void testDeserializationWorksAsExpected() throws Exception {
 		final var json = "{\"messageId\":\"Tw7CnpuE6jHAZQQ7ghCYa9\",\"resultCode\":1005,\"description\":\"Queued\"}";
 
-		final var objectMapper = new ObjectMapper()
-			.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+		final var objectMapper = JsonMapper.builder().configure(FAIL_ON_UNKNOWN_PROPERTIES, false).build();
 		final var response = objectMapper.readValue(json, LinkMobilitySmsResponse.class);
 
 		assertThat(response).isNotNull();

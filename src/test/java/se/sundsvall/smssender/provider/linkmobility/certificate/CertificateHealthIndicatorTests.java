@@ -1,9 +1,9 @@
 package se.sundsvall.smssender.provider.linkmobility.certificate;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.actuate.health.Status;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.health.contributor.Status.UP;
 
 class CertificateHealthIndicatorTests {
 
@@ -33,7 +33,6 @@ class CertificateHealthIndicatorTests {
 		certificateHealthIndicator.setHealthy();
 
 		var health = certificateHealthIndicator.health();
-		assertThat(health.getStatus()).isEqualTo(Status.UP);
+		assertThat(health.getStatus()).isEqualTo(UP);
 	}
-
 }
