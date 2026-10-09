@@ -41,7 +41,7 @@ class TeliaIT extends AbstractAppTest {
 			.withExpectedResponse("response.json")
 			.sendRequestAndVerifyResponse();
 	}
-	
+
 	@Test
 	void test3_cleanIllegalCharsactersInRegularSMS() {
 		setupCall()
@@ -52,7 +52,7 @@ class TeliaIT extends AbstractAppTest {
 			.withExpectedResponse("response.json")
 			.sendRequestAndVerifyResponse();
 	}
-	
+
 	@Test
 	void test4_cleanIllegalCharsactersInFlashSMS() {
 		setupCall()
