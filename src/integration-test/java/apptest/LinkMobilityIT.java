@@ -1,13 +1,13 @@
 package apptest;
 
-import static org.springframework.http.HttpStatus.OK;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.TestPropertySource;
 import se.sundsvall.dept44.test.AbstractAppTest;
 import se.sundsvall.dept44.test.annotation.wiremock.WireMockAppTestSuite;
 import se.sundsvall.smssender.Application;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @WireMockAppTestSuite(files = "classpath:/LinkMobilityIT/", classes = Application.class)
 @TestPropertySource(properties = {
